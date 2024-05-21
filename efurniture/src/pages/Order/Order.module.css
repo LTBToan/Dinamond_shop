@@ -1,0 +1,51 @@
+@import url('https://fonts.googleapis.com/css2?family=Cutive&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap');
+
+.orderListContainer {
+    display: flex;
+    flex-direction: column;
+    min-height: 50vh;
+}
+
+.orderItemSection {
+    border: solid 1px rgb(0, 0, 0);
+    justify-content: center;
+    align-items: center;
+    box-shadow: 1px 1px 1px 1px;
+    padding-right: 1%;
+}
+
+.dateTimeSection * {
+    font-size: 120%;
+    color: #FFF;
+}
+
+.orderInfo {
+    max-width: fit-content;
+    white-space: nowrap;
+}
+
+table {
+    text-align: center;
+    border: solid 1px;
+    width: 100%;
+    font-family: "Urbanist", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+    margin-top: 2px;
+}
+
+tbody {
+    max-height: 80vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+tr:hover {
+    cursor: pointer;
+}
+
+th {
+    font-size: 150%;
+    font-weight: 800;
+}
