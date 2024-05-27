@@ -28,7 +28,7 @@
   padding: 0 5px;
   margin: 0 10px;
   text-decoration: none;
-  color: #FFF;
+  color: #fff;
 }
 
 .button:hover {
@@ -69,7 +69,7 @@
   height: calc(100vh - 64px);
   width: 40vw;
   position: absolute;
-  right: 0px;
+  right: 200px;
   transform: translate(45%);
   top: 0px;
 }

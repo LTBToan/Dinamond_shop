@@ -7,19 +7,15 @@ const Herosection = () => {
   return (
     <div className={styles.container}>
       <div className={styles.placeholder}>
-        <h1 className={styles.heading}>All For Your Home</h1>
-        <h5 className={styles.tag}>
-          Find best quality furniture for all of your requirements{" "}
-        </h5>
+        <h1 className={styles.heading}>Diamond For Your </h1>
+        <h5 className={styles.tag}>Find best product diamond for your </h5>
         <button className={styles.tag}>
-          <Link to="/products" className={styles.button}>View Products</Link>
+          <Link to="/products" className={styles.button}>
+            View Products
+          </Link>
         </button>
       </div>
-      <img
-        className={styles.chairImage}
-        src="./images/heroBackground.png"
-        alt=""
-      />
+      <img className={styles.chairImage} src="./images/dina8.jpg" alt="" />
     </div>
   );
 };

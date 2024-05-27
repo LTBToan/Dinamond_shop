@@ -1,6 +1,6 @@
 import React from "react";
 import Navbar from "../../components/Navbar/Navbar";
-import Footer from "../../components/home/Footer";
+import Footer from "../../components/Home/Footer";
 import { Card, Col, Row, Typography } from "antd";
 import { Link } from "react-router-dom";
 
@@ -13,35 +13,20 @@ const AboutPage = () => {
         <h1 className="text-center">About Us</h1>
         <hr />
         <Paragraph className="lead text-center">
-          Welcome to eFurniture, where we turn spaces into living dreams. As a
-          premier destination for quality furniture and exceptional customer
-          service, we take pride in offering a curated selection of stylish and
-          functional pieces to elevate your home or office. At eFurniture, we
-          believe that furniture is more than just objects; it's an expression
-          of personal style and a reflection of individuality. Whether you're
-          furnishing a cozy apartment, a spacious house, or a modern office, we
-          are here to help you find the perfect pieces that complement your
-          lifestyle and inspire creativity. What sets us apart is our commitment
-          to excellence in every aspect of our business. From sourcing materials
-          to craftsmanship and delivery, we prioritize quality and attention to
-          detail to ensure that every piece meets our high standards. Our
-          curated collection features a blend of timeless classics and
-          contemporary designs, sourced from trusted manufacturers and artisans
-          around the world. But it's not just about the furniture; it's about
-          the experience. Our team of knowledgeable and friendly professionals
-          is dedicated to providing personalized assistance every step of the
-          way. Whether you need help choosing the right pieces, coordinating
-          colors and fabrics, or navigating the ordering process, we are here to
-          make your furniture shopping experience seamless and enjoyable. As a
-          family-owned business, we understand the importance of creating spaces
-          that feel like home. That's why we go above and beyond to offer
-          exceptional value, competitive pricing, and flexible financing options
-          to accommodate every budget. Our goal is simple: to help you create
-          spaces that inspire, comfort, and delight for years to come. Thank you
-          for choosing eFurniture as your trusted partner in furnishing your
-          world. We look forward to helping you bring your vision to life and
-          making your house a home. Contact us today to discover the endless
-          possibilities for your space.
+          Welcome to Diamond Shop, the premier jewelry store specializing in
+          exquisite and elegant diamond rings. At Diamond Shop, we take pride in
+          offering our customers the finest diamond products, meticulously
+          crafted by talented artisans with exceptional skill and attention to
+          detail. We understand that each ring is not just a piece of jewelry,
+          but a symbol of love, commitment, and personal style. With a diverse
+          collection ranging from classic to modern designs, Diamond Shop is
+          dedicated to meeting the unique needs and tastes of every customer.
+          Our diamonds are carefully selected to ensure the highest quality,
+          accompanied by prestigious international certifications. Visit Diamond
+          Shop to experience a luxurious shopping environment, professional
+          consultation services, and enjoy exclusive offers tailored just for
+          you. We believe that every customer at Diamond Shop will find the
+          perfect ring to mark the most memorable moments of their lives.
         </Paragraph>
 
         <h2 className="text-center py-4">Our Featured Products</h2>
@@ -108,11 +93,11 @@ const AboutPage = () => {
                 cover={
                   <img
                     alt=""
-                    src="https://5.imimg.com/data5/ANDROID/Default/2020/12/MD/UL/RG/119453154/img-20201210-wa0017-jpg.jpg"
+                    src="https://i5.walmartimages.com/seo/Elegant-1-Carat-Square-Cut-Diamond-Twisted-Band-Pave-Double-Halo-Engagement-Ring-10K-White-Gold_c514c99f-cfe7-4c02-9168-ed17cea8e972.3eef2c114b45c51ae0761d851a806cc7.jpeg"
                   />
                 }
               >
-                <h4 className="card-title text-center">Bed</h4>
+                <h4 className="card-title text-center">Diamond Ring White</h4>
               </Card>
             </Link>
           </Col>
@@ -124,11 +109,11 @@ const AboutPage = () => {
                 cover={
                   <img
                     alt=""
-                    src="https://www.norwalkfurniture.com/media/wysiwyg/_7-alt_MAYFAIR-SET_RS_alt-moibleweb_2.gif"
+                    src="https://www.inayatdiamonds.in/wp-content/uploads/2020/03/j2.jpg"
                   />
                 }
               >
-                <h4 className="card-title text-center">Sofa</h4>
+                <h4 className="card-title text-center">Diamond Ring Gold</h4>
               </Card>
             </Link>
           </Col>
@@ -140,11 +125,11 @@ const AboutPage = () => {
                 cover={
                   <img
                     alt=""
-                    src="https://www.bassettfurniture.com/dw/image/v2/BGNC_PRD/on/demandware.static/-/Sites-bassett-Library/default/dwd515dec9/dining/2-col-home-for-the-holidays-m.jpg?sw=768&sfrm=jpg"
+                    src="https://www.jewelove.in/cdn/shop/files/jewelove-platinum-rose-gold-couple-rings-with-diamonds-jl-pt-998-rg-both-si-ij-28211693060248.jpg?v=1682636759&width=1024"
                   />
                 }
               >
-                <h4 className="card-title text-center">Table</h4>
+                <h4 className="card-title text-center">Diamond Ring Couple</h4>
               </Card>
             </Link>
           </Col>
@@ -156,11 +141,11 @@ const AboutPage = () => {
                 cover={
                   <img
                     alt=""
-                    src="https://www.ubuy.vn/productimg/?image=aHR0cHM6Ly9tLm1lZGlhLWFtYXpvbi5jb20vaW1hZ2VzL0kvODFBbFNQallqUVMuX0FDX1NMMTUwMF8uanBn.jpg"
+                    src="https://cdn.perrian.com/product/pr21-1245/rg/3.webp?w=640&q=100"
                   />
                 }
               >
-                <h4 className="card-title text-center">Outdoor</h4>
+                <h4 className="card-title text-center">Diamond Ring Couple</h4>
               </Card>
             </Link>
           </Col>

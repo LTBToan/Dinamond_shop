@@ -5,12 +5,12 @@ const UpcomingCollections = () => {
   return (
     <div
       className={styles.powContainer}
-      style={{ backgroundImage: `url("./images/upcomingEventBg.jpg")` }}
+      style={{ backgroundImage: `url("./images/dia8.webp")` }}
     >
       <div className={styles.upcomingProductsContent}>
         <h1 className={styles.upcomingProductsTitle}>Upcoming Collections</h1>
         <p className={styles.upcomingProductsTagline}>
-          The wood that enhances the beauty of your home
+          Diamonds come in a variety of sizes and colors
         </p>
         <button className={styles.upcomingProductsBtn}>View More</button>
       </div>

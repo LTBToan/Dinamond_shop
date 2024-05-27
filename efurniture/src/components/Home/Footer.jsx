@@ -12,7 +12,6 @@ const Footer = () => {
           <div className={styles.Services}>
             <h3>Service</h3>
             <p>Delivery Service</p>
-            <p>Installation Service</p>
             <p>Customer Service</p>
           </div>
           <div className={styles.Link}>
@@ -23,10 +22,9 @@ const Footer = () => {
           </div>
           <div className={styles.Support}>
             <h3>Support</h3>
-            <p>Monday to Saturday: 9-20</p>
-            <p>Sunday: Closed</p>
-            <p>efurni@email.com</p>
-            <p>+84 463 210</p>
+            <p>Monday to Sunday: 8 am - 8 pm</p>
+            <p>DiamondLuxury@email.com</p>
+            <p>Phone: +84 963210123</p>
           </div>
         </div>
         <div className={styles.SocialMediaLinks}>
@@ -51,7 +49,7 @@ const Footer = () => {
             </a>
           </div>
         </div>
-        <div className={styles.teamLine}>Made by team eFurni</div>
+        <div className={styles.teamLine}></div>
       </div>
     </>
   );

@@ -14,10 +14,10 @@ const Catagories = () => {
         }}
       >
         <div className={styles.textContainer}>
-          <h3>Plate</h3>
-          <span>Decoration Plates</span>
+          <h3>Diamond</h3>
+          <span>High-end jewelry</span>
         </div>
-        <img className={styles.plate} src="./images/plate.png" alt="" />
+        <img className={styles.plate} src="./images/dia5.png" alt="" />
       </div>
       <div
         id={styles.africanArt}
@@ -27,14 +27,10 @@ const Catagories = () => {
         }}
       >
         <div className={styles.textContainer}>
-          <h3>Decoration</h3>
-          <span>African Art sculptures</span>
+          <h3>Diamond Ring</h3>
+          <span>The charm of hands</span>
         </div>
-        <img
-          className={styles.africanArt}
-          src="./images/africanArt.png"
-          alt=""
-        />
+        <img className={styles.africanArt} src="./images/dia2.png" alt="" />
       </div>
       <div
         id={styles.light}
@@ -44,10 +40,10 @@ const Catagories = () => {
         }}
       >
         <div className={styles.textContainer}>
-          <h3>Lighting</h3>
-          <span>Lamp and Bulb</span>
+          <h3>Diamond Ring</h3>
+          <span>Perfect combination</span>
         </div>
-        <img className={styles.light} src="./images/light.png" alt="" />
+        <img className={styles.light} src="./images/dia4.png" alt="" />
       </div>
       <div
         id={styles.sofa}
@@ -57,10 +53,10 @@ const Catagories = () => {
         }}
       >
         <div className={styles.textContainer}>
-          <h3>Sofa</h3>
-          <span>Home Stuff</span>
+          <h3>Diamond Ring Couple</h3>
+          <span>Let's build happiness together</span>
         </div>
-        <img className={styles.sofa} src="./images/sofa.png" alt="" />
+        <img className={styles.sofa} src="./images/dia6.webp" alt="" />
       </div>
     </div>
   );
