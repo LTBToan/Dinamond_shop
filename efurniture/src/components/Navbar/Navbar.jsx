@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate, } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   DownOutlined,
   UserOutlined,
@@ -21,7 +21,7 @@ import {
 } from "antd";
 import axios from "axios";
 import styles from "../../css/navbar.module.css";
-import eFurniLogo from "../../assets/logos/eFurniLogo_transparent_white.png";
+import eFurniLogo from "../../assets/logos/DiamondBlue.jpg";
 
 const Navbar = () => {
   const { Text } = Typography;
@@ -33,7 +33,7 @@ const Navbar = () => {
   const navigate = useNavigate();
   const [categories, setCategories] = useState([]);
   const [userCart, setUserCart] = useState([]);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
 
   const handleMenuClick = (i) => {
     categories.map((item) => {
@@ -67,9 +67,10 @@ const Navbar = () => {
   };
 
   const fetchUserCartData = async () => {
-    await axios.get(`http://localhost:3344/cartItems/${currentUserId}`)
+    await axios
+      .get(`http://localhost:3344/cartItems/${currentUserId}`)
       .then((res) => {
-        setUserCart(res.data)
+        setUserCart(res.data);
       })
       .catch((err) => console.log(err.message));
   };
@@ -88,10 +89,9 @@ const Navbar = () => {
   const logout = () => {
     sessionStorage.removeItem("loginUserId");
     setTimeout(() => {
-      navigate('/');
-    }, 1000)
+      navigate("/");
+    }, 1000);
   };
-
 
   return (
     <div className={styles.container}>
@@ -123,20 +123,30 @@ const Navbar = () => {
       </div>
       <div className={styles.right}>
         <span className={styles.userSection}>
-          <button className={styles.iconButton} onClick={() => navigate(`/search`)}>
-            <SearchOutlined style={{ color: "#FFF", fontSize: "150%" }}/>
+          <button
+            className={styles.iconButton}
+            onClick={() => navigate(`/search`)}
+          >
+            <SearchOutlined style={{ color: "#FFF", fontSize: "150%" }} />
           </button>
           {currentUser ? (
             <>
               <Tooltip title="Orders">
-                <button className={styles.iconButton}
-                  onClick={() => navigate(`/order`)}>
-                  <FileDoneOutlined style={{ color: "#FFF", fontSize: "150%" }} />
+                <button
+                  className={styles.iconButton}
+                  onClick={() => navigate(`/order`)}
+                >
+                  <FileDoneOutlined
+                    style={{ color: "#FFF", fontSize: "150%" }}
+                  />
                 </button>
               </Tooltip>
               <Tooltip title="Cart">
                 <Badge count={userCart.length} showZero={true} title="">
-                  <button className={styles.iconButton} onClick={() => navigate('/cart')}>
+                  <button
+                    className={styles.iconButton}
+                    onClick={() => navigate("/cart")}
+                  >
                     <ShoppingCartOutlined
                       style={{ color: "#FFF", fontSize: "180%" }}
                     />
@@ -144,8 +154,10 @@ const Navbar = () => {
                 </Badge>
               </Tooltip>
               <Tooltip title="Profile">
-                <button className={styles.iconButton}
-                  onClick={() => navigate(`/profile/${currentUserId}`)}>
+                <button
+                  className={styles.iconButton}
+                  onClick={() => navigate(`/profile/${currentUserId}`)}
+                >
                   <UserOutlined style={{ color: "#FFF", fontSize: "150%" }} />
                 </button>
               </Tooltip>
