@@ -175,7 +175,7 @@ app.get('/topProducts', (req, res) => {
 })
 
 app.get('/productsOfTheWeek', (req, res) => {
-  const sql = "SELECT * FROM products WHERE status = 1 ORDER BY RAND() LIMIT 3";
+  const sql = "SELECT * FROM products WHERE status = 1 ORDER BY RAND() LIMIT 4";
   db.query(sql, (err, result) => {
     if (err) console.log(err.message)
     return res.json(result)

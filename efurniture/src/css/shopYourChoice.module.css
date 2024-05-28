@@ -1,16 +1,18 @@
 .mainContainer {
   background-position: center;
   background-size: cover;
+  background-color: white;
   padding: 2rem 1rem;
 }
 
 .title {
   text-align: center;
-  font-size: 25px;
+  font-size: 20px;
+  margin-bottom: 50px;
 }
 
 .title > h1 {
-  margin: 1rem 0 0 0;
+  margin: 1rem 0 1rem 0;
 }
 
 .title > p {
@@ -66,54 +68,26 @@
 
 .chairsAndTables {
   display: flex;
-  justify-content: center;
-  align-items: center;
   flex-wrap: wrap;
+  justify-content: space-evenly;
+  margin: 0 75px 0 75px;
 }
 
 .chair,
 .tables {
-  flex: 50%;
-  min-width: 300px;
+  flex: 1 1 25%;
+  box-sizing: border-box;
   display: flex;
   align-items: center;
   flex-direction: column;
   justify-content: center;
+  padding: 1rem;
 }
 
 .chairImg,
 .tableImage {
   width: 70%;
   font-size: 13px;
-}
-
-.sofaBtnAndImg {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-.chairsAndTables {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.chairsAndTables {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.lampsAndteaSet {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.sofaLine {
-  margin: 1rem 0 0 0 !important;
 }
 
 .chair {
@@ -156,6 +130,7 @@
   font-weight: 600;
   font-size: 16px;
 }
+
 .teaSettagLine {
   text-align: center;
   margin: 1rem 0;

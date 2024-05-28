@@ -1,6 +1,7 @@
 .powContainer {
   overflow: hidden;
   padding: 2rem;
+  background-color: white;
 }
 
 .powContent {
@@ -17,6 +18,7 @@
   padding: 2rem 1rem;
   display: flex;
   justify-content: space-evenly;
+  margin: 0 50px 0 50px;
   align-items: center;
   flex-wrap: wrap;
 }
@@ -26,7 +28,42 @@
 }
 
 .powTitle {
-  margin: 10px 0 0 0;
+  /* margin: 10px 0 0 0; */
+
+  /* background-color: #4caf50; Green background */
+  border: none; /* Remove borders */
+  color: white; /* White text */
+  padding: 15px 32px; /* Some padding */
+  text-align: center; /* Centered text */
+  text-decoration: none; /* Remove underline */
+  display: inline-block; /* Get it to display inline-block */
+  font-size: 24px; /* Increase font size */
+  margin: 4px 2px; /* Some margin */
+  transition: all 0.3s ease; /* Add a transition effect */
+  animation: colorChange 5s infinite; /* Apply the animation */
+}
+
+@keyframes colorChange {
+  0% {
+    color: white;
+    opacity: 1;
+  }
+  25% {
+    color: rgb(9, 255, 0);
+    opacity: 0.75;
+  }
+  50% {
+    color: blue;
+    opacity: 0.5;
+  }
+  75% {
+    color: yellow;
+    opacity: 0.75;
+  }
+  100% {
+    color: rgb(118, 25, 25);
+    opacity: 1;
+  }
 }
 
 .powTagLine {
@@ -61,10 +98,10 @@
   text-decoration: underline;
 }
 
-.productImagesDesc>h2 {
+.productImagesDesc > h2 {
   margin: 0px;
 }
 
-.productImagesDesc>p {
+.productImagesDesc > p {
   margin: 5px 0 0 0;
 }
