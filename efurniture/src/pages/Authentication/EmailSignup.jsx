@@ -13,14 +13,14 @@ import { jwtDecode } from "jwt-decode";
 import { generateId, generatePassword } from "../../assistants/Generators";
 import dateFormat from "../../assistants/date.format";
 import axios from "axios";
-import eFurniLogo from "../../assets/logos/eFurniLogo_transparent.png";
+import eFurniLogo from "../../assets/logos/logoDia.png";
 
 export default function EmailSignup() {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const { Text } = Typography;
   const randomImage =
-    "https://t4.ftcdn.net/jpg/05/51/69/95/360_F_551699573_1wjaMGnizF5QeorJJIgw5eRtmq5nQnzz.jpg";
+    "https://nazarsandco.com/wp-content/uploads/2022/08/diamond-1-1.png";
 
   const emailForm = useFormik({
     initialValues: {

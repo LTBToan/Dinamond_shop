@@ -21,7 +21,7 @@ import {
 } from "antd";
 import axios from "axios";
 import styles from "../../css/navbar.module.css";
-import eFurniLogo from "../../assets/logos/DiamondBlue.jpg";
+import eFurniLogo from "../../assets/logos/logoDia.png";
 
 const Navbar = () => {
   const { Text } = Typography;
@@ -158,7 +158,9 @@ const Navbar = () => {
                   className={styles.iconButton}
                   onClick={() => navigate(`/profile/${currentUserId}`)}
                 >
-                  <UserOutlined style={{ color: "#FFF", fontSize: "150%" }} />
+                  <UserOutlined
+                    style={{ color: "#ce8f2b", fontSize: "150%" }}
+                  />
                 </button>
               </Tooltip>
               <Tooltip title="Log out">
