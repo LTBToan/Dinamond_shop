@@ -21,9 +21,9 @@ export default function ProductList() {
       );
   };
 
-    useEffect(() => {
-        fetchCategoryData()
-    }, [])
+  useEffect(() => {
+    fetchCategoryData();
+  }, []);
 
   return (
     <>
