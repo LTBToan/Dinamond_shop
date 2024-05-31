@@ -1,7 +1,7 @@
 .container {
   height: 64px;
-  background-color: #000000;
-  color: white;
+  background-color: #fff;
+  color: black !important;
   width: 100vw;
   display: flex;
   justify-content: space-between;
@@ -18,12 +18,12 @@
   justify-content: start;
   gap: 5%;
   width: 100%;
-  background-color: rgb(0, 0, 0);
+  background-color: #fff;
 }
 
 .logo {
-  width: 70px;
-  height: 70px;
+  width: 79px;
+  height: 65px;
   background-color: #000;
   border-radius: 20%;
   display: flex;
@@ -74,8 +74,8 @@
   margin: 0 10px;
   font-weight: 600;
   text-decoration: none;
-  color: #fff;
-  background-color: #000;
+  color: #000;
+  background-color: #fff;
   display: inline-block;
   min-width: max-content;
   transition: 0.4s;
@@ -85,7 +85,7 @@
   cursor: pointer;
   color: #6e6e6e;
   border: none;
-  text-decoration: none;
+  text-decoration: underline;
 }
 
 .iconButton {

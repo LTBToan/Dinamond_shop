@@ -15,7 +15,7 @@ const Herosection = () => {
           </Link>
         </button>
       </div>
-      <img className={styles.chairImage} src="./images/dina8.jpg" alt="" />
+      <img className={styles.chairImage} src="./images/dina9.jpg" alt="" />
     </div>
   );
 };

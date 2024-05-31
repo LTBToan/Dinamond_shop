@@ -13,12 +13,13 @@
   font-family: "Poppins", sans-serif;
   font-weight: 600;
   font-size: 80px !important;
-  color: white;
+  color: #fff;
 }
 .tag {
   font-family: "Poppins", sans-serif;
   font-weight: 300;
   font-size: 20px !important;
+  color: #fff;
 }
 .placeholder {
   padding: 40px 40px 40px 80px;
@@ -66,12 +67,10 @@
 }
 
 .chairImage {
-  height: calc(100vh - 64px);
-  width: 40vw;
   position: absolute;
-  right: 200px;
-  transform: translate(45%);
   top: 0px;
+  vertical-align: baseline;
+  opacity: 0.7;
 }
 
 @media only screen and (max-width: 900px) {
