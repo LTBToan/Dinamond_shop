@@ -30,63 +30,9 @@ const AboutPage = () => {
         </Paragraph>
 
         <h2 className="text-center py-4">Our Featured Products</h2>
-        {/* <div className="row">
-          <div className="col-md-3 col-sm-6 mb-3 px-3">
-            <div className="card h-100">
-              <img
-                className="card-img-top img-fluid"
-                src="https://images.pexels.com/photos/298863/pexels-photo-298863.jpeg?auto=compress&cs=tinysrgb&w=600"
-                alt=""
-                height={160}
-              />
-              <div className="card-body">
-                <h5 className="card-title text-center">Luxury Beds</h5>
-              </div>
-            </div>
-          </div>
-          <div className="col-md-3 col-sm-6 mb-3 px-3">
-            <div className="card h-100">
-              <img
-                className="card-img-top img-fluid"
-                src="https://images.pexels.com/photos/7679720/pexels-photo-7679720.jpeg?auto=compress&cs=tinysrgb&w=600"
-                alt=""
-                height={160}
-              />
-              <div className="card-body">
-                <h5 className="card-title text-center">Fancy Lamps</h5>
-              </div>
-            </div>
-          </div>
-          <div className="col-md-3 col-sm-6 mb-3 px-3">
-            <div className="card h-100">
-              <img
-                className="card-img-top img-fluid"
-                src="https://images.pexels.com/photos/1927259/pexels-photo-1927259.jpeg?auto=compress&cs=tinysrgb&w=600"
-                alt=""
-                height={160}
-              />
-              <div className="card-body">
-                <h5 className="card-title text-center">Furniture</h5>
-              </div>
-            </div>
-          </div>
-          <div className="col-md-3 col-sm-6 mb-3 px-3">
-            <div className="card h-100">
-              <img
-                className="card-img-top img-fluid"
-                src="https://images.pexels.com/photos/356056/pexels-photo-356056.jpeg?auto=compress&cs=tinysrgb&w=600"
-                alt=""
-                height={160}
-              />
-              <div className="card-body">
-                <h5 className="card-title text-center">Electronics</h5>
-              </div>
-            </div>
-          </div>
-        </div> */}
         <Row gutter={16}>
           <Col span={6}>
-            <Link to={"/category/bed"}>
+            <Link to={"/category/ring"}>
               <Card
                 hoverable
                 bordered={false}
@@ -102,7 +48,7 @@ const AboutPage = () => {
             </Link>
           </Col>
           <Col span={6}>
-            <Link to={"/category/sofa"}>
+            <Link to={"/category/necklace"}>
               <Card
                 hoverable
                 bordered={false}
@@ -118,7 +64,7 @@ const AboutPage = () => {
             </Link>
           </Col>
           <Col span={6}>
-            <Link to={"/category/table"}>
+            <Link to={"/category/earrings"}>
               <Card
                 hoverable
                 bordered={false}
@@ -134,7 +80,7 @@ const AboutPage = () => {
             </Link>
           </Col>
           <Col span={6}>
-            <Link to={"/category/outdoor"}>
+            <Link to={"/category/bracelets"}>
               <Card
                 hoverable
                 bordered={false}

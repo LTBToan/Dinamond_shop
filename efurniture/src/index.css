@@ -1,5 +1,7 @@
+@import url("https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@400;700&display=swap");
+
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: Kumbh Sans;
   line-height: 1.5;
   font-weight: 400;
 
@@ -30,6 +32,7 @@ body {
   overflow-x: hidden;
   background-color: rgb(240, 240, 240);
   /* padding-bottom: 5%; */
+  font-family: Kumbh Sans;
 }
 
 h1 {

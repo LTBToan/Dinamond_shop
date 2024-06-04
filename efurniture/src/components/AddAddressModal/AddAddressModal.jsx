@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState } from "react";
 import {
   Button,
   Row,
@@ -9,91 +9,90 @@ import {
   Typography,
   Col,
   Flex,
-} from 'antd';
+} from "antd";
 
 const provinces = [
   {
-    value: '1',
-    label: 'TP.Hồ Chí Minh',
+    value: "1",
+    label: "TP.Hồ Chí Minh",
   },
   {
-    value: '2',
-    label: 'Hà Nội',
+    value: "2",
+    label: "Hà Nội",
   },
   {
-    value: '3',
-    label: 'Đà Nẵng',
+    value: "3",
+    label: "Đà Nẵng",
   },
   {
-    value: '4',
-    label: 'Cần Thơ',
+    value: "4",
+    label: "Cần Thơ",
   },
   {
-    value: '5',
-    label: 'Hải Phòng',
+    value: "5",
+    label: "Hải Phòng",
   },
   {
-    value: '6',
-    label: 'Huế',
+    value: "6",
+    label: "Huế",
   },
 ];
 
 const districts = [
   {
-    value: '1',
-    label: 'Cần Giờ',
+    value: "1",
+    label: "Cần Giờ",
   },
   {
-    value: '2',
-    label: 'Nhà Bè',
+    value: "2",
+    label: "Nhà Bè",
   },
   {
-    value: '3',
-    label: 'Quận 1',
+    value: "3",
+    label: "Quận 1",
   },
   {
-    value: '4',
-    label: 'Quận 3',
+    value: "4",
+    label: "Quận 3",
   },
   {
-    value: '5',
-    label: 'Quận 10',
+    value: "5",
+    label: "Quận 10",
   },
   {
-    value: '6',
-    label: 'TP. Thủ Đức',
+    value: "6",
+    label: "TP. Thủ Đức",
   },
 ];
 
 const wards = [
   {
-    value: '1',
-    label: 'Linh Xuân',
+    value: "1",
+    label: "Linh Xuân",
   },
   {
-    value: '2',
-    label: 'Tăng Nhơn Phú A',
+    value: "2",
+    label: "Tăng Nhơn Phú A",
   },
   {
-    value: '3',
-    label: 'Tăng Nhơn Phú B',
+    value: "3",
+    label: "Tăng Nhơn Phú B",
   },
   {
-    value: '4',
-    label: 'Bình Thọ',
+    value: "4",
+    label: "Bình Thọ",
   },
   {
-    value: '5',
-    label: 'Tân Phú',
+    value: "5",
+    label: "Tân Phú",
   },
   {
-    value: '6',
-    label: 'Long Thạnh Mỹ',
+    value: "6",
+    label: "Long Thạnh Mỹ",
   },
 ];
 
-const AddAddressModal = ({open, setOpen}) => {
-  
+const AddAddressModal = ({ open, setOpen }) => {
   const [radioValue, setRadioValue] = useState(1);
 
   const handleRadioChange = (e) => {
@@ -102,15 +101,14 @@ const AddAddressModal = ({open, setOpen}) => {
 
   return (
     <>
-      
       <Modal
-        title='Chỉnh sửa địa chỉ'
+        title="Chỉnh sửa địa chỉ"
         centered
         open={open}
         width={750}
-        okText='Tiếp tục'
+        okText="Tiếp tục"
         onOk={() => setOpen(false)}
-        cancelText='Hủy'
+        cancelText="Hủy"
         onCancel={() => setOpen(false)}
       >
         <Flex vertical gap={16}>
@@ -119,7 +117,7 @@ const AddAddressModal = ({open, setOpen}) => {
               <Typography>Họ và tên</Typography>
             </Col>
             <Col span={18}>
-              <Input placeholder='Họ và tên' />
+              <Input placeholder="Họ và tên" />
             </Col>
           </Row>
           <Row>
@@ -127,7 +125,7 @@ const AddAddressModal = ({open, setOpen}) => {
               <Typography>Công ty</Typography>
             </Col>
             <Col span={18}>
-              <Input placeholder='Công ty' />
+              <Input placeholder="Công ty" />
             </Col>
           </Row>
           <Row>
@@ -135,7 +133,7 @@ const AddAddressModal = ({open, setOpen}) => {
               <Typography>Số điện thoại</Typography>
             </Col>
             <Col span={18}>
-              <Input placeholder='Số điện thoại' />
+              <Input placeholder="Số điện thoại" />
             </Col>
           </Row>
           <Flex vertical gap={8}>
@@ -157,15 +155,15 @@ const AddAddressModal = ({open, setOpen}) => {
                   style={{
                     width: 200,
                   }}
-                  placeholder='Tỉnh/Thành phố'
-                  optionFilterProp='children'
+                  placeholder="Tỉnh/Thành phố"
+                  optionFilterProp="children"
                   filterOption={(input, option) =>
-                    (option?.label ?? '').includes(input)
+                    (option?.label ?? "").includes(input)
                   }
                   filterSort={(optionA, optionB) =>
-                    (optionA?.label ?? '')
+                    (optionA?.label ?? "")
                       .toLowerCase()
-                      .localeCompare((optionB?.label ?? '').toLowerCase())
+                      .localeCompare((optionB?.label ?? "").toLowerCase())
                   }
                   options={provinces}
                 />
@@ -176,15 +174,15 @@ const AddAddressModal = ({open, setOpen}) => {
                   style={{
                     width: 200,
                   }}
-                  placeholder='Search to Select'
-                  optionFilterProp='children'
+                  placeholder="Search to Select"
+                  optionFilterProp="children"
                   filterOption={(input, option) =>
-                    (option?.label ?? '').includes(input)
+                    (option?.label ?? "").includes(input)
                   }
                   filterSort={(optionA, optionB) =>
-                    (optionA?.label ?? '')
+                    (optionA?.label ?? "")
                       .toLowerCase()
-                      .localeCompare((optionB?.label ?? '').toLowerCase())
+                      .localeCompare((optionB?.label ?? "").toLowerCase())
                   }
                   options={districts}
                 />
@@ -195,15 +193,15 @@ const AddAddressModal = ({open, setOpen}) => {
                   style={{
                     width: 200,
                   }}
-                  placeholder='Search to Select'
-                  optionFilterProp='children'
+                  placeholder="Search to Select"
+                  optionFilterProp="children"
                   filterOption={(input, option) =>
-                    (option?.label ?? '').includes(input)
+                    (option?.label ?? "").includes(input)
                   }
                   filterSort={(optionA, optionB) =>
-                    (optionA?.label ?? '')
+                    (optionA?.label ?? "")
                       .toLowerCase()
-                      .localeCompare((optionB?.label ?? '').toLowerCase())
+                      .localeCompare((optionB?.label ?? "").toLowerCase())
                   }
                   options={wards}
                 />

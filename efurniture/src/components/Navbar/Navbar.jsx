@@ -9,31 +9,17 @@ import {
   LoginOutlined,
   FileDoneOutlined,
 } from "@ant-design/icons";
-import {
-  Dropdown,
-  Space,
-  message,
-  Typography,
-  Button,
-  Badge,
-  Tooltip,
-  Flex,
-} from "antd";
+import { Dropdown, Space, Typography, Badge, Tooltip } from "antd";
 import axios from "axios";
 import styles from "../../css/navbar.module.css";
 import eFurniLogo from "../../assets/logos/logoDia.png";
 
 const Navbar = () => {
-  const { Text } = Typography;
-
-  const currentUserId = sessionStorage.getItem("loginUserId");
-
-  const [currentUser, setCurrentUser] = useState(null);
-  const [toggleNavbar, setToggleNavbar] = useState(false);
   const navigate = useNavigate();
+  const currentUserId = sessionStorage.getItem("loginUserId");
+  const [currentUser, setCurrentUser] = useState(null);
   const [categories, setCategories] = useState([]);
   const [userCart, setUserCart] = useState([]);
-  const [searchTerm, setSearchTerm] = useState("");
 
   const handleMenuClick = (i) => {
     categories.map((item) => {
@@ -107,17 +93,17 @@ const Navbar = () => {
                 className={styles.button}
               >
                 <Space>
-                  PRODUCTS
+                  Product
                   <DownOutlined />
                 </Space>
               </a>
             </Dropdown>
           </Link>
           <Link to="/about" className={styles.button}>
-            ABOUT US
+            About Us
           </Link>
           <Link to="/contact" className={styles.button}>
-            CONTACT
+            Contact
           </Link>
         </span>
       </div>

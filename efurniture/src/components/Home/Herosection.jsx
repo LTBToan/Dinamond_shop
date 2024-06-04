@@ -7,8 +7,8 @@ const Herosection = () => {
   return (
     <div className={styles.container}>
       <div className={styles.placeholder}>
-        <h1 className={styles.heading}>Diamond For Your </h1>
-        <h5 className={styles.tag}>Find best product diamond for your </h5>
+        <h1 className={styles.heading}>Diamond Collection</h1>
+        <h5 className={styles.tag}>Find best product diamond for your beauty</h5>
         <button className={styles.tag}>
           <Link to="/products" className={styles.button}>
             View Products

@@ -122,54 +122,56 @@ export default function Product() {
     enableReinitialize: true,
     onSubmit: async (values) => {
       console.log("Buy now form values: ", values);
-      const newOrderId = generateId(30, '')
+      const newOrderId = generateId(30, "");
 
       try {
-        const orderCreateDate = dateFormat(new Date, 'yyyy/mm/dd HH:MM:ss')
-        await axios.post(`http://localhost:3344/orders`, {
-          order_id: newOrderId,
-          date: orderCreateDate,
-          total: currentProduct.price * values.quantity,
-          isDelivered: 0,
-          status: 0,
-          user_id: userId
-        })
-          .then((res) => {
-            console.log("Post order: ", res.data)
+        const orderCreateDate = dateFormat(new Date(), "yyyy/mm/dd HH:MM:ss");
+        await axios
+          .post(`http://localhost:3344/orders`, {
+            order_id: newOrderId,
+            date: orderCreateDate,
+            total: currentProduct.price * values.quantity,
+            isDelivered: 0,
+            status: 0,
+            user_id: userId,
           })
-          .catch((err) => console.log(err))
-
-
-        const newOrderItemId = generateId(30, '')
-
-        axios.post(`http://localhost:3344/orderItems`, {
-          orderItem_id: newOrderItemId,
-          price: currentProduct.price,
-          quantity: values.quantity,
-          order_id: newOrderId,
-          product_id: currentProduct.product_id
-        })
           .then((res) => {
-            console.log("Order items post: ", res.data)
+            console.log("Post order: ", res.data);
           })
-          .catch((err) => console.log(err))
+          .catch((err) => console.log(err));
+
+        const newOrderItemId = generateId(30, "");
+
+        axios
+          .post(`http://localhost:3344/orderItems`, {
+            orderItem_id: newOrderItemId,
+            price: currentProduct.price,
+            quantity: values.quantity,
+            order_id: newOrderId,
+            product_id: currentProduct.product_id,
+          })
+          .then((res) => {
+            console.log("Order items post: ", res.data);
+          })
+          .catch((err) => console.log(err));
       } catch (err) {
-        console.log('Error: ', err)
+        console.log("Error: ", err);
       }
 
-      await axios.post('http://localhost:3344/create_payment_url', {
-        amount: currentProduct.price * values.quantity * 24650,
-        bankCode: 'VNBANK',
-        language: 'vn',
-        orderDescription: `Purchase eFurniture order ${newOrderId}`,
-        orderType: 'billpayment',
-        orderId: newOrderId,
-      })
+      await axios
+        .post("http://localhost:3344/create_payment_url", {
+          amount: currentProduct.price * values.quantity * 24650,
+          bankCode: "VNBANK",
+          language: "vn",
+          orderDescription: `Purchase eFurniture order ${newOrderId}`,
+          orderType: "billpayment",
+          orderId: newOrderId,
+        })
         .then((res) => {
           const responseData = res.data.vnpUrl;
           window.location.href = responseData;
         })
-        .catch(error => console.log(error))
+        .catch((error) => console.log(error));
     },
   });
 
@@ -297,8 +299,15 @@ export default function Product() {
                     <PlusOutlined />
                   </Button>
                 </Flex>
-                <Flex justify="center" align="center" style={{ margin: "2% 0" }}>
-                  <Link href={`/bookings/${currentProduct.product_id}`} className={styles.favoriteSection}>
+                <Flex
+                  justify="center"
+                  align="center"
+                  style={{ margin: "2% 0" }}
+                >
+                  <Link
+                    href={`/bookings/${currentProduct.product_id}`}
+                    className={styles.favoriteSection}
+                  >
                     <CheckCircleOutlined /> Set an appointment for this
                   </Link>
                 </Flex>
@@ -393,7 +402,8 @@ export default function Product() {
                   </Flex>
                   <Flex style={{ marginTop: "10%" }} gap={10}>
                     <Text style={{ fontSize: "180%" }}>
-                      {Math.round(currentProduct.price * quantity * 100) / 100} $
+                      {Math.round(currentProduct.price * quantity * 100) / 100}{" "}
+                      $
                     </Text>
                   </Flex>
                 </Flex>
