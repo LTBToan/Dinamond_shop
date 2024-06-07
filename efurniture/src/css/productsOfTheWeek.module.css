@@ -27,43 +27,14 @@
   width: 20rem;
 }
 
+/* Define the keyframes for the animation */
 .powTitle {
-  /* margin: 10px 0 0 0; */
-
-  /* background-color: #4caf50; Green background */
-  border: none; /* Remove borders */
-  color: white; /* White text */
-  padding: 15px 32px; /* Some padding */
-  text-align: center; /* Centered text */
-  text-decoration: none; /* Remove underline */
-  display: inline-block; /* Get it to display inline-block */
-  font-size: 24px; /* Increase font size */
-  margin: 4px 2px; /* Some margin */
-  transition: all 0.3s ease; /* Add a transition effect */
-  animation: colorChange 5s infinite; /* Apply the animation */
-}
-
-@keyframes colorChange {
-  0% {
-    color: white;
-    opacity: 1;
-  }
-  25% {
-    color: rgb(9, 255, 0);
-    opacity: 0.75;
-  }
-  50% {
-    color: blue;
-    opacity: 0.5;
-  }
-  75% {
-    color: yellow;
-    opacity: 0.75;
-  }
-  100% {
-    color: rgb(118, 25, 25);
-    opacity: 1;
-  }
+  font-size: 2em;
+  font-weight: bold;
+  display: inline-block;
+  position: relative;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .powTagLine {

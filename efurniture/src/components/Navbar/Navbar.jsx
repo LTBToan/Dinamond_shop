@@ -86,19 +86,21 @@ const Navbar = () => {
           <img className={styles.logo} src={eFurniLogo} alt="" />
         </Link>
         <span className={styles.navigators}>
-          <Link to="/products">
-            <Dropdown menu={menuProps}>
-              <a
-                onClick={() => navigate("/products")}
-                className={styles.button}
-              >
-                <Space>
-                  Product
-                  <DownOutlined />
-                </Space>
-              </a>
-            </Dropdown>
+          <Link to="/" className={styles.button}>
+            Home
           </Link>
+          <Dropdown
+            menu={menuProps}
+            placement="bottom"
+            overlayStyle={{ width: "500px" }}
+          >
+            <a onClick={() => navigate("/products")} className={styles.button}>
+              <Space>
+                Product
+                <DownOutlined />
+              </Space>
+            </a>
+          </Dropdown>
           <Link to="/about" className={styles.button}>
             About Us
           </Link>

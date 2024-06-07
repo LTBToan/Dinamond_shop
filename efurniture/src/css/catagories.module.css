@@ -51,6 +51,7 @@
 #light > .light,
 #sofa > .sofa {
   display: none;
+  margin-top: 100px;
 }
 
 #africanArt:hover > .africanArt {

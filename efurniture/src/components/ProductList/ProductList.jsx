@@ -12,18 +12,18 @@ import {
   ToggleButton,
   ToggleButtonGroup,
   TextField,
-  Checkbox,
-  List,
-  ListItem,
-  ListItemText,
-  ListItemIcon,
+  Pagination,
 } from "@mui/material";
 import GridViewIcon from "@mui/icons-material/GridView";
 import ViewListIcon from "@mui/icons-material/ViewList";
 import SearchIcon from "@mui/icons-material/Search";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { Menu, Checkbox } from "antd";
+import { DownOutlined } from "@ant-design/icons";
 import "./ProductList.css";
+
+const { SubMenu } = Menu;
 
 const ProductList = () => {
   const [selectedCategories, setSelectedCategories] = useState([]);
@@ -32,6 +32,8 @@ const ProductList = () => {
   const [sort, setSort] = useState("Alphabetically, A-Z");
   const [categoryDataSource, setCategoryDataSource] = useState([]);
   const [productDataSource, setProductDataSource] = useState([]);
+  const [page, setPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(16);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -61,18 +63,26 @@ const ProductList = () => {
     fetchProductData();
   }, []);
 
-  const handleCategoryChange = (event) => {
-    const { value } = event.target;
-    const selectedIndex = selectedCategories.indexOf(value);
-    const newSelectedCategories = [...selectedCategories];
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [page]);
 
-    if (selectedIndex === -1) {
-      newSelectedCategories.push(value);
+  const handleCategoryChange = (category) => {
+    const newSelectedCategories = [...selectedCategories];
+    const index = newSelectedCategories.indexOf(category);
+
+    if (index > -1) {
+      newSelectedCategories.splice(index, 1);
     } else {
-      newSelectedCategories.splice(selectedIndex, 1);
+      newSelectedCategories.push(category);
     }
 
     setSelectedCategories(newSelectedCategories);
+  };
+
+  const handleSubMenuClick = (e) => {
+    const { key } = e;
+    handleCategoryChange(key);
   };
 
   const filteredProducts = productDataSource
@@ -86,9 +96,19 @@ const ProductList = () => {
     );
 
   const totalResults = filteredProducts.length;
+  const totalPages = Math.ceil(totalResults / itemsPerPage);
+
+  const displayedProducts = filteredProducts.slice(
+    (page - 1) * itemsPerPage,
+    page * itemsPerPage
+  );
+
+  const handlePageChange = (event, value) => {
+    setPage(value);
+  };
 
   return (
-    <Container style={{ marginTop: "50px" }}>
+    <Container style={{ marginTop: "50px", maxWidth: "100%" }}>
       <Grid container spacing={2}>
         <Grid item xs={3}>
           <div className="sidebar">
@@ -102,30 +122,53 @@ const ProductList = () => {
               }}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
-
-            <Typography
-              variant="h6"
-              component="div"
-              className="category-header"
+            <Menu
+              mode="inline"
+              onClick={handleSubMenuClick}
+              defaultOpenKeys={["categories", "colors", "sizes"]}
+              style={{ width: "100%", fontSize: "18px" }}
+              theme="light"
             >
-              Categories
-            </Typography>
-            <List>
-              {categoryDataSource.map((category) => (
-                <ListItem key={category.category_name}>
-                  <ListItemIcon>
+              <SubMenu key="categories" title="Categories">
+                {categoryDataSource.map((category) => (
+                  <Menu.Item key={category.category_name}>
                     <Checkbox
                       checked={selectedCategories.includes(
                         category.category_name
                       )}
-                      onChange={handleCategoryChange}
-                      value={category.category_name}
-                    />
-                  </ListItemIcon>
-                  <ListItemText primary={category.category_name} />
-                </ListItem>
-              ))}
-            </List>
+                    >
+                      {category.category_name}
+                    </Checkbox>
+                  </Menu.Item>
+                ))}
+              </SubMenu>
+              <SubMenu key="sizes" title="Sizes">
+                {categoryDataSource.map((category) => (
+                  <Menu.Item key={category.category_name}>
+                    <Checkbox
+                      checked={selectedCategories.includes(
+                        category.category_name
+                      )}
+                    >
+                      {category.category_name}
+                    </Checkbox>
+                  </Menu.Item>
+                ))}
+              </SubMenu>
+              <SubMenu key="colors" title="Colors">
+                {categoryDataSource.map((category) => (
+                  <Menu.Item key={category.category_name}>
+                    <Checkbox
+                      checked={selectedCategories.includes(
+                        category.category_name
+                      )}
+                    >
+                      {category.category_name}
+                    </Checkbox>
+                  </Menu.Item>
+                ))}
+              </SubMenu>
+            </Menu>
           </div>
         </Grid>
         <Grid item xs={9}>
@@ -156,7 +199,9 @@ const ProductList = () => {
                   fontSize: "14px",
                 }}
               >
-                Showing 1 - {totalResults} of {totalResults} results
+                Showing {(page - 1) * itemsPerPage + 1} -{" "}
+                {Math.min(page * itemsPerPage, totalResults)} of {totalResults}{" "}
+                results
               </Typography>
             </div>
             <FormControl variant="outlined" className="sortControl">
@@ -183,11 +228,11 @@ const ProductList = () => {
           </div>
 
           <Grid container spacing={2} className={`product-list ${layout}`}>
-            {filteredProducts.map((product) => (
+            {displayedProducts.map((product) => (
               <Grid
                 item
                 key={product.product_id}
-                xs={layout === "grid" ? 4 : 12}
+                xs={layout === "grid" ? 3 : 12} // Adjusted to 3 for 4 columns
               >
                 <Card
                   className="product-item"
@@ -264,6 +309,17 @@ const ProductList = () => {
               </Grid>
             ))}
           </Grid>
+          <Pagination
+            count={totalPages}
+            page={page}
+            onChange={handlePageChange}
+            color="primary"
+            style={{
+              marginTop: "20px",
+              display: "flex",
+              justifyContent: "center",
+            }}
+          />
         </Grid>
       </Grid>
     </Container>
