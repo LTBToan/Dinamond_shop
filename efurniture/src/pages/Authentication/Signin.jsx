@@ -141,7 +141,7 @@ export default function Signin() {
   return (
     <div className={styles.container}>
       <div className={styles.leftContainer}>
-        <Image src={randomImage} width={400} preview={false} />
+        <Image src={randomImage} width={700} preview={false} />
       </div>
       <Divider type="vertical" />
       <div className={styles.rightContainer}>

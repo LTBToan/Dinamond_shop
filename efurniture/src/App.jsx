@@ -9,7 +9,7 @@ import Forgot from "./pages/Authentication/Forgot";
 import Reset from "./pages/Authentication/Reset";
 import AdminPage from "./pages/Admin/Admin";
 // import ProductList from "./pages/Product/ProductList";
-// import Product from "./pages/Product/Product";
+import Product from "./pages/Product/Product";
 import CategorizedProductList from "./pages/Product/CategorizedProductList";
 import PaymentForm from "./vn-pay-payment/PaymentForm";
 import Profile from "./pages/Profile/Profile";
@@ -36,7 +36,7 @@ function App() {
       <Route path="/reset/:id" element={<Reset />} />
       <Route path="/profile/:id" element={<Profile />} />
       {/* <Route path="/products" element={<ProductList />} /> */}
-      {/* <Route path="/products/:id" element={<Product />} /> */}
+      <Route path="/products/:id" element={<Product />} />
       <Route path="/category/:name" element={<CategorizedProductList />} />
       <Route path="/cart" element={<Cart />} />
       <Route path="/order" element={<OrderList />} />
@@ -50,7 +50,7 @@ function App() {
       <Route path="test-checkout" element={<Checkout />} />
       <Route path="/search" element={<SearchResult />} />
 
-      <Route path="/products/:id" element={<ProductDetail />} />
+      {/* <Route path="/products/:id" element={<ProductDetail />} /> */}
       <Route path="/products" element={<ProductList />} />
     </Routes>
   );
