@@ -31,40 +31,40 @@ const Navbar = () => {
 
   const fetchUserData = async () => {
     await axios
-      .get(`http://localhost:3344/users/${currentUserId}`)
+      .get(`http://localhost:8080/api/users`)
       .then((res) => {
         setCurrentUser(res.data[0]);
       })
       .catch((err) => console.log(err.message));
   };
 
-  const fetchCategoryData = async () => {
-    await axios
-      .get("http://localhost:3344/categories")
-      .then((res) => {
-        let a = res.data;
-        a.map((item, i) => {
-          item["label"] = item.category_name;
-          item["key"] = i.toString();
-        });
-        setCategories(a);
-      })
-      .catch((err) => console.log(err.message));
-  };
+  // const fetchCategoryData = async () => {
+  //   await axios
+  //     .get("http://localhost:3344/categories")
+  //     .then((res) => {
+  //       let a = res.data;
+  //       a.map((item, i) => {
+  //         item["label"] = item.category_name;
+  //         item["key"] = i.toString();
+  //       });
+  //       setCategories(a);
+  //     })
+  //     .catch((err) => console.log(err.message));
+  // };
 
-  const fetchUserCartData = async () => {
-    await axios
-      .get(`http://localhost:3344/cartItems/${currentUserId}`)
-      .then((res) => {
-        setUserCart(res.data);
-      })
-      .catch((err) => console.log(err.message));
-  };
+  // const fetchUserCartData = async () => {
+  //   await axios
+  //     .get(`http://localhost:3344/cartItems/${currentUserId}`)
+  //     .then((res) => {
+  //       setUserCart(res.data);
+  //     })
+  //     .catch((err) => console.log(err.message));
+  // };
 
   useEffect(() => {
     fetchUserData();
-    fetchCategoryData();
-    fetchUserCartData();
+    // fetchCategoryData();
+    // fetchUserCartData();
   }, []);
 
   const menuProps = {

@@ -71,6 +71,7 @@
   flex-wrap: wrap;
   justify-content: space-evenly;
   margin: 0 75px 0 75px;
+  padding: 5px;
 }
 
 .chair,

@@ -52,7 +52,7 @@ export default function Signin() {
         decoded.email
       );
 
-      await fetch("http://localhost:3344/users")
+      await fetch("http://localhost:8080/api/users")
         .then((res) => res.json())
         .then((data) => {
           var foundUserByEmail = data.find(
@@ -113,7 +113,7 @@ export default function Signin() {
     }),
     onSubmit: async (values) => {
       setIsLoading(true);
-      await fetch("http://localhost:3344/users")
+      await fetch("http://localhost:8080/api/users")
         .then((res) => res.json())
         .then((data) => {
           var loginUser = data.find(

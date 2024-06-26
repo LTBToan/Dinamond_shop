@@ -28,7 +28,7 @@ export default function CategorizedProductList() {
   const fetchProductData = async () => {
     setIsLoading(true);
     await axios
-      .get(`http://localhost:3344/products/category/${name}`)
+      .get(`http://localhost:8080/api/products/all`)
       .then((res) => {
         setIsLoading(true);
         setProductDataSource(res.data);

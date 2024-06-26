@@ -12,7 +12,7 @@ export default function ProductList() {
 
   const fetchCategoryData = async () => {
     await axios
-      .get("http://localhost:3344/categories")
+      .get("http://localhost:8080/api/products")
       .then((res) => {
         setCategoryDataSource(res.data);
       })

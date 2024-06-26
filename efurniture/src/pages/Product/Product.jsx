@@ -48,7 +48,7 @@ export default function Product() {
   const fetchProductInfo = async () => {
     setIsLoading(true);
     await axios
-      .get(`http://localhost:3344/products/${id}`)
+      .get(`http://localhost:8080/api/products/get/${id}`)
       .then((res) => {
         setCurrentProduct(res.data);
         setTimeout(() => {
@@ -57,6 +57,8 @@ export default function Product() {
       })
       .catch((err) => console.log(err.message));
   };
+
+  console.log("Product", currentProduct);
 
   useEffect(() => {
     fetchProductInfo();
@@ -74,106 +76,106 @@ export default function Product() {
     if (quantity < 20) setQuantity((currentQuantity) => currentQuantity + 1);
   };
 
-  const addToCartForm = useFormik({
-    enableReinitialize: true,
-    initialValues: {
-      quantity: quantity,
-    },
-    onSubmit: (values) => {
-      console.log("Form values: ", values);
-      const cartItemId = generateId(30, "");
-      axios
-        .get(`http://localhost:3344/cartItems/${userId}/${id}`)
-        .then((res) => {
-          if (res.data.length > 0) {
-            const newQuantity = values.quantity + res.data[0].quantity;
-            axios
-              .patch(
-                `http://localhost:3344/cartItems/${res.data[0].cartItem_id}`,
-                {
-                  quantity: newQuantity,
-                }
-              )
-              .then((res) => {
-                console.log(res.data);
-              })
-              .catch((err) => console.log(err.message));
-          } else {
-            console.log(res.data);
-            axios
-              .post(`http://localhost:3344/cartItems`, {
-                cartItem_id: cartItemId,
-                quantity: values.quantity,
-                product_id: id,
-                user_id: userId,
-              })
-              .then((res) => console.log(res))
-              .catch((err) => console.log(err));
-          }
-          navigate(0);
-        });
-    },
-  });
+  // const addToCartForm = useFormik({
+  //   enableReinitialize: true,
+  //   initialValues: {
+  //     quantity: quantity,
+  //   },
+  //   onSubmit: (values) => {
+  //     console.log("Form values: ", values);
+  //     const cartItemId = generateId(30, "");
+  //     axios
+  //       .get(`http://localhost:3344/cartItems/${userId}/${id}`)
+  //       .then((res) => {
+  //         if (res.data.length > 0) {
+  //           const newQuantity = values.quantity + res.data[0].quantity;
+  //           axios
+  //             .patch(
+  //               `http://localhost:3344/cartItems/${res.data[0].cartItem_id}`,
+  //               {
+  //                 quantity: newQuantity,
+  //               }
+  //             )
+  //             .then((res) => {
+  //               console.log(res.data);
+  //             })
+  //             .catch((err) => console.log(err.message));
+  //         } else {
+  //           console.log(res.data);
+  //           axios
+  //             .post(`http://localhost:3344/cartItems`, {
+  //               cartItem_id: cartItemId,
+  //               quantity: values.quantity,
+  //               product_id: id,
+  //               user_id: userId,
+  //             })
+  //             .then((res) => console.log(res))
+  //             .catch((err) => console.log(err));
+  //         }
+  //         navigate(0);
+  //       });
+  //   },
+  // });
 
-  const buyNowForm = useFormik({
-    initialValues: {
-      quantity: quantity,
-    },
-    enableReinitialize: true,
-    onSubmit: async (values) => {
-      console.log("Buy now form values: ", values);
-      const newOrderId = generateId(30, "");
+  // const buyNowForm = useFormik({
+  //   initialValues: {
+  //     quantity: quantity,
+  //   },
+  //   enableReinitialize: true,
+  //   onSubmit: async (values) => {
+  //     console.log("Buy now form values: ", values);
+  //     const newOrderId = generateId(30, "");
 
-      try {
-        const orderCreateDate = dateFormat(new Date(), "yyyy/mm/dd HH:MM:ss");
-        await axios
-          .post(`http://localhost:3344/orders`, {
-            order_id: newOrderId,
-            date: orderCreateDate,
-            total: currentProduct.price * values.quantity,
-            isDelivered: 0,
-            status: 0,
-            user_id: userId,
-          })
-          .then((res) => {
-            console.log("Post order: ", res.data);
-          })
-          .catch((err) => console.log(err));
+  //     try {
+  //       const orderCreateDate = dateFormat(new Date(), "yyyy/mm/dd HH:MM:ss");
+  //       await axios
+  //         .post(`http://localhost:3344/orders`, {
+  //           order_id: newOrderId,
+  //           date: orderCreateDate,
+  //           total: currentProduct.price * values.quantity,
+  //           isDelivered: 0,
+  //           status: 0,
+  //           user_id: userId,
+  //         })
+  //         .then((res) => {
+  //           console.log("Post order: ", res.data);
+  //         })
+  //         .catch((err) => console.log(err));
 
-        const newOrderItemId = generateId(30, "");
+  //       const newOrderItemId = generateId(30, "");
 
-        axios
-          .post(`http://localhost:3344/orderItems`, {
-            orderItem_id: newOrderItemId,
-            price: currentProduct.price,
-            quantity: values.quantity,
-            order_id: newOrderId,
-            product_id: currentProduct.product_id,
-          })
-          .then((res) => {
-            console.log("Order items post: ", res.data);
-          })
-          .catch((err) => console.log(err));
-      } catch (err) {
-        console.log("Error: ", err);
-      }
+  //       axios
+  //         .post(`http://localhost:3344/orderItems`, {
+  //           orderItem_id: newOrderItemId,
+  //           price: currentProduct.price,
+  //           quantity: values.quantity,
+  //           order_id: newOrderId,
+  //           product_id: currentProduct.product_id,
+  //         })
+  //         .then((res) => {
+  //           console.log("Order items post: ", res.data);
+  //         })
+  //         .catch((err) => console.log(err));
+  //     } catch (err) {
+  //       console.log("Error: ", err);
+  //     }
 
-      await axios
-        .post("http://localhost:3344/create_payment_url", {
-          amount: currentProduct.price * values.quantity * 24650,
-          bankCode: "VNBANK",
-          language: "vn",
-          orderDescription: `Purchase eFurniture order ${newOrderId}`,
-          orderType: "billpayment",
-          orderId: newOrderId,
-        })
-        .then((res) => {
-          const responseData = res.data.vnpUrl;
-          window.location.href = responseData;
-        })
-        .catch((error) => console.log(error));
-    },
-  });
+  //     await axios
+  //       .post("http://localhost:3344/create_payment_url", {
+  //         amount: currentProduct.price * values.quantity * 24650,
+  //         bankCode: "VNBANK",
+  //         language: "vn",
+  //         orderDescription: `Purchase eFurniture order ${newOrderId}`,
+  //         orderType: "billpayment",
+  //         orderId: newOrderId,
+  //       })
+  //       .then((res) => {
+  //         const responseData = res.data.vnpUrl;
+  //         window.location.href = responseData;
+  //       })
+  //       .catch((error) => console.log(error));
+  //   },
+  // });
 
   return (
     <>
@@ -189,7 +191,9 @@ export default function Product() {
         </Flex>
       ) : (
         <>
-          <form onSubmit={addToCartForm.handleSubmit}>
+          <form
+          // onSubmit={addToCartForm.handleSubmit}
+          >
             <Flex
               justify="space-around"
               align="center"
@@ -197,7 +201,7 @@ export default function Product() {
             >
               <span className={styles.imageSection}>
                 <Image
-                  src={currentProduct.image_url}
+                  // src={currentProduct.image_url}
                   alt=""
                   width={400}
                   style={{ minWidth: "400px", maxWidth: "400px" }}
@@ -218,7 +222,7 @@ export default function Product() {
                       fontSize: "200%",
                     }}
                   >
-                    {currentProduct.name.toUpperCase()}
+                    {currentProduct.productName}
                   </Title>
                   <Text
                     style={{
@@ -237,7 +241,7 @@ export default function Product() {
                       }}
                       delete={currentProduct.status === 0}
                     >
-                      {currentProduct.price} $
+                      {currentProduct.productPrice} $
                     </Text>
                     &ensp;{currentProduct.status === 0 ? "SOLD OUT" : ""}
                   </Text>
@@ -256,12 +260,10 @@ export default function Product() {
                         <Link
                           className={styles.link}
                           onClick={() =>
-                            navigate(
-                              `/category/${currentProduct.category_name}`
-                            )
+                            navigate(`/category/${currentProduct.productName}`)
                           }
                         >
-                          {currentProduct.category_name}
+                          {currentProduct.productName}
                         </Link>
                       </Text>
                     </li>
@@ -347,7 +349,7 @@ export default function Product() {
                 key="submit"
                 type="primary"
                 onClick={() => {
-                  buyNowForm.submitForm();
+                  // buyNowForm.submitForm();
                   setModalOpen(false);
                 }}
               >
@@ -355,7 +357,9 @@ export default function Product() {
               </Button>,
             ]}
           >
-            <form onSubmit={buyNowForm.handleSubmit}>
+            <form
+            // onSubmit={buyNowForm.handleSubmit}
+            >
               <Flex justify="space-between" align="center">
                 <Image
                   src={currentProduct.image_url}

@@ -39,7 +39,7 @@ const ProductList = () => {
   useEffect(() => {
     const fetchProductData = async () => {
       await axios
-        .get(`http://localhost:3344/products`)
+        .get(`http://localhost:8080/api/products/all`)
         .then((res) => {
           setProductDataSource(res.data);
         })
@@ -48,20 +48,22 @@ const ProductList = () => {
         );
     };
 
-    const fetchCategoryData = async () => {
-      await axios
-        .get("http://localhost:3344/categories")
-        .then((res) => {
-          setCategoryDataSource(res.data);
-        })
-        .catch((err) =>
-          console.log("Fail to fetch category data: ", err.message)
-        );
-    };
+    // const fetchCategoryData = async () => {
+    //   await axios
+    //     .get("http://localhost:3344/categories")
+    //     .then((res) => {
+    //       setCategoryDataSource(res.data);
+    //     })
+    //     .catch((err) =>
+    //       console.log("Fail to fetch category data: ", err.message)
+    //     );
+    // };
 
-    fetchCategoryData();
+    // fetchCategoryData();
     fetchProductData();
   }, []);
+
+  console.log("Product data fetched: ", productDataSource);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -89,10 +91,11 @@ const ProductList = () => {
     .filter(
       (product) =>
         selectedCategories.length === 0 ||
-        selectedCategories.includes(product.category_name)
+        selectedCategories.includes(product.categoryId)
     )
-    .filter((product) =>
-      product.name.toLowerCase().includes(searchTerm.toLowerCase())
+    .filter(
+      (product) => product.productName
+      // .toLowerCase().includes(searchTerm.toLowerCase())
     );
 
   const totalResults = filteredProducts.length;
@@ -122,7 +125,7 @@ const ProductList = () => {
               }}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
-            <Menu
+            {/* <Menu
               mode="inline"
               onClick={handleSubMenuClick}
               defaultOpenKeys={["categories", "colors", "sizes"]}
@@ -168,7 +171,7 @@ const ProductList = () => {
                   </Menu.Item>
                 ))}
               </SubMenu>
-            </Menu>
+            </Menu> */}
           </div>
         </Grid>
         <Grid item xs={9}>
@@ -231,20 +234,20 @@ const ProductList = () => {
             {displayedProducts.map((product) => (
               <Grid
                 item
-                key={product.product_id}
+                key={product.productId}
                 xs={layout === "grid" ? 3 : 12} // Adjusted to 3 for 4 columns
               >
                 <Card
                   className="product-item"
-                  onClick={() => navigate(`/products/${product.product_id}`)}
+                  onClick={() => navigate(`/products/${product.productId}`)}
                   style={{ cursor: "pointer" }}
                 >
                   <CardContent>
                     {layout === "grid" ? (
                       <>
                         <img
-                          src={product.image_url}
-                          alt={product.name}
+                          // src={product.image_url}
+                          // alt={product.name}
                           className="product-image"
                         />
                         <Typography
@@ -257,21 +260,21 @@ const ProductList = () => {
                             textAlign: "center",
                           }}
                         >
-                          {product.name}
+                          {product.productName}
                         </Typography>
                         <Typography
                           variant="body2"
                           color="text.primary"
                           style={{ fontSize: "14px", textAlign: "center" }}
                         >
-                          ${product.price}
+                          ${product.productPrice}
                         </Typography>
                       </>
                     ) : (
                       <div style={{ display: "flex" }}>
                         <img
-                          src={product.image_url}
-                          alt={product.name}
+                          // src={product.image_url}
+                          // alt={product.name}
                           className="product-image"
                           style={{ marginRight: "20px", width: "20%" }}
                         />
@@ -284,23 +287,23 @@ const ProductList = () => {
                               fontWeight: "bold",
                             }}
                           >
-                            {product.name}
+                            {product.productName}
                           </Typography>
                           <Typography
                             variant="body2"
                             color="text.primary"
                             style={{ fontSize: "14px" }}
                           >
-                            ${product.price}
+                            ${product.productPrice}
                           </Typography>
                           <hr />
-                          <Typography
+                          {/* <Typography
                             variant="body2"
                             color="text.primary"
                             style={{ fontSize: "14px" }}
                           >
                             {product.description}
-                          </Typography>
+                          </Typography> */}
                         </div>
                       </div>
                     )}

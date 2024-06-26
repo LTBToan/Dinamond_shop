@@ -8,17 +8,17 @@ const { Meta } = Card;
 const ProductsOfTheWeek = () => {
   const [dataSource, setDataSource] = useState([]);
   const navigate = useNavigate();
-  const fetchProductsOfTheWeek = async () => {
-    await axios
-      .get("http://localhost:3344/productsOfTheWeek")
-      .then((res) => {
-        setDataSource(res.data);
-      })
-      .catch((err) => console.log(err.message));
-  };
+  // const fetchProductsOfTheWeek = async () => {
+  //   await axios
+  //     .get("http://localhost:3344/productsOfTheWeek")
+  //     .then((res) => {
+  //       setDataSource(res.data);
+  //     })
+  //     .catch((err) => console.log(err.message));
+  // };
 
   useEffect(() => {
-    fetchProductsOfTheWeek();
+    // fetchProductsOfTheWeek();
   }, []);
 
   return (
