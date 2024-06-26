@@ -1,5 +1,5 @@
 export const getUser = () => {
-  return fetch("http://localhost:3344/users").then((res) => res.json());
+  return fetch("http://localhost:8080/api/users").then((res) => res.json());
 };
 
 export const getUserById = (id) => {
@@ -8,35 +8,32 @@ export const getUserById = (id) => {
 
 export const addUser = () => {
   return fetch(`http://localhost:3344/users`, {
-    method: 'POST',
-  }).then(res => res.json())
-}
+    method: "POST",
+  }).then((res) => res.json());
+};
 
 export const updateUser = (id, data) => {
   return fetch(`http://localhost:3344/users/status/${id}`, {
-    method: 'PATCH',
+    method: "PATCH",
     headers: {
-      'Content-Type': 'application/json'
+      "Content-Type": "application/json",
     },
-    body: JSON.stringify(data)
-  })
-    .then(res => res.json());
-}
+    body: JSON.stringify(data),
+  }).then((res) => res.json());
+};
 
 export const banUser = (id, data) => {
   return fetch(`http://localhost:3344/users/status/${id}`, {
-    method: 'PATCH',
+    method: "PATCH",
     headers: {
-      'Content-Type': 'application/json'
+      "Content-Type": "application/json",
     },
-    body: JSON.stringify(data)
-  })
-    .then(res => res.json());
-}
+    body: JSON.stringify(data),
+  }).then((res) => res.json());
+};
 
 export const deleteUser = (id) => {
   return fetch(`http://localhost:3344/users/${id}`, {
-    method: 'DELETE',
-  })
-    .then(res => res.json())
-}
+    method: "DELETE",
+  }).then((res) => res.json());
+};
