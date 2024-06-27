@@ -1,0 +1,169 @@
+@import url("https://fonts.googleapis.com/css2?family=Comfortaa:wght@300&family=Encode+Sans+Expanded:wght@800&family=Maven+Pro:wght@500&family=Oswald:wght@500&display=swap");
+
+.container {
+  width: 100%;
+  height: 100vh;
+  background-color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5%;
+  font-family: "Comfortaa", sans-serif;
+  /* box-shadow: 5px 10px 5px 10px #b4b4b4; */
+  /* background-color: #f0f0f0; */
+  position: relative;
+  margin-top: -65px;
+  /* border-radius: 3%; */
+}
+
+.leftContainer {
+  display: inline-block;
+  border-radius: 20px;
+  padding: 30px;
+  width: fit-content;
+  height: fit-content;
+}
+
+.leftContainer:nth-child(1) {
+  box-shadow: 5px 10px 5px 5px #b4b4b4;
+}
+
+.rightContainer {
+  background-color: #fff;
+  border-radius: 20px;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  flex: 0 0 25em;
+}
+
+.formContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  column-gap: 5%;
+  width: 100%;
+  margin-top: 5%;
+}
+
+.inputContainer {
+  background-color: rgb(255, 255, 255);
+  color: black;
+  border-radius: 10px;
+  width: 100%;
+  box-sizing: border-box;
+  margin-bottom: 2%;
+}
+
+.container h2,
+h4,
+h6 {
+  color: #333;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.container form {
+  display: flex;
+  flex-direction: column;
+}
+
+.container .mb-2 input,
+.container .mb-2 input,
+input {
+  background-color: white;
+  color: black;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 8px 12px;
+  font-size: 90%;
+  width: 100%;
+  box-sizing: border-box;
+  font-family: "Maven Pro", sans-serif;
+}
+
+.container .passwordInputContainer {
+  position: relative;
+}
+
+.forgot {
+  /* color: #c4c4c4; */
+  margin-bottom: 10px;
+  width: fit-content;
+  font-size: 16px;
+  align-self: flex-end !important;
+  border: none;
+}
+
+.container .forgot:hover {
+  border: none !important;
+}
+
+.error {
+  height: fit-content;
+  font-size: 60%;
+  color: red;
+  font-family: "Oswald", sans-serif;
+  text-align: start !important;
+}
+
+.formFooter {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 1%;
+  margin-top: 3%;
+  width: 100%;
+}
+
+.formFooter a {
+  cursor: pointer;
+  font-family: "Encode Sans Expanded", sans-serif;
+  margin-bottom: 20px;
+}
+
+.otherLogin {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+
+.myFacebookButtonClass {
+  background-color: rgb(255, 255, 255);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 8px 11px;
+  border: solid 1px #dadce0;
+  align-self: flex-start;
+  border-radius: 12% !important;
+}
+
+.myFacebookButtonClass:hover {
+  border: solid 1px #dadce0;
+  background-color: #f5f8ff;
+}
+
+.modalButtonGroup {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  margin-top: 10px;
+  gap: 10px;
+  width: 100%;
+}
+
+h5 {
+  font-family: "Maven Pro", sans-serif;
+  font-size: medium;
+}

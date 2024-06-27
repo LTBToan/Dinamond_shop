@@ -1,0 +1,78 @@
+.powContainer {
+  overflow: hidden;
+  padding: 2rem;
+  background-color: white;
+}
+
+.powContent {
+  margin: auto;
+  width: 80%;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+}
+
+.imageSection {
+  padding: 2rem 1rem;
+  display: flex;
+  justify-content: space-evenly;
+  margin: 0 50px 0 50px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.productImages {
+  width: 20rem;
+}
+
+/* Define the keyframes for the animation */
+.powTitle {
+  font-size: 2em;
+  font-weight: bold;
+  display: inline-block;
+  position: relative;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.powTagLine {
+  width: 100%;
+  margin: 0;
+}
+
+.productImagesDesc {
+  display: inline-block;
+  text-align: center;
+  margin: auto;
+  height: auto;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 300px;
+}
+
+.productContainer {
+  margin: 1.5rem 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  width: 20rem;
+  height: 30rem;
+  box-shadow: 2px 2px 2px 2px;
+}
+
+.productContainer:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.productImagesDesc > h2 {
+  margin: 0px;
+}
+
+.productImagesDesc > p {
+  margin: 5px 0 0 0;
+}

@@ -1,0 +1,160 @@
+/* General styles */
+.App {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  padding: 20px;
+  background-color: #f9f9fb;
+}
+
+/* Sidebar styles */
+.sidebar {
+  padding: 20px;
+  border-right: 1px solid #e0e0e0;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  margin-bottom: 20px;
+}
+
+.category-header {
+  margin: 20px 0 10px;
+  font-weight: bold;
+  font-size: 1.2em;
+  color: #333;
+  border-bottom: 1px solid #e0e0e0;
+  padding-bottom: 10px;
+}
+
+.MuiListItem-root {
+  padding: 8px 16px;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+.MuiListItem-root:hover {
+  background-color: #f0f0f5;
+}
+
+.MuiListItemIcon-root {
+  min-width: 36px;
+}
+
+/* Toolbar styles */
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding: 10px 20px;
+  border-radius: 10px;
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+}
+
+.layout-toggle {
+  display: flex;
+}
+
+.layout-toggle .MuiToggleButtonGroup-root {
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.layout-toggle .MuiToggleButton-root {
+  border: none;
+  padding: 10px 20px;
+  font-weight: bold;
+  color: #333;
+}
+
+.layout-toggle .MuiToggleButton-root.Mui-selected {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.sortControl {
+  min-width: 200px;
+}
+
+/* Product list and item styles */
+.product-list .product-item {
+  width: 100%;
+  background-color: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
+  margin-bottom: 10px;
+}
+
+.product-list .product-item:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+.product-item img {
+  width: 100%;
+  height: auto;
+  border-bottom: 1px solid #e0e0e0;
+  transition: transform 0.3s;
+}
+
+.product-item:hover img {
+  transform: scale(1.05);
+}
+
+.product-item h6 {
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.product-item .old-price {
+  text-decoration: line-through;
+  color: gray;
+  margin-right: 10px;
+}
+
+.product-item .discount {
+  color: red;
+}
+
+.product-item .price {
+  font-weight: bold;
+  font-size: 1.2em;
+  color: #007bff;
+}
+
+.product-item .category {
+  font-size: 0.9em;
+  color: #666;
+  margin-top: 5px;
+}
+
+/* Checkbox styles */
+.MuiCheckbox-root {
+  color: #007bff;
+}
+
+.MuiCheckbox-root.Mui-checked {
+  color: #007bff;
+}
+
+/* Search bar styles */
+.MuiOutlinedInput-root {
+  border-radius: 25px;
+}
+
+.MuiOutlinedInput-notchedOutline {
+  border-color: #e0e0e0;
+}
+
+.MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline,
+.MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+  border-color: #007bff;
+}
+
+.MuiInputAdornment-root {
+  cursor: pointer;
+}
