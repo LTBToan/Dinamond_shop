@@ -32,7 +32,10 @@ const AboutPage = () => {
         {/* <h2 className="text-center py-4">Our Featured Products</h2> */}
         <Row gutter={16}>
           <Col span={6}>
-            <Link to={"/category/ring"}>
+            <Link
+              to={""}
+              onClick={() => (window.location.href = "/category/ring")}
+            >
               <Card
                 hoverable
                 bordered={false}
@@ -48,7 +51,10 @@ const AboutPage = () => {
             </Link>
           </Col>
           <Col span={6}>
-            <Link to={"/category/necklace"}>
+            <Link
+              to={""}
+              onClick={() => (window.location.href = "/category/necklace")}
+            >
               <Card
                 hoverable
                 bordered={false}
@@ -64,7 +70,10 @@ const AboutPage = () => {
             </Link>
           </Col>
           <Col span={6}>
-            <Link to={"/category/earrings"}>
+            <Link
+              to={""}
+              onClick={() => (window.location.href = "/category/earrings")}
+            >
               <Card
                 hoverable
                 bordered={false}
@@ -80,7 +89,10 @@ const AboutPage = () => {
             </Link>
           </Col>
           <Col span={6}>
-            <Link to={"/category/bracelets"}>
+            <Link
+              to={""}
+              onClick={() => (window.location.href = "/category/bracelet")}
+            >
               <Card
                 hoverable
                 bordered={false}

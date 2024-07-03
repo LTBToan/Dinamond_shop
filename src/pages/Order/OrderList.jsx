@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Flex, Typography, message } from "antd";
 import { ArrowRightOutlined } from "@ant-design/icons";
-import { useNavigate, useLocation, Link } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";
 import styles from "./Order.module.css";
 import Navbar from "../../components/Navbar/Navbar";
 import Footer from "../../components/Home/Footer";
@@ -13,7 +13,10 @@ import moment from "moment";
 export default function OrderList() {
   const { Text, Title } = Typography;
   const { messageApi, contextHolder } = message.useMessage();
-  const navigate = useNavigate();
+  const navigate = (toUrl) => {
+    window.location.href = toUrl;
+  };
+
   const location = useLocation();
   const currentUserId = sessionStorage.getItem("loginUserId");
   const [orderList, setOrderList] = useState([]);
@@ -65,8 +68,8 @@ export default function OrderList() {
         </Flex>
       ) : (
         <>
-          <table class="table table-striped table-light table-sm table-bordered table-hover align-middle">
-            <thead class="table-dark">
+          <table className="table table-striped table-light table-sm table-bordered table-hover align-middle">
+            <thead className="table-dark">
               <tr>
                 <th>Product</th>
                 <th>Product Name</th>
@@ -77,7 +80,7 @@ export default function OrderList() {
                 <th>Feedback</th>
               </tr>
             </thead>
-            <tbody class="table-group-divider">
+            <tbody className="table-group-divider">
               {orderList.map((order) => (
                 <OrderItemList
                   orderId={order.order_id}

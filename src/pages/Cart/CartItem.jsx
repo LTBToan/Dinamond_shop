@@ -1,118 +1,171 @@
-import React, { useEffect, useState } from 'react'
-import { Card, Typography, Flex, Image, Button, InputNumber } from 'antd'
-import { DeleteOutlined } from '@ant-design/icons'
-import { useNavigate } from 'react-router-dom'
-import styles from './Cart.module.css'
-import axios from 'axios'
+import React, { useEffect, useState } from "react";
+import { Box, Text, Flex, Image, Button, Input } from "@chakra-ui/react";
+import axios from "axios";
+import { DeleteIcon } from "@chakra-ui/icons";
 
-export default function CartItem({ cartItemId, productId, quantity, totalPrice }) {
-    const { Text, Title } = Typography
-    const navigate = useNavigate()
-    const [cartProduct, setCartProduct] = useState({})
-    const [quantityValue, setQuantityValue] = useState(quantity)
+export default function CartItem({
+  cartItemId,
+  productId,
+  quantity,
+  totalPrice,
+}) {
+  const navigate = (toUrl) => {
+    window.location.href = toUrl;
+  };
+  const [cartProduct, setCartProduct] = useState({});
+  const [quantityValue, setQuantityValue] = useState(quantity);
 
-    const fetchProduct = async () => {
-        await axios.get(`http://localhost:3344/products/${productId}`)
-            .then((res) => {
-                totalPrice(res.data.price * quantity)
-                setCartProduct(res.data)
-            })
-            .catch((err) => console.log(err))
+  const fetchProduct = async () => {
+    await axios
+      .get(`http://localhost:8080/api/products/get/${productId}`)
+      .then((res) => {
+        totalPrice(res.data.productPrice * 1);
+        setCartProduct(res.data);
+      })
+      .catch((err) => console.log(err));
+  };
+
+  useEffect(() => {
+    fetchProduct();
+  }, []);
+
+  console.log("Products", cartProduct);
+
+  const onQuantityChange = (value) => {
+    if (value) {
+      setQuantityValue(value);
+      // axios
+      //   .patch(`http://localhost:8080/api/carts/product/${cartItemId}`, {
+      //     quantity: value,
+      //   })
+      //   .then((res) => {
+      //     console.log(res);
+      //   })
+      //   .catch((err) => console.log(err.message));
     }
+  };
 
-    useEffect(() => {
-        fetchProduct()
-    }, [])
-
-    const onQuantityChange = (value) => {
-        if (value) {
-            setQuantityValue(value)
-            axios.patch(`http://localhost:3344/cartItems/${cartItemId}`, {
-                quantity: value
-            })
-                .then((res) => {
-                    console.log(res)
-                })
-                .catch((err) => console.log(err.message))
-        }
+  const decreaseQuantity = async () => {
+    if (quantityValue > 1) {
+      setQuantityValue((currentQuantity) => currentQuantity - 1);
+      await axios
+        .put(
+          `http://localhost:8080/api/carts/product/update?cartId=${cartItemId}&prodId=${cartProduct.productId}`,
+          {
+            quantity: quantityValue - 1,
+            price: cartProduct.productPrice,
+          }
+        )
+        .then((res) => console.log(res))
+        .catch((err) => console.log(err.message));
     }
+  };
 
-    const decreaseQuantity = () => {
-        if (quantityValue > 1) {
-            setQuantityValue((currentQuantity) => currentQuantity - 1)
-            axios.patch(`http://localhost:3344/cartItems/${cartItemId}`, {
-                quantity: quantityValue - 1
-            })
-                .then((res) => {
-                    console.log(res)
-                    navigate(0)
-                })
-                .catch((err) => console.log(err.message))
-        }
+  const increaseQuantity = async () => {
+    if (quantityValue < 20) {
+      setQuantityValue((currentQuantity) => currentQuantity + 1);
+      await axios
+        .put(
+          `http://localhost:8080/api/carts/product/update?cartId=${cartItemId}&prodId=${cartProduct.productId}`,
+          {
+            quantity: quantityValue + 1,
+            price: cartProduct.productPrice,
+          }
+        )
+        .then((res) => console.log(res))
+        .catch((err) => console.log(err.message));
     }
+  };
 
-    const increaseQuantity = () => {
-        if (quantityValue < 20) {
-            setQuantityValue((currentQuantity) => currentQuantity + 1)
-            axios.patch(`http://localhost:3344/cartItems/${cartItemId}`, {
-                quantity: quantityValue + 1
-            })
-                .then((res) => {
-                    console.log(res)
-                    navigate(0)
-                })
-                .catch((err) => console.log(err.message))
-        }
-    }
+  const handleDelete = () => {
+    axios
+      .delete(
+        `http://localhost:8080/api/carts/product/delete?cartId=${cartItemId}&prodId=${cartProduct.productId}`
+      )
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => console.log(err.message));
+  };
 
-    const handleDelete = () => {
-        axios.delete(`http://localhost:3344/cartItems/${cartItemId}`)
-            .then((res) => {
-                console.log(res)
-                navigate(0)
-            })
-            .catch((err) => console.log(err.message))
-    }
-
-    return (
-        <Card hoverable className={styles.cardContainer}>
-            <Flex align='center' justify='space-between'>
-                <span className={styles.imageContainer}>
-                    <Image src={cartProduct.image_url} className={styles.image} preview={false} />
-                </span>
-                <Flex vertical justify='space-between' align='center' gap={40}>
-                    <Text strong className={styles.productName}
-                        onClick={() => { navigate(`/products/${cartProduct.product_id}`) }}>
-                        {cartProduct.name}
-                    </Text>
-                    <Flex justify='center' align='center' className={styles.quantitySection}>
-                        <Button onClick={decreaseQuantity} style={{ marginRight: "2%" }}>-</Button>
-                        <InputNumber min={1} max={20} onChange={onQuantityChange} onBlur={() => navigate(0)} onPressEnter={() => navigate(0)}
-                            controls={false} value={quantityValue} size='medium' style={{ width: '15%' }} />
-                        <Button onClick={increaseQuantity} style={{ marginLeft: "2%" }}>+</Button>
-                        <Button onClick={handleDelete} style={{ marginLeft: "2%", display: 'flex', alignItems: 'center', fontSize: '120%' }} danger>
-                            <DeleteOutlined />
-                        </Button>
-                    </Flex>
-                </Flex>
-                <div className={styles.priceSection}>
-                    <Text type='secondary' italic className={styles.productInfo}>
-                        <Text style={{ fontSize: '80%', opacity: '0.5' }} className={styles.price}>
-                            {cartProduct.price}
-                            $
-                            / each
-                        </Text>
-                    </Text>
-                    <Text>
-                        <Flex gap={10}>
-                            <Title style={{ fontSize: '180%' }} className={styles.price}>
-                                {Math.round(cartProduct.price * quantityValue * 100) / 100}
-                            </Title>
-                            $
-                        </Flex>
-                    </Text>
-                </div>
-            </Flex>
-        </Card>
-    )
+  return (
+    <Box
+      p={4}
+      mb={4}
+      shadow="md"
+      borderWidth="1px"
+      borderRadius="lg"
+      bg="white"
+      maxW="100%"
+      justifyContent="space-around"
+    >
+      <Flex alignItems="center" justify="space-between">
+        <Box boxSize="150px">
+          <Image
+            src={cartProduct.imageLink}
+            alt={cartProduct.productName}
+            borderRadius="lg"
+            objectFit="cover"
+          />
+        </Box>
+        <Text
+          minWidth="200px"
+          fontWeight="bold"
+          fontSize="lg"
+          onClick={() => {
+            navigate(`/products/${cartProduct.productId}`);
+          }}
+          cursor="pointer"
+        >
+          {cartProduct.productName}
+        </Text>
+        <Text minWidth="100px" fontSize="xm" color="gray.500">
+          {cartProduct.productPrice}$
+        </Text>
+        <Flex direction="column" justify="space-between" align="center" mx="4">
+          <Flex alignItems="center" mb={4}>
+            <Button
+              onClick={decreaseQuantity}
+              marginRight="2%"
+              size="sm"
+              border="none"
+            >
+              -
+            </Button>
+            <Input
+              min={1}
+              max={20}
+              value={quantityValue}
+              onChange={(e) => onQuantityChange(e.target.value)}
+              textAlign="center"
+              size="sm"
+              maxW="50px"
+            />
+            <Button
+              onClick={increaseQuantity}
+              marginLeft="2%"
+              size="sm"
+              border="none"
+            >
+              +
+            </Button>
+          </Flex>
+        </Flex>
+        <Box textAlign="right" minWidth="100px">
+          <Text fontWeight="bold" fontSize="xl" color="yellow.600">
+            {Math.round(cartProduct.productPrice * quantityValue * 100) / 100}$
+          </Text>
+        </Box>
+        <Button
+          border="none"
+          onClick={handleDelete}
+          size="sm"
+          colorScheme="red"
+          mb={4}
+        >
+          <DeleteIcon />
+        </Button>
+      </Flex>
+    </Box>
+  );
 }

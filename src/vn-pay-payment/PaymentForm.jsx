@@ -30,13 +30,13 @@ function PaymentForm() {
   return (
     <div>
       <h3>title</h3>
-      <div class="table-responsive">
+      <div className="table-responsive">
         <form action="create_payment_url" method="POST" id="createOrder">
-          <div class="form-group">
+          <div className="form-group">
             <label for="amount">Số tiền</label>
             <input
               type="text"
-              class="form-control"
+              className="form-control"
               id="amount"
               name="amount"
               placeholder="Số tiền"
@@ -45,10 +45,10 @@ function PaymentForm() {
             />
           </div>
 
-          <div class="form-group">
+          <div className="form-group">
             <label>Chọn Phương thức thanh toán:</label>
-            <div class="controls">
-              <label class="radio-inline">
+            <div className="controls">
+              <label className="radio-inline">
                 <input
                   type="radio"
                   name="bankCode"
@@ -58,7 +58,7 @@ function PaymentForm() {
                 />{" "}
                 Cổng thanh toán VNPAYQR
               </label>
-              <label class="radio-inline">
+              <label className="radio-inline">
                 <input
                   type="radio"
                   name="bankCode"
@@ -67,7 +67,7 @@ function PaymentForm() {
                 />{" "}
                 Thanh toán qua ứng dụng hỗ trợ VNPAYQR
               </label>
-              <label class="radio-inline">
+              <label className="radio-inline">
                 <input
                   type="radio"
                   name="bankCode"
@@ -78,7 +78,7 @@ function PaymentForm() {
                 />{" "}
                 Thanh toán qua ATM-Tài khoản ngân hàng nội địa
               </label>
-              <label class="radio-inline">
+              <label className="radio-inline">
                 <input
                   type="radio"
                   name="bankCode"
@@ -90,10 +90,10 @@ function PaymentForm() {
             </div>
           </div>
 
-          <div class="form-group">
+          <div className="form-group">
             <label for="language">Ngôn ngữ</label>
-            <div class="controls">
-              <label class="radio-inline">
+            <div className="controls">
+              <label className="radio-inline">
                 <input
                   type="radio"
                   name="language"
@@ -104,7 +104,7 @@ function PaymentForm() {
                 />{" "}
                 Tiếng việt
               </label>
-              <label class="radio-inline">
+              <label className="radio-inline">
                 <input
                   type="radio"
                   name="language"
@@ -118,7 +118,7 @@ function PaymentForm() {
 
           <button
             type="submit"
-            class="btn btn-default"
+            className="btn btn-default"
             id="btnPopup"
             onClick={handlePayment}
           >

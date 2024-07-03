@@ -1,29 +1,35 @@
-import React, { useEffect, useState } from 'react'
-import { Typography, Flex } from 'antd'
-import styles from './Cart.module.css'
-import axios from 'axios'
+import React, { useEffect, useState } from "react";
+import styles from "./Cart.module.css";
+import axios from "axios";
+import { Box, Flex, Text } from "@chakra-ui/react";
 
 export default function CartItem({ productId, quantity }) {
-    const { Text } = Typography
-    const [cartProduct, setCartProduct] = useState({})
+  const [cartProduct, setCartProduct] = useState({});
 
-    const fetchProduct = async () => {
-        await axios.get(`http://localhost:3344/products/${productId}`)
-            .then((res) => {
-                setCartProduct(res.data)
-            })
-            .catch((err) => console.log(err))
-    }
+  const fetchProduct = async () => {
+    await axios
+      .get(`http://localhost:8080/api/products/get/${productId}`)
+      .then((res) => {
+        setCartProduct(res.data);
+      })
+      .catch((err) => console.log(err));
+  };
 
-    useEffect(() => {
-        fetchProduct()
-    }, [])
+  useEffect(() => {
+    fetchProduct();
+  }, [quantity]);
 
-    return (
-        <Flex justify='space-between' align='center' className={styles.singleCartDetail}>
-            <Text id={styles.productNameInDetailList}>{cartProduct.name}</Text>
-            <Text>{quantity}</Text>
-            <Text id={styles.productTotalInDetailList}>{Math.round(cartProduct.price * quantity * 100) / 100}</Text>
-        </Flex>
-    )
+  console.log("DADADxxxx: ", cartProduct);
+
+  return (
+    <Flex justify="space-between" align="center">
+      <Text minWidth="150px">{cartProduct.productName}</Text>
+      <Text minWidth="50px" textAlign="center">
+        {quantity}
+      </Text>
+      <Text minWidth="100px" textAlign="right">
+        {Math.round(cartProduct.productPrice * quantity * 100) / 100}$
+      </Text>
+    </Flex>
+  );
 }

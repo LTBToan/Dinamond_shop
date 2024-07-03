@@ -4,19 +4,21 @@ import "react-toastify/dist/ReactToastify.css";
 import styles from "./styles.module.css";
 import { Button, Image, Divider, Modal } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
-import { useNavigate } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { generateCode } from "../../assistants/Generators";
 import Reset from "./Reset";
 import eFurniLogo from "../../assets/logos/logoDia.png";
-import Navbar from "../../components/SignLogNavbar/Navbar";
+import Navbar from "../../components/Navbar/Navbar";
 import Footer from "../../components/Home/Footer";
 import emailjs from "@emailjs/browser";
 
 export default function Forgot() {
-  const navigate = useNavigate();
+  const navigate = (toUrl) => {
+    window.location.href = toUrl;
+  };
+
   const formRef = useRef();
   const [isLoading, setIsLoading] = useState(false);
   const randomImage =
@@ -226,7 +228,7 @@ export default function Forgot() {
           </Modal>
         </div>
       </div>
-      {/* <Footer /> */}
+      <Footer />
     </>
   );
 }

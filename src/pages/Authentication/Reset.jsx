@@ -4,7 +4,7 @@ import "react-toastify/dist/ReactToastify.css";
 import styles from "./styles.module.css";
 import { Button, Image, Divider } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -12,7 +12,10 @@ import axios from "axios";
 import eFurniLogo from "../../assets/logos/eFurniLogo_transparent.png";
 
 export default function Reset() {
-  const navigate = useNavigate();
+  const navigate = (toUrl) => {
+    window.location.href = toUrl;
+  };
+
   const [isLoading, setIsLoading] = useState(false);
   const params = useParams();
 

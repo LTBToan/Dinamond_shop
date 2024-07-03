@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Flex, Image, Typography } from "antd";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import styles from "./Order.module.css";
 
 export default function OrderItem({ productId, quantity }) {
-  const navigate = useNavigate();
+  const navigate = (toUrl) => {
+    window.location.href = toUrl;
+  };
+
   const { Text, Title } = Typography;
   const [product, setProduct] = useState({});
 

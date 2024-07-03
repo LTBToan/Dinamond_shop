@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./style.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Navbar from "../../components/Navbar/Navbar";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams,  } from "react-router-dom";
 import { generateId } from "../../assistants/Generators";
 import { getProductById } from "../../dataControllers/productController";
 import { createBooking } from "../../dataControllers/bookingController";
@@ -11,7 +11,10 @@ import axios from "axios";
 
 export default function BookingPage() {
   const { id } = useParams();
-  const navigate = useNavigate();
+  const navigate = (toUrl) => {
+    window.location.href = toUrl;
+  };
+
   const currentUserId = sessionStorage.getItem("loginUserId");
   const [user, setUser] = useState({});
   const [information, setInformation] = useState({

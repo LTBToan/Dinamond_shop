@@ -1,10 +1,12 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
 import styles from "../../css/herosection.module.css";
 import { Button, Carousel } from "antd";
 
 const Herosection = () => {
-  const navigate = useNavigate();
+  const navigate = (toUrl) => {
+    window.location.href = toUrl;
+  };
+
   const settings = {
     dots: true,
     infinite: true,

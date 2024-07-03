@@ -1,195 +1,8 @@
-// import React, { useEffect, useState } from "react";
-// import { Link, useNavigate } from "react-router-dom";
-// import {
-//   DownOutlined,
-//   UserOutlined,
-//   LogoutOutlined,
-//   ShoppingCartOutlined,
-//   SearchOutlined,
-//   LoginOutlined,
-//   FileDoneOutlined,
-// } from "@ant-design/icons";
-// import { Dropdown, Space, Badge, Tooltip } from "antd";
-// import axios from "axios";
-// import styles from "../../css/navbar.module.css";
-// import eFurniLogo from "../../assets/logos/diamondlogo.png";
-
-// const Navbar = () => {
-//   const navigate = useNavigate();
-//   const currentUserId = sessionStorage.getItem("loginUserId");
-//   const [currentUser, setCurrentUser] = useState(null);
-//   const [categories, setCategories] = useState([]);
-//   const [userCart, setUserCart] = useState([]);
-
-//   const handleMenuClick = (i) => {
-//     categories.map((item) => {
-//       if (item.key === i.key) {
-//         window.location.href = `/category/${item.label.toLowerCase()}`;
-//       }
-//     });
-//   };
-
-//   const fetchUserData = async () => {
-//     if (currentUserId) {
-//       await axios
-//         .get(`http://localhost:3344/users/${currentUserId}`)
-//         .then((res) => {
-//           setCurrentUser(res.data[0]);
-//         })
-//         .catch((err) => console.log(err.message));
-//     }
-//   };
-
-//   console.log("ca", currentUser);
-
-//   const fetchCategoryData = async () => {
-//     await axios
-//       .get("http://localhost:3344/categories")
-//       .then((res) => {
-//         let a = res.data;
-//         a.map((item, i) => {
-//           item["label"] = item.category_name;
-//           item["key"] = i.toString();
-//         });
-//         setCategories(a);
-//       })
-//       .catch((err) => console.log(err.message));
-//   };
-
-//   const fetchUserCartData = async () => {
-//     if (currentUserId) {
-//       await axios
-//         .get(`http://localhost:3344/cartItems/${currentUserId}`)
-//         .then((res) => {
-//           setUserCart(res.data);
-//         })
-//         .catch((err) => console.log(err.message));
-//     }
-//   };
-
-//   useEffect(() => {
-//     fetchUserData();
-//     fetchCategoryData();
-//     fetchUserCartData();
-//   }, [currentUserId]);
-
-//   const menuProps = {
-//     items: categories,
-//     onClick: handleMenuClick,
-//   };
-
-//   const logout = () => {
-//     sessionStorage.removeItem("loginUserId");
-//     setCurrentUser(null);
-//     setTimeout(() => {
-//       navigate("/");
-//     }, 1000);
-//   };
-
-//   return (
-//     <div className={styles.container}>
-//       <div className={styles.left}>
-//         <Link to="/">
-//           <img className={styles.logo} src={eFurniLogo} alt="" />
-//         </Link>
-//         <span className={styles.navigators}>
-//           <Link to="/" className={styles.button}>
-//             HOME
-//           </Link>
-//           <Dropdown
-//             menu={menuProps}
-//             placement="bottom"
-//             overlayStyle={{ width: "200px" }}
-//           >
-//             <a onClick={() => navigate("/products")} className={styles.button}>
-//               <Space>
-//                 JEWELRY
-//                 <DownOutlined />
-//               </Space>
-//             </a>
-//           </Dropdown>
-//           <Link to="/contact" className={styles.button}>
-//             CONTACT
-//           </Link>
-//           <Link to="/about" className={styles.button}>
-//             ABOUT US
-//           </Link>
-//         </span>
-//       </div>
-//       <div className={styles.right}>
-//         <span className={styles.userSection}>
-//           <button
-//             className={styles.iconButton}
-//             onClick={() => navigate(`/search`)}
-//           >
-//             <SearchOutlined style={{ color: "#FFF", fontSize: "150%" }} />
-//           </button>
-//           {currentUser ? (
-//             <>
-//               <Tooltip title="Orders">
-//                 <button
-//                   className={styles.iconButton}
-//                   onClick={() => navigate(`/order`)}
-//                 >
-//                   <FileDoneOutlined
-//                     style={{ color: "#FFF", fontSize: "150%" }}
-//                   />
-//                 </button>
-//               </Tooltip>
-//               <Tooltip title="Cart">
-//                 <Badge count={userCart.length} showZero={true} title="">
-//                   <button
-//                     className={styles.iconButton}
-//                     onClick={() => navigate("/cart")}
-//                   >
-//                     <ShoppingCartOutlined
-//                       style={{ color: "#FFF", fontSize: "180%" }}
-//                     />
-//                   </button>
-//                 </Badge>
-//               </Tooltip>
-//               <Tooltip title="Profile">
-//                 <button
-//                   className={styles.iconButton}
-//                   onClick={() => navigate(`/profile/${currentUserId}`)}
-//                 >
-//                   <UserOutlined
-//                     style={{ color: "#ce8f2b", fontSize: "150%" }}
-//                   />
-//                 </button>
-//               </Tooltip>
-//               <Tooltip title="Log out">
-//                 <button className={styles.logButton} onClick={logout}>
-//                   <LogoutOutlined style={{ fontSize: "150%" }} />
-//                 </button>
-//               </Tooltip>
-//             </>
-//           ) : (
-//             <Tooltip title="Sign in">
-//               <button
-//                 className={styles.logButton}
-//                 onClick={() => {
-//                   navigate("/signin");
-//                 }}
-//               >
-//                 <LoginOutlined style={{ fontSize: "150%" }} />
-//               </button>
-//             </Tooltip>
-//           )}
-//         </span>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default Navbar;
-
 import React, { useEffect, useState } from "react";
 import eFurniLogo from "../../assets/logos/diamondlogo.png";
 import "../../css/testnavbar.css";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import {
-  FileDoneOutlined,
   LoginOutlined,
   LogoutOutlined,
   SearchOutlined,
@@ -200,87 +13,60 @@ import { Badge, Tooltip } from "antd";
 import axios from "axios";
 
 const Navbar = () => {
-  const navigate = useNavigate();
   const currentUserId = sessionStorage.getItem("loginUserId");
   const [currentUser, setCurrentUser] = useState(null);
-  const [categories, setCategories] = useState([]);
-  const [userCart, setUserCart] = useState([]);
-
-  const handleMenuClick = (i) => {
-    categories.map((item) => {
-      if (item.key === i.key) {
-        window.location.href = `/category/${item.label.toLowerCase()}`;
-      }
-    });
-  };
-
-  const fetchUserData = async () => {
-    if (currentUserId) {
-      await axios
-        .get(`http://localhost:3344/users/${currentUserId}`)
-        .then((res) => {
-          setCurrentUser(res.data[0]);
-        })
-        .catch((err) => console.log(err.message));
-    }
-  };
-
-  console.log("ca", currentUser);
-
-  const fetchCategoryData = async () => {
-    await axios
-      .get("http://localhost:3344/categories")
-      .then((res) => {
-        let a = res.data;
-        a.map((item, i) => {
-          item["label"] = item.category_name;
-          item["key"] = i.toString();
-        });
-        setCategories(a);
-      })
-      .catch((err) => console.log(err.message));
-  };
-
-  const fetchUserCartData = async () => {
-    if (currentUserId) {
-      await axios
-        .get(`http://localhost:3344/cartItems/${currentUserId}`)
-        .then((res) => {
-          setUserCart(res.data);
-        })
-        .catch((err) => console.log(err.message));
-    }
-  };
+  const [userCart, setUserCart] = useState({ products: [] });
 
   useEffect(() => {
+    const fetchUserData = async () => {
+      if (currentUserId) {
+        await axios
+          .get(`http://localhost:8080/api/users/${currentUserId}`)
+          .then((res) => {
+            setCurrentUser(res.data);
+          })
+          .catch((err) => console.log(err.message));
+      }
+    };
+
+    const fetchUserCartData = async () => {
+      if (currentUserId) {
+        await axios
+          .get(`http://localhost:8080/api/carts/get/user/${currentUserId}`)
+          .then((res) => {
+            setUserCart(res.data[0] || { products: [] });
+          })
+          .catch((err) => console.log(err.message));
+      }
+    };
+
     fetchUserData();
-    fetchCategoryData();
     fetchUserCartData();
   }, [currentUserId]);
-
-  const menuProps = {
-    items: categories,
-    onClick: handleMenuClick,
-  };
 
   const logout = () => {
     sessionStorage.removeItem("loginUserId");
     setCurrentUser(null);
-    setTimeout(() => {
-      navigate("/");
-    }, 1000);
+    navigate("/");
+  };
+
+  const navigate = (toUrl) => {
+    window.location.href = toUrl;
   };
 
   return (
     <div className="navbar">
       <div className="left">
-        <Link to="/">
+        <Link onClick={() => navigate("/")}>
           <img className="logo" src={eFurniLogo} alt="" />
         </Link>
       </div>
       <div style={{ display: "flex", marginRight: "100px" }}>
+        {/* Menu Items */}
         <div className="menu-item">
-          <span onClick={() => navigate("/category/ring")}>RINGS</span>
+          <span onClick={() => (window.location.href = "/category/ring")}>
+            RINGS
+          </span>
           <div className="mega-menu">
             <div className="mega-menu-content">
               <div className="mega-menu-section">
@@ -333,15 +119,6 @@ const Navbar = () => {
                   <li>Platinum</li>
                   <li>Silver</li>
                 </ul>
-                {/* <h4>BEST SELLERS</h4>
-                <ul>
-                  <li>Under ₫16,743,100</li>
-                  <li>₫16,743,100 – ₫33,486,100</li>
-                  <li>₫33,486,100 – ₫66,972,100</li>
-                  <li>₫66,972,100 – ₫100,458,100</li>
-                  <li>₫100,458,100 – ₫167,430,200</li>
-                  <li>₫167,430,200+</li>
-                </ul> */}
               </div>
               <div className="mega-menu-section">
                 <img
@@ -354,7 +131,9 @@ const Navbar = () => {
         </div>
 
         <div className="menu-item">
-          <span onClick={() => navigate("/category/bracelet")}>BRACELETS</span>
+          <span onClick={() => (window.location.href = "/category/bracelet")}>
+            BRACELETS
+          </span>
           <div className="mega-menu">
             <div className="mega-menu-content">
               <div className="mega-menu-section">
@@ -398,13 +177,14 @@ const Navbar = () => {
                   style={{ width: "225px", height: "auto" }}
                 />
               </div>
-              {/* Additional sections for Bracelets can be added here */}
             </div>
           </div>
         </div>
 
         <div className="menu-item">
-          <span onClick={() => navigate("/category/earrings")}>EARRINGS</span>
+          <span onClick={() => (window.location.href = "/category/earrings")}>
+            EARRINGS
+          </span>
           <div className="mega-menu">
             <div className="mega-menu-content">
               <div className="mega-menu-section">
@@ -448,13 +228,14 @@ const Navbar = () => {
                   style={{ width: "225px", height: "auto" }}
                 />
               </div>
-              {/* Additional sections for Earrings can be added here */}
             </div>
           </div>
         </div>
 
         <div className="menu-item">
-          <span onClick={() => navigate("/category/necklace")}>NECKLACE</span>
+          <span onClick={() => (window.location.href = "/category/necklace")}>
+            NECKLACE
+          </span>
           <div className="mega-menu">
             <div className="mega-menu-content">
               <div className="mega-menu-section">
@@ -495,31 +276,30 @@ const Navbar = () => {
               <div className="mega-menu-section">
                 <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcReY5mJx_FGwyrcEgQkhklCCKQ8uFhD9srHEg&s" />
               </div>
-              {/* Additional sections for Necklaces can be added here */}
             </div>
           </div>
         </div>
         <div className="menu-item">
-          <span onClick={() => navigate("/contact")}>SERVICE & SUPPORT</span>
+          <span onClick={() => (window.location.href = "/contact")}>
+            SERVICE & SUPPORT
+          </span>
         </div>
       </div>
 
       <div className="right">
-        <button className="iconButton" onClick={() => navigate(`/search`)}>
+        <button
+          className="iconButton"
+          onClick={() => (window.location.href = `/search`)}
+        >
           <SearchOutlined style={{ color: "#FFF", fontSize: "150%" }} />
         </button>
         {currentUser ? (
           <>
-            <Tooltip title="Orders">
-              <button className="iconButton" onClick={() => navigate(`/order`)}>
-                <FileDoneOutlined style={{ color: "#FFF", fontSize: "150%" }} />
-              </button>
-            </Tooltip>
             <Tooltip title="Cart">
-              <Badge count={userCart.length} showZero={true} title="">
+              <Badge count={userCart.products.length} showZero={true} title="">
                 <button
                   className="iconButton"
-                  onClick={() => navigate("/cart")}
+                  onClick={() => (window.location.href = "/cart")}
                 >
                   <ShoppingCartOutlined
                     style={{ color: "#FFF", fontSize: "180%" }}
@@ -530,7 +310,9 @@ const Navbar = () => {
             <Tooltip title="Profile">
               <button
                 className="iconButton"
-                onClick={() => navigate(`/profile/${currentUserId}`)}
+                onClick={() =>
+                  (window.location.href = `/profile/${currentUserId}`)
+                }
               >
                 <UserOutlined style={{ color: "#ce8f2b", fontSize: "150%" }} />
               </button>
@@ -543,7 +325,10 @@ const Navbar = () => {
           </>
         ) : (
           <Tooltip title="Sign in">
-            <button className="logButton" onClick={() => navigate("/signin")}>
+            <button
+              className="logButton"
+              onClick={() => (window.location.href = "/signin")}
+            >
               <LoginOutlined style={{ fontSize: "150%" }} />
             </button>
           </Tooltip>

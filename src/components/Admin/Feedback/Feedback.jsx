@@ -2,7 +2,6 @@ import { Space, Table, Image, Modal, Input } from "antd";
 import moment from "moment";
 import { DeleteOutlined, InfoCircleOutlined } from "@ant-design/icons";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import {
   deleteFeedback,
   getFeedback,
@@ -10,7 +9,10 @@ import {
 } from "../../../dataControllers/feedbackController";
 
 function Feedback() {
-  const navigate = useNavigate();
+  const navigate = (toUrl) => {
+    window.location.href = toUrl;
+  };
+
   const [loading, setLoading] = useState(false);
   const [dataSource, setDataSource] = useState([]);
   const [searchInput, setSearchInput] = useState();

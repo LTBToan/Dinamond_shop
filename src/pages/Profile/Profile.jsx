@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Flex, Typography, Image, Button } from "antd";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams,  } from "react-router-dom";
 import Navbar from "../../components/Navbar/Navbar";
 import Footer from "../../components/Home/Footer";
 import styles from "./Profile.module.css";
@@ -8,7 +8,10 @@ import axios from "axios";
 
 export default function Profile() {
   const { Text, Title } = Typography;
-  const navigate = useNavigate();
+  const navigate = (toUrl) => {
+    window.location.href = toUrl;
+  };
+
   const userId = useParams();
   const [user, setUser] = useState({});
 

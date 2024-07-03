@@ -1,11 +1,11 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "react-toastify/dist/ReactToastify.css";
 import styles from "./styles.module.css";
 import { Button, Image, Divider, Typography } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
 import { GoogleLogin } from "@react-oauth/google";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useFormik } from "formik";
@@ -16,11 +16,14 @@ import { generateId, generatePassword } from "../../assistants/Generators";
 import dateFormat from "../../assistants/date.format";
 import axios from "axios";
 
-import Navbar from "../../components/SignLogNavbar/Navbar";
+import Navbar from "../../components/Navbar/Navbar";
 import Footer from "../../components/Home/Footer";
 
 export default function Signin() {
-  const navigate = useNavigate();
+  const navigate = (toUrl) => {
+    window.location.href = toUrl;
+  };
+
   const location = useLocation();
   const [isLoading, setIsLoading] = useState(false);
   const { Text } = Typography;
@@ -114,7 +117,7 @@ export default function Signin() {
     }),
     onSubmit: async (values) => {
       setIsLoading(true);
-      await fetch("http://localhost:3344/users")
+      await fetch("http://localhost:8080/api/users")
         .then((res) => res.json())
         .then((data) => {
           var loginUser = data.find(
@@ -123,7 +126,7 @@ export default function Signin() {
               account.password === values.password
           );
           if (loginUser) {
-            sessionStorage.setItem("loginUserId", loginUser.user_id);
+            sessionStorage.setItem("loginUserId", loginUser.accountId);
             setTimeout(() => {
               setIsLoading(false);
               navigate("/");
@@ -139,11 +142,31 @@ export default function Signin() {
     },
   });
 
+  console.log("adadad: ", sessionStorage.getItem("loginUserId"));
+
+  // const handleAvatarUpload = async (e) => {
+  //   const file = e.target.files[0];
+  //   const formData = new FormData();
+  //   formData.append("file", file);
+
+  //   try {
+  //     const res = await axios.post("http://localhost:8080/upload", formData, {
+  //       headers: {
+  //         "Content-Type": "multipart/form-data",
+  //       },
+  //     });
+  //     console.log("IMAGE: ", res.data.secure_url);
+  //   } catch (err) {
+  //     console.error(err);
+  //   }
+  // };
+
   return (
     <>
       <Navbar />
       <div className={styles.container}>
         <div className={styles.rightContainer}>
+          {/* <input type="file" onChange={handleAvatarUpload}></input> */}
           <Image
             className={styles.image}
             src={eFurniLogo}
@@ -231,7 +254,7 @@ export default function Signin() {
           </div>
         </div>
       </div>
-      {/* <Footer /> */}
+      <Footer />
     </>
   );
 }

@@ -5,7 +5,7 @@ import styles from "./styles.module.css";
 import { Button, Image, Divider, Typography, Modal } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
 import { GoogleLogin } from "@react-oauth/google";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -19,27 +19,28 @@ import {
 import dateFormat from "../../assistants/date.format";
 import axios from "axios";
 import eFurniLogo from "../../assets/logos/logoDia.png";
-import Navbar from "../../components/SignLogNavbar/Navbar";
+import Navbar from "../../components/Navbar/Navbar";
 import Footer from "../../components/Home/Footer";
 
 export default function Signup() {
-  const navigate = useNavigate();
+  const navigate = (toUrl) => {
+    window.location.href = toUrl;
+  };
+
   const formRef = useRef();
   const location = useLocation();
   const [isLoading, setIsLoading] = useState(false);
   const { Text } = Typography;
-  const randomImage =
-    "https://t4.ftcdn.net/jpg/05/51/69/95/360_F_551699573_1wjaMGnizF5QeorJJIgw5eRtmq5nQnzz.jpg";
 
   const [registerUser, setRegisterUser] = useState({
-    userId: "",
+    accountId: "",
     email: "",
     password: "",
-    fullName: "",
-    roleId: "",
-    phone: "",
-    createAt: "",
-    status: false,
+    username: "",
+    fullname: "",
+    role: "",
+    phonenumber: "",
+    address: "",
   });
 
   const [verifyCode, setVerifyCode] = useState("");
@@ -64,30 +65,27 @@ export default function Signup() {
         decoded.email
       );
 
-      await fetch("http://localhost:3344/users")
+      await fetch("http://localhost:8080/api/users")
         .then((res) => res.json())
         .then((data) => {
           var foundUserByEmail = data.find(
             (account) => account.email === decoded.email
           );
           if (foundUserByEmail) {
-            sessionStorage.setItem("loginUserId", foundUserByEmail.user_id);
+            sessionStorage.setItem("loginUserId", foundUserByEmail.accountId);
           } else {
             const newUserId = generateId(30, "");
-            const createAt = dateFormat(new Date(), "yyyy/mm/dd HH:MM:ss");
             var registerUser = {
-              user_id: newUserId,
+              accountId: newUserId,
               email: decoded.email,
               password: generatePassword(20),
-              fullName: decoded.name,
-              role_id: "US",
-              phone: "",
-              create_at: createAt,
-              status: true,
-              efpoint: 0,
+              username: "",
+              fullname: decoded.name,
+              role: "US",
+              phonenumber: "",
             };
             axios
-              .post("http://localhost:3344/users", registerUser)
+              .post("http://localhost:8080/api/users", registerUser)
               .then(() => {
                 console.log(
                   "A new account has been created by email ",
@@ -137,7 +135,7 @@ export default function Signup() {
       email: location.state?.email,
       password: "",
       confirm: "",
-      fullName: "",
+      fullname: "",
       code: generateCode(6, ""),
     },
     validationSchema: Yup.object({
@@ -155,22 +153,20 @@ export default function Signup() {
           return this.parent.password === value;
         }
       ),
-      fullName: Yup.string().required("Please enter your full name"),
+      fullname: Yup.string().required("Please enter your full name"),
     }),
     onSubmit: async (values) => {
       const newUserId = generateId(30, "");
-      const createAt = dateFormat(new Date(), "yyyy/mm/dd HH:MM:ss");
       setVerifyCode(values.code);
       setRegisterUser({
-        user_id: newUserId,
+        accountId: newUserId,
         email: values.email,
         password: values.password,
-        fullName: values.fullName,
-        role_id: "US",
-        phone: "",
-        create_at: createAt,
-        status: true,
-        efpoint: 0,
+        username: values.fullname,
+        fullname: values.fullname,
+        role: "US",
+        phonenumber: "",
+        address: "",
       });
       sendEmail();
       showModal();
@@ -190,8 +186,9 @@ export default function Signup() {
     }),
     onSubmit: (values) => {
       if (values.code === verifyCode) {
+        console.log("Res: ", registerUser);
         axios
-          .post("http://localhost:3344/users", registerUser)
+          .post("http://localhost:8080/api/users", registerUser)
           .then((response) => {
             console.log(response);
           })
@@ -212,21 +209,13 @@ export default function Signup() {
     },
   });
 
+  console.log(verifyCode);
+
   return (
     <>
       <Navbar />
       <div className={styles.container}>
-        {/* <div className={styles.leftContainer}>
-        <Image src={randomImage} width={400} preview={false} />
-      </div>
-      <Divider type="vertical" /> */}
         <div className={styles.rightContainer}>
-          {/* <Image
-          className={styles.image}
-          src={eFurniLogo}
-          width={250}
-          preview={false}
-        /> */}
           <Image
             className={styles.image}
             src={eFurniLogo}
@@ -286,15 +275,15 @@ export default function Signup() {
             <div className={styles.inputContainer}>
               <input
                 type="text"
-                name="fullName"
+                name="fullname"
                 placeholder="Full name"
                 onChange={signupForm.handleChange}
                 onBlur={signupForm.handleBlur}
-                value={signupForm.values.fullName}
+                value={signupForm.values.fullname}
               />
               <div className={styles.error}>
-                {signupForm.touched.fullName && signupForm.errors.fullName ? (
-                  <i>{signupForm.errors.fullName}</i>
+                {signupForm.touched.fullname && signupForm.errors.fullname ? (
+                  <i>{signupForm.errors.fullname}</i>
                 ) : null}
               </div>
             </div>
@@ -384,7 +373,7 @@ export default function Signup() {
           </div>
         </div>
       </div>
-      {/* <Footer /> */}
+      <Footer />
     </>
   );
 }

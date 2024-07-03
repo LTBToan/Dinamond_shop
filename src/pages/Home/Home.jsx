@@ -13,22 +13,22 @@ import Footer from "../../components/Home/Footer";
 
 import AboutUs from "../../pages/About/AboutPage";
 import Chatbot from "../../components/Chatbot/ChatBot";
-import Fade from "react-reveal";
+import { Fade } from "react-awesome-reveal";
 
 const Home = () => {
   return (
     <div className={styles.container}>
       <Navbar />
-      <Fade>
-        <Herosection />
+      <Herosection />
+      <Fade direction="up" triggerOnce>
         <ShopYourChoice />
         <Catagories />
         <ProductsOfTheWeek />
         <AboutUs />
         <FeatureCollection />
-        <UpcomingCollections />
-        <BlueBanner />
       </Fade>
+      <UpcomingCollections />
+      <BlueBanner />
       <Chatbot />
       <Features />
       <Footer />

@@ -1,13 +1,15 @@
 import { useEffect, useState } from "react";
 import styles from "../../css/productsOfTheWeek.module.css";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 import { Card } from "antd";
 const { Meta } = Card;
 
 const ProductsOfTheWeek = () => {
   const [dataSource, setDataSource] = useState([]);
-  const navigate = useNavigate();
+  const navigate = (toUrl) => {
+    window.location.href = toUrl;
+  };
+
   const fetchProductsOfTheWeek = async () => {
     await axios
       .get("http://localhost:3344/productsOfTheWeek")

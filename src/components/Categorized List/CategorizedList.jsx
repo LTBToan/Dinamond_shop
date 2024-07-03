@@ -1,13 +1,15 @@
 import { useState, useEffect } from "react";
 import styles from "./Product.module.css";
 import { Divider, Typography, List, Card, Tooltip, Image } from "antd";
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 export default function CategorizedList({ name }) {
   const currentUserId = sessionStorage.getItem("loginUserId");
   const { Text, Title } = Typography;
-  const navigate = useNavigate();
+  const navigate = (toUrl) => {
+    window.location.href = toUrl;
+  };
+
 
   const [productDataSource, setProductDataSource] = useState([]);
   const [isLoading, setIsLoading] = useState(false);

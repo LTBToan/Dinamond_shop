@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { List, Spin, Flex, Input, Button, Card, Tooltip, Typography} from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
-import { useNavigate } from 'react-router-dom';
+import {  } from 'react-router-dom';
 import axios from 'axios';
 import Navbar from '../../components/Navbar/Navbar';
 import RelatedProducts from '../../components/Related Products/RelatedProducts';
@@ -12,7 +12,10 @@ export default function Search() {
   const [searchTerm, setSearchTerm] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const navigate = useNavigate();
+  const navigate = (toUrl) => {
+    window.location.href = toUrl;
+  };
+
   const { Text } = Typography;
 
   const handleSearch = async () => {

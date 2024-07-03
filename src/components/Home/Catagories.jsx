@@ -1,9 +1,11 @@
 import React from "react";
 import styles from "../../css/catagories.module.css";
-import { useNavigate } from "react-router-dom";
 
 const Catagories = () => {
-  const navigate = useNavigate();
+  const navigate = (toUrl) => {
+    window.location.href = toUrl;
+  };
+
   return (
     <div className={styles.container}>
       <div

@@ -5,24 +5,24 @@ import styles from "./styles.module.css";
 import { Button, Image, Divider, Typography } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
 import { GoogleLogin } from "@react-oauth/google";
-import { useNavigate } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { jwtDecode } from "jwt-decode";
-import { generateId, generatePassword } from "../../assistants/Generators";
+import { generateId, generatePassword, generateUniqueId } from "../../assistants/Generators";
 import dateFormat from "../../assistants/date.format";
 import axios from "axios";
 import eFurniLogo from "../../assets/logos/logoDia.png";
-import Navbar from "../../components/SignLogNavbar/Navbar";
+import Navbar from "../../components/Navbar/Navbar";
 import Footer from "../../components/Home/Footer";
 
 export default function EmailSignup() {
-  const navigate = useNavigate();
+  const navigate = (toUrl) => {
+    window.location.href = toUrl;
+  };
+
   const [isLoading, setIsLoading] = useState(false);
   const { Text } = Typography;
-  const randomImage =
-    "https://nazarsandco.com/wp-content/uploads/2022/08/diamond-1-1.png";
 
   const emailForm = useFormik({
     initialValues: {
@@ -33,7 +33,7 @@ export default function EmailSignup() {
     }),
     onSubmit: async (values) => {
       setIsLoading(true);
-      await fetch("http://localhost:3344/users")
+      await fetch("http://localhost:8080/api/users")
         .then((res) => res.json())
         .then((data) => {
           var foundAccountByEmail = data.find(
@@ -66,7 +66,7 @@ export default function EmailSignup() {
         decoded.email
       );
 
-      await fetch("http://localhost:3344/users")
+      await fetch("http://localhost:8080/api/users")
         .then((res) => res.json())
         .then((data) => {
           var foundUserByEmail = data.find(
@@ -76,20 +76,22 @@ export default function EmailSignup() {
             sessionStorage.setItem("loginUserId", foundUserByEmail.user_id);
           } else {
             const newUserId = generateId(30, "");
-            const createAt = dateFormat(new Date(), "yyyy/mm/dd HH:MM:ss");
+            // const createAt = dateFormat(new Date(), "yyyy/mm/dd HH:MM:ss");
             var registerUser = {
-              user_id: newUserId,
+              accountId: newUserId,
               email: decoded.email,
               password: generatePassword(20),
-              fullName: decoded.name,
-              role_id: "US",
-              phone: "",
-              create_at: createAt,
-              status: true,
-              efpoint: 0,
+              username: decoded.name,
+              fullname: decoded.name,
+              role: "US",
+              phonenumber: "",
+              // create_at: createAt,
+              // status: true,
+              // efpoint: 0,
+              address: "",
             };
             axios
-              .post("http://localhost:3344/users", registerUser)
+              .post("http://localhost:8080/api/users", registerUser)
               .then(() => {
                 console.log(
                   "A new account has been created by email ",
@@ -116,14 +118,15 @@ export default function EmailSignup() {
     console.log("Failed to login with Google: ", err.message);
   };
 
+  const handleLick = () => {
+    const idUs = generateUniqueId("C", 3);
+    console.log("dada:", idUs);
+  };
+
   return (
     <>
       <Navbar />
       <div className={styles.container}>
-        {/* <div className={styles.leftContainer}>
-        <Image src={randomImage} width={400} preview={false} />
-      </div>
-      <Divider type="vertical" /> */}
         <div className={styles.rightContainer}>
           <Image
             className={styles.image}
@@ -131,6 +134,7 @@ export default function EmailSignup() {
             width={250}
             preview={false}
           />
+          <button onClick={handleLick}>TESTTTTTTTTTTT</button>
           <form
             onSubmit={emailForm.handleSubmit}
             className={styles.formContainer}
@@ -188,7 +192,7 @@ export default function EmailSignup() {
           </div>
         </div>
       </div>
-      {/* <Footer /> */}
+      <Footer />
     </>
   );
 }

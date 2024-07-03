@@ -1,73 +1,88 @@
 import React from "react";
-import "./sizeguide.css";
+import {
+  Box,
+  Text,
+  Image,
+  Table,
+  Thead,
+  Tbody,
+  Tr,
+  Th,
+  Td,
+  Divider,
+  Flex,
+} from "@chakra-ui/react";
 
 const SizeGuide = () => {
   return (
-    <div className="size-guide">
-      <h1>CÁCH ĐO SIZE - SIZE GUIDE</h1>
-      <p>
-        Để chọn được size lắc tay vừa vặn, các bạn cần đo size vòng tay của mình
-        thật chính xác để khi đeo lắc, vòng không bị quá rộng hay quá chật.
-        Trước hết, bạn cần chuẩn bị một thước dây hoặc một mảnh giấy (giấy cắt
-        dài và rộng khoảng 1cm).
-      </p>
-      <h2>Các bước đo size tay:</h2>
+    <Box px={30}>
+      <Flex alignItems="center">
+        <Flex w="40%" alignItems="center">
+          <Text as="h3" mt={1}>
+            How to measure your ring size
+          </Text>
+        </Flex>
+        <Divider />
+      </Flex>
+      <Text>
+        To choose the right ring size, you need to measure your finger size
+        accurately so that when wearing the ring, the ring is not too wide or
+        too tight. Before that, you need to prepare a measuring tape or a piece
+        of paper (paper cut long and about 1cm wide).
+      </Text>
+      <Text as="h3">Step by step:</Text>
       <ol>
         <li>
-          Quấn thước dây quanh vòng tay, ngay dưới xương cổ tay, khu vực bạn sẽ
-          đeo lắc.
+          Wrap the tape measure around your finger, just below your finger bone
+          will wear ring.
         </li>
-        <li>Đánh dấu lại điểm gặp nhau của thước dây.</li>
+        <li>Mark the meeting point of the tape measure.</li>
         <li>
-          Dùng thước kẻ đo chiều dài đoạn dây vừa quấn quanh tay, chính là chu
-          vi vòng tay của bạn.
+          Use a ruler to measure the length of the string just wrapped around
+          your hand, which is the length your ring.
         </li>
       </ol>
-      <div className="image-container">
-        <img src="/path-to-your-image1.png" alt="Step 1 to 3" />
-        <img src="/path-to-your-image2.png" alt="Step 4 to 6" />
-      </div>
-      <h2>SIZE VÒNG CỔ</h2>
-      <p>
-        Để chọn được kích thước dây chuyền chính xác, bạn nên biết độ dài của
-        các loại dây chuyền khác nhau. Dưới đây là bảng quy đổi kích thước dây
-        chuyền phổ biến:
-      </p>
-      <div className="chain-length-guide">
-        <img src="/path-to-your-image3.png" alt="Chain Length Guide" />
-      </div>
-      <table>
-        <thead>
-          <tr>
-            <th>Size vòng cổ (inch)</th>
-            <th>Size vòng cổ (cm)</th>
-            <th>Độ dài trên cơ thể</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>16"</td>
-            <td>40 cm</td>
-            <td>Sát cổ</td>
-          </tr>
-          <tr>
-            <td>18"</td>
-            <td>45 cm</td>
-            <td>Chạm xương đòn</td>
-          </tr>
-          <tr>
-            <td>20"</td>
-            <td>50 cm</td>
-            <td>Trên ngực</td>
-          </tr>
-          <tr>
-            <td>24"</td>
-            <td>60 cm</td>
-            <td>Giữa ngực</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+      <Box display="flex" justifyContent="center">
+        <Image src="/images/ring-measure.jpg" alt="Step 1 to 3" boxSize="70%" />
+      </Box>
+      <Text as="h3">Ring Size</Text>
+      <Text>
+        To choose the correct ring size, you should know the length of different
+        types of rings. Below is a common size conversion table:
+      </Text>
+
+      <Table>
+        <Thead>
+          <Tr>
+            <Th>Size vòng cổ (inch)</Th>
+            <Th>Size vòng cổ (cm)</Th>
+            <Th>Độ dài trên cơ thể</Th>
+          </Tr>
+        </Thead>
+        <Tbody>
+          <Tr>
+            <Td>16"</Td>
+            <Td>40 cm</Td>
+            <Td>Sát cổ</Td>
+          </Tr>
+          <Tr>
+            <Td>18"</Td>
+            <Td>45 cm</Td>
+            <Td>Chạm xương đòn</Td>
+          </Tr>
+          <Tr>
+            <Td>20"</Td>
+            <Td>50 cm</Td>
+            <Td>Trên ngực</Td>
+          </Tr>
+          <Tr>
+            <Td>24"</Td>
+            <Td>60 cm</Td>
+            <Td>Giữa ngực</Td>
+          </Tr>
+        </Tbody>
+      </Table>
+    </Box>
   );
 };
 
