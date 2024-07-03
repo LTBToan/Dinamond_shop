@@ -54,8 +54,8 @@ const DeleteConfirmation = () => {
           in your account, including any unused or non-refunded e-vouchers, etc.
         </li>
         <li>
-          After successful deletion of your account, we will continue to
-          hold transactional data for financial audit purposes.
+          After successful deletion of your account, we will continue to hold
+          transactional data for financial audit purposes.
         </li>
         <li>
           After successful deletion of your account, you will not be able to log

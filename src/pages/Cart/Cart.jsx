@@ -4,23 +4,19 @@ import {
   Flex,
   Text,
   Heading,
-  Divider,
   Button,
   Image,
   Link,
   Spinner,
 } from "@chakra-ui/react";
-import { ArrowForwardIcon } from "@chakra-ui/icons";
-import { Link as RouterLink } from "react-router-dom";
+import { ArrowForwardIcon, CheckCircleIcon } from "@chakra-ui/icons";
 import Footer from "../../components/Home/Footer.jsx";
 import Navbar from "../../components/Navbar/Navbar.jsx";
 import axios from "axios";
 import CartItem from "./CartItem.jsx";
 import CartDetailList from "./CartDetailList.jsx";
-import AddAddressModal from "../../components/AddAddressModal/AddAddressModal.jsx";
 
 export default function Cart() {
-  const [open, setOpen] = useState(false);
   const navigate = (toUrl) => {
     window.location.href = toUrl;
   };
@@ -65,7 +61,7 @@ export default function Cart() {
 
   useEffect(() => {
     if (cart.cartId) {
-      const fetchCartItemQuantity = async () => {
+      const fetchCartItems = async () => {
         try {
           const res = await axios.get(
             `http://localhost:8080/api/carts/product/get/${cart.cartId}`
@@ -78,14 +74,13 @@ export default function Cart() {
         }
       };
 
-      fetchCartItemQuantity();
+      fetchCartItems();
     }
   }, [cart.cartId]);
 
-  console.log("XXXXX: ", cartItems);
+  console.log("Cart Items: ", cartItems);
 
   const handleCheckout = async () => {
-    console.log("HELLO");
     try {
       await axios
         .post("http://localhost:8080/api/payment/create_payment", {
@@ -155,7 +150,6 @@ export default function Cart() {
               p={4}
               borderWidth="1px"
               borderRadius="lg"
-              boxShadow="md"
               bg="white"
               w="30%"
               px={4}
@@ -172,13 +166,9 @@ export default function Cart() {
                   />
                 ))}
               </Box>
-              <Divider />
-              <Flex justify="space-between" w="100%" mt={4} mb={4}>
-                <Text fontSize="xl" fontWeight="bold">
-                  Total: {Math.round(totalAmount * 100) / 100} $
-                </Text>
-              </Flex>
+
               <Button
+                rightIcon={<CheckCircleIcon color="green" />}
                 colorScheme="yellow"
                 border="none"
                 w="100%"
@@ -188,21 +178,16 @@ export default function Cart() {
                 }}
               >
                 Checkout
-                <Image
-                  src="https://static.vecteezy.com/system/resources/previews/017/350/123/original/green-check-mark-icon-in-round-shape-design-png.png"
-                  width={6}
-                  ml={2}
-                />
               </Button>
-              <AddAddressModal open={open} setOpen={setOpen} />
               <Button
+                rightIcon={<ArrowForwardIcon />}
                 variant="outline"
                 border="none"
                 w="100%"
                 mt={2}
                 onClick={() => navigate("/")}
               >
-                Back to shop <ArrowForwardIcon />
+                Back to shop
               </Button>
             </Flex>
           </Flex>

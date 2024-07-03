@@ -9,7 +9,11 @@ import "react-toastify/dist/ReactToastify.css";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { jwtDecode } from "jwt-decode";
-import { generateId, generatePassword, generateUniqueId } from "../../assistants/Generators";
+import {
+  generateId,
+  generatePassword,
+  generateUniqueId,
+} from "../../assistants/Generators";
 import dateFormat from "../../assistants/date.format";
 import axios from "axios";
 import eFurniLogo from "../../assets/logos/logoDia.png";
@@ -118,11 +122,6 @@ export default function EmailSignup() {
     console.log("Failed to login with Google: ", err.message);
   };
 
-  const handleLick = () => {
-    const idUs = generateUniqueId("C", 3);
-    console.log("dada:", idUs);
-  };
-
   return (
     <>
       <Navbar />
@@ -134,7 +133,6 @@ export default function EmailSignup() {
             width={250}
             preview={false}
           />
-          <button onClick={handleLick}>TESTTTTTTTTTTT</button>
           <form
             onSubmit={emailForm.handleSubmit}
             className={styles.formContainer}

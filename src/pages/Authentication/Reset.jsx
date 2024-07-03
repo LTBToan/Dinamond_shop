@@ -1,26 +1,41 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "react-toastify/dist/ReactToastify.css";
 import styles from "./styles.module.css";
-import { Button, Image, Divider } from "antd";
+import { Button, Image } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
 import { useParams } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
-import eFurniLogo from "../../assets/logos/eFurniLogo_transparent.png";
+import eFurniLogo from "../../assets/logos/logoDia.png";
 
 export default function Reset() {
   const navigate = (toUrl) => {
     window.location.href = toUrl;
   };
 
+  const [user, setUser] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const params = useParams();
 
-  const randomImage =
-    "https://t4.ftcdn.net/jpg/05/51/69/95/360_F_551699573_1wjaMGnizF5QeorJJIgw5eRtmq5nQnzz.jpg";
+  console.log("PARAS: ", params);
+
+  const getUser = async () => {
+    await axios
+      .get(`http://localhost:8080/api/users/${params.id}`)
+      .then((res) => {
+        setUser(res.data);
+      })
+      .catch((err) => console.log(err.message));
+  };
+
+  useEffect(() => {
+    getUser();
+  }, []);
+
+  console.log("ASDAXAXXAXAA: ", user);
 
   const resetPasswordForm = useFormik({
     initialValues: {
@@ -43,8 +58,14 @@ export default function Reset() {
     onSubmit: (values) => {
       setIsLoading(true);
       axios
-        .patch(`http://localhost:3344/users/${params.id}`, {
+        .put(`http://localhost:8080/api/users/${params.id}`, {
+          username: user.username,
+          fullname: user.fullname,
+          email: user.email,
           password: values.password,
+          role: "US",
+          phonenumber: 0,
+          address: "",
         })
         .then(() => {
           console.log("Password is successfully reset.");
@@ -59,10 +80,6 @@ export default function Reset() {
 
   return (
     <div className={styles.container}>
-      <div className={styles.leftContainer}>
-        <Image src={randomImage} width={400} preview={false} />
-      </div>
-      <Divider type="vertical" />
       <div className={styles.rightContainer} style={{ padding: "20px 0" }}>
         <Image
           className={styles.image}
@@ -125,7 +142,7 @@ export default function Reset() {
               shape="round"
               block
               onClick={() => {
-                navigate(-1);
+                navigate("/signin");
               }}
             >
               Back

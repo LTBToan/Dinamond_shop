@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
-import styles from "./Cart.module.css";
 import axios from "axios";
-import { Box, Flex, Text } from "@chakra-ui/react";
+import { Divider, Flex, Text } from "@chakra-ui/react";
 
 export default function CartItem({ productId, quantity }) {
   const [cartProduct, setCartProduct] = useState({});
@@ -22,14 +21,22 @@ export default function CartItem({ productId, quantity }) {
   console.log("DADADxxxx: ", cartProduct);
 
   return (
-    <Flex justify="space-between" align="center">
-      <Text minWidth="150px">{cartProduct.productName}</Text>
-      <Text minWidth="50px" textAlign="center">
-        {quantity}
-      </Text>
-      <Text minWidth="100px" textAlign="right">
-        {Math.round(cartProduct.productPrice * quantity * 100) / 100}$
-      </Text>
-    </Flex>
+    <>
+      <Flex justify="space-between" align="center">
+        <Text minWidth="150px">{cartProduct.productName}</Text>
+        <Text minWidth="50px" textAlign="center">
+          {quantity}
+        </Text>
+        <Text minWidth="100px" textAlign="right">
+          {Math.round(cartProduct.productPrice * quantity * 100) / 100}$
+        </Text>
+      </Flex>
+      <Divider />
+      <Flex justify="space-between" w="100%" mt={4} mb={4}>
+        <Text fontSize="xl" fontWeight="bold">
+          Total: {Math.round(cartProduct.productPrice * quantity * 100) / 100}$
+        </Text>
+      </Flex>
+    </>
   );
 }

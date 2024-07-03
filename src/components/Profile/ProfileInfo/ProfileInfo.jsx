@@ -16,7 +16,12 @@ const ProfileUI = () => {
           }}
         >
           <label
-            style={{ width: "150px", textAlign: "right", paddingRight: "20px", color: "gray" }}
+            style={{
+              width: "150px",
+              textAlign: "right",
+              paddingRight: "20px",
+              color: "gray",
+            }}
           >
             Username
           </label>
@@ -35,7 +40,12 @@ const ProfileUI = () => {
           }}
         >
           <label
-            style={{ width: "150px", textAlign: "right", paddingRight: "20px", color: "gray" }}
+            style={{
+              width: "150px",
+              textAlign: "right",
+              paddingRight: "20px",
+              color: "gray",
+            }}
           >
             Name
           </label>
@@ -52,7 +62,12 @@ const ProfileUI = () => {
           }}
         >
           <label
-            style={{ width: "150px", textAlign: "right", paddingRight: "20px", color: "gray" }}
+            style={{
+              width: "150px",
+              textAlign: "right",
+              paddingRight: "20px",
+              color: "gray",
+            }}
           >
             Email
           </label>
@@ -71,7 +86,12 @@ const ProfileUI = () => {
           }}
         >
           <label
-            style={{ width: "150px", textAlign: "right", paddingRight: "20px", color: "gray" }}
+            style={{
+              width: "150px",
+              textAlign: "right",
+              paddingRight: "20px",
+              color: "gray",
+            }}
           >
             Phone Number
           </label>

@@ -21,8 +21,6 @@ export default function Forgot() {
 
   const formRef = useRef();
   const [isLoading, setIsLoading] = useState(false);
-  const randomImage =
-    "https://t4.ftcdn.net/jpg/05/51/69/95/360_F_551699573_1wjaMGnizF5QeorJJIgw5eRtmq5nQnzz.jpg";
 
   const [open, setOpen] = useState(false);
   const showModal = () => {
@@ -64,7 +62,7 @@ export default function Forgot() {
     }),
     onSubmit: async (values) => {
       setIsLoading(true);
-      await fetch("http://localhost:3344/users")
+      await fetch("http://localhost:8080/api/users")
         .then((res) => res.json())
         .then((data) => {
           const foundAccountByEmail = data.find(
@@ -72,7 +70,7 @@ export default function Forgot() {
           );
           if (foundAccountByEmail) {
             sendEmail();
-            setUserId(foundAccountByEmail.user_id);
+            setUserId(foundAccountByEmail.accountId);
             setVerifyCode(emailForm.initialValues.code);
             setIsLoading(false);
             showModal();
@@ -174,7 +172,7 @@ export default function Forgot() {
                 shape="round"
                 block
                 onClick={() => {
-                  navigate(-1);
+                  navigate("/signin");
                 }}
               >
                 Back
@@ -221,7 +219,7 @@ export default function Forgot() {
                   shape="round"
                   disabled={isLoading ? true : false}
                 >
-                  {isLoading ? <LoadingOutlined /> : <p>Verify</p>}
+                  {isLoading ? <LoadingOutlined /> : <p>Verify {verifyCode}</p>}
                 </Button>
               </span>
             </form>

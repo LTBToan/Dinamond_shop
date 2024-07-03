@@ -15,6 +15,7 @@ import {
   generateCode,
   generateId,
   generatePassword,
+  generateUniqueId,
 } from "../../assistants/Generators";
 import dateFormat from "../../assistants/date.format";
 import axios from "axios";
@@ -74,7 +75,7 @@ export default function Signup() {
           if (foundUserByEmail) {
             sessionStorage.setItem("loginUserId", foundUserByEmail.accountId);
           } else {
-            const newUserId = generateId(30, "");
+            const newUserId = generateUniqueId("US", 5);
             var registerUser = {
               accountId: newUserId,
               email: decoded.email,
@@ -156,7 +157,7 @@ export default function Signup() {
       fullname: Yup.string().required("Please enter your full name"),
     }),
     onSubmit: async (values) => {
-      const newUserId = generateId(30, "");
+      const newUserId = generateUniqueId("US", 5);
       setVerifyCode(values.code);
       setRegisterUser({
         accountId: newUserId,
@@ -323,6 +324,7 @@ export default function Signup() {
               onCancel={handleCancel}
               confirmLoading={isLoading}
               footer={null}
+              centered
             >
               <form onSubmit={codeVerifyForm.handleSubmit}>
                 <h5>Please check your email for the verification code.</h5>
@@ -355,7 +357,11 @@ export default function Signup() {
                     shape="round"
                     disabled={isLoading ? true : false}
                   >
-                    {isLoading ? <LoadingOutlined /> : <p>Verify</p>}
+                    {isLoading ? (
+                      <LoadingOutlined />
+                    ) : (
+                      <p>Verify {verifyCode}</p>
+                    )}
                   </Button>
                 </span>
               </form>

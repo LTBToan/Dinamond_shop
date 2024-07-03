@@ -17,7 +17,6 @@ import Dashboard from "../../components/Admin/Dashboard/Dashboard";
 import Products from "../../components/Admin/Product/Products";
 import Orders from "../../components/Admin/Orders/Orders";
 import Inventory from "../../components/Admin/Inventory/Inventory";
-import Booking from "../../components/Admin/Booking/Booking";
 import Feedback from "../../components/Admin/Feedback/Feedback";
 import { Link } from "react-router-dom";
 
@@ -60,12 +59,6 @@ const Admin = () => {
       icon: <InboxOutlined />,
       label: "Inventory",
       onClick: () => setActiveComponent("Inventory"),
-    },
-    {
-      key: "6",
-      icon: <BookOutlined />,
-      label: "Booking",
-      onClick: () => setActiveComponent("Booking"),
     },
     {
       key: "7",
@@ -146,7 +139,6 @@ const Admin = () => {
           {activeComponent === "Orders" && <Orders />}
           {activeComponent === "Products" && <Products />}
           {activeComponent === "Inventory" && <Inventory />}
-          {activeComponent === "Booking" && <Booking />}
           {activeComponent === "Feedback" && <Feedback />}
         </Content>
       </Layout>

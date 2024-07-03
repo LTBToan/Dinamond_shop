@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Flex, Typography, Image, Button } from "antd";
-import { useParams,  } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import Navbar from "../../components/Navbar/Navbar";
 import Footer from "../../components/Home/Footer";
 import styles from "./Profile.module.css";

@@ -12,8 +12,10 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { jwtDecode } from "jwt-decode";
 import eFurniLogo from "../../assets/logos/logoDia.png";
-import { generateId, generatePassword } from "../../assistants/Generators";
-import dateFormat from "../../assistants/date.format";
+import {
+  generateUniqueId,
+  generatePassword,
+} from "../../assistants/Generators";
 import axios from "axios";
 
 import Navbar from "../../components/Navbar/Navbar";
@@ -56,30 +58,28 @@ export default function Signin() {
         decoded.email
       );
 
-      await fetch("http://localhost:3344/users")
+      await fetch("http://localhost:8080/api/users")
         .then((res) => res.json())
         .then((data) => {
           var foundUserByEmail = data.find(
             (account) => account.email === decoded.email
           );
           if (foundUserByEmail) {
-            sessionStorage.setItem("loginUserId", foundUserByEmail.user_id);
+            sessionStorage.setItem("loginUserId", foundUserByEmail.accountId);
           } else {
-            const newUserId = generateId(30, "");
-            const createAt = dateFormat(new Date(), "yyyy/mm/dd HH:MM:ss");
+            const newUserId = generateUniqueId("US", 5);
             var registerUser = {
-              user_id: newUserId,
+              accountId: newUserId,
               email: decoded.email,
               password: generatePassword(20),
+              username: decoded.name,
               fullName: decoded.name,
-              role_id: "US",
-              phone: "",
-              create_at: createAt,
-              status: true,
-              efpoint: 0,
+              role: "US",
+              phonenumber: "",
+              address: "",
             };
             axios
-              .post("http://localhost:3344/users", registerUser)
+              .post("http://localhost:8080/api/users", registerUser)
               .then(() => {
                 console.log(
                   "A new account has been created by email ",

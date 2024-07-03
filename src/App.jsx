@@ -14,9 +14,6 @@ import Cart from "./pages/Cart/Cart";
 import OrderList from "./pages/Order/OrderList";
 import OrderStatus from "./pages/Order/OrderStatus";
 import ContactPage from "./pages/Contact/ContactPage";
-import BookingPage from "./pages/Booking/BookingPage";
-import AddAddressModal from "./components/AddAddressModal/AddAddressModal";
-import Checkout from "./pages/Checkout/Checkout";
 import SearchResult from "./pages/Search/SearchResult";
 import ProductList from "./pages/Product/ProductListPage";
 import Profile from "./pages/TestProfile/ProfilePage";
@@ -54,9 +51,6 @@ function App() {
       <Route path="/orderStatus" element={<OrderStatus />} />
       <Route path="/admin" element={<AdminPage />} />
       <Route path="/contact" element={<ContactPage />} />
-      <Route path="/bookings/:id" element={<BookingPage />} />
-      <Route path="/test-modal" element={<AddAddressModal />} />
-      <Route path="test-checkout" element={<Checkout />} />
       <Route path="/search" element={<SearchResult />} />
 
       <Route
