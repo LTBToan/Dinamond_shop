@@ -34,7 +34,7 @@ const Herosection = () => {
             <Button
               size="large"
               className={styles.bannerButton}
-              onClick={() => navigate("/products")}
+              onClick={() => navigate("/category/earrings")}
             >
               Discover More
             </Button>
@@ -57,7 +57,7 @@ const Herosection = () => {
             <Button
               size="large"
               className={styles.bannerButton}
-              onClick={() => navigate("/products")}
+              onClick={() => navigate("/category/ring")}
             >
               Discover More
             </Button>
@@ -79,7 +79,7 @@ const Herosection = () => {
             <Button
               size="large"
               className={styles.bannerButton}
-              onClick={() => navigate("/products")}
+              onClick={() => navigate("/category/bracelet")}
             >
               Discover More
             </Button>
@@ -101,7 +101,7 @@ const Herosection = () => {
             <Button
               size="large"
               className={styles.bannerButton}
-              onClick={() => navigate("/products")}
+              onClick={() => navigate("/category/necklace")}
             >
               Discover More
             </Button>

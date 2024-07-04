@@ -19,6 +19,7 @@ import RelatedProducts from "../../components/Related Products/RelatedProducts";
 import Footer from "../../components/Home/Footer";
 import SizeGuide from "./SizeGuide";
 import { useCart } from "../../context/CartContext";
+import { useFormik } from "formik";
 
 export default function Product() {
   const userId = sessionStorage.getItem("loginUserId");
@@ -30,7 +31,7 @@ export default function Product() {
     imageLink: "",
     description: "",
     productPrice: "",
-    category_name: "",
+    categoryId: "",
     status: 0,
   });
   const { id } = useParams();
@@ -52,6 +53,8 @@ export default function Product() {
     fetchProductInfo();
   }, []);
 
+  console.log("csas: ", currentProduct);
+
   const onQuantityChange = (value) => {
     if (value) setQuantity(value);
   };
@@ -72,6 +75,41 @@ export default function Product() {
       quantity
     );
   };
+
+  const buyNowForm = useFormik({
+    initialValues: {
+      quantity: quantity,
+    },
+    enableReinitialize: true,
+    onSubmit: async (values) => {
+      console.log("Buy now form values: ", values);
+      try {
+        await axios
+          .post("http://localhost:8080/api/payment/create_payment", {
+            items: [
+              {
+                productId: id,
+                productName: currentProduct.productName,
+                quantity: values.quantity,
+                // price: currentProduct.productPrice,
+                price: 100000,
+              },
+            ],
+            orderInfo: id,
+            bankCode: "VNBANK",
+            orderType: "other",
+          })
+          .then((res) => {
+            const responseData = res.data.url;
+            window.location.href = responseData;
+            console.log("Post order: ", res.data);
+          })
+          .catch((err) => console.log(err));
+      } catch (err) {
+        console.log("Error: ", err);
+      }
+    },
+  });
 
   return (
     <>
@@ -127,8 +165,12 @@ export default function Product() {
 
               <Divider my="4" borderColor="gray.400" />
 
-              <HStack spacing="4">
-                <Button onClick={decreaseQuantity} isDisabled={quantity <= 1}>
+              <HStack spacing="3">
+                <Button
+                  border="none"
+                  onClick={decreaseQuantity}
+                  isDisabled={quantity <= 1}
+                >
                   <MinusIcon />
                 </Button>
                 <Input
@@ -138,25 +180,35 @@ export default function Product() {
                   w="60px"
                   textAlign="center"
                 />
-                <Button onClick={increaseQuantity} isDisabled={quantity >= 20}>
+                <Button
+                  border="none"
+                  onClick={increaseQuantity}
+                  isDisabled={quantity >= 20}
+                >
                   <AddIcon />
                 </Button>
+                <Button
+                  p={5}
+                  bgColor="black"
+                  color="white"
+                  border="none"
+                  borderRadius="50px"
+                  onClick={handleAddToCart}
+                  fontSize="14px"
+                >
+                  Add to Cart
+                </Button>
               </HStack>
-              <Button
-                mt="4"
-                colorScheme="teal"
-                border="none"
-                onClick={handleAddToCart}
-              >
-                ADD TO BAG
-              </Button>
+
               <Button
                 mt="4"
                 border="none"
-                colorScheme="yellow"
-                // onClick={buyNowForm.handleSubmit}
+                bgColor="yellow.400"
+                fontSize="18px"
+                w="49%"
+                onClick={buyNowForm.handleSubmit}
               >
-                BUY NOW
+                Buy it now
               </Button>
 
               <Divider my="4" borderColor="gray.400" />
@@ -193,7 +245,7 @@ export default function Product() {
           </Flex>
 
           <SizeGuide />
-          <RelatedProducts />
+          <RelatedProducts categoryId={currentProduct.categoryId} />
         </>
       )}
       <Footer />

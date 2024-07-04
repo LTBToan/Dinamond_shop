@@ -26,12 +26,12 @@ const Home = () => {
         <ProductsOfTheWeek />
         <AboutUs />
         <FeatureCollection />
+        <UpcomingCollections />
+        <BlueBanner />
+        <Chatbot />
+        <Features />
+        <Footer />
       </Fade>
-      <UpcomingCollections />
-      <BlueBanner />
-      <Chatbot />
-      <Features />
-      <Footer />
     </div>
   );
 };

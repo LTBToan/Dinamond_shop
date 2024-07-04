@@ -1,7 +1,27 @@
 import { Button } from "antd";
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 
 const ProfileUI = () => {
+  const userId = useParams();
+  const [user, setUser] = useState({});
+
+  const fetchUserData = async () => {
+    await axios
+      .get(`http://localhost:8080/api/users/${userId.id}`)
+      .then((res) => {
+        setUser(res.data);
+      })
+      .catch((err) => console.log(err));
+  };
+
+  useEffect(() => {
+    fetchUserData();
+  }, []);
+
+  console.log("DASXAX: ", user);
+
   return (
     <div style={{ flex: "1", padding: "20px" }}>
       <h2>My Profile</h2>
@@ -27,7 +47,7 @@ const ProfileUI = () => {
           </label>
           <input
             type="text"
-            value="gb4x4u_5hf"
+            value={user.username}
             readOnly
             style={{ flex: "1", padding: "10px", marginTop: "5px" }}
           />
@@ -72,7 +92,7 @@ const ProfileUI = () => {
             Email
           </label>
           <div style={{ flex: "1", display: "flex", alignItems: "center" }}>
-            us*************@gmail.com
+            {user.email}
             <Button style={{ border: "none" }} type="link">
               Change
             </Button>

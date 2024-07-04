@@ -5,7 +5,6 @@ import { Link } from "react-router-dom";
 import {
   LoginOutlined,
   LogoutOutlined,
-  SearchOutlined,
   ShoppingCartOutlined,
   UserOutlined,
 } from "@ant-design/icons";
@@ -277,27 +276,16 @@ const Navbar = () => {
       </div>
 
       <div className="right">
-        {/* <button
-          className="iconButton"
-          onClick={() => (window.location.href = `/search`)}
-        >
-          <SearchOutlined style={{ fontSize: "150%", marginRight: "20px"  }} />
-        </button> */}
         {currentUser ? (
           <>
             <Tooltip title="Cart">
-              <Badge
-                style={{ marginRight: "35px", marginTop: "8px" }}
-                count={cartItems.length}
-                showZero={true}
-                title=""
-              >
+              <Badge count={cartItems.length} showZero={true} title="">
                 <button
                   className="iconButton"
                   style={{ backgroundColor: "white", color: "black" }}
                   onClick={() => (window.location.href = "/cart")}
                 >
-                  <ShoppingCartOutlined style={{ fontSize: "180%" }} />
+                  <ShoppingCartOutlined style={{ fontSize: "150%" }} />
                 </button>
               </Badge>
             </Tooltip>
@@ -315,7 +303,7 @@ const Navbar = () => {
             <Tooltip title="Log out">
               <button
                 style={{ marginRight: "20px" }}
-                className="logButton"
+                className="iconButton"
                 onClick={logout}
               >
                 <LogoutOutlined style={{ fontSize: "150%" }} />

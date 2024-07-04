@@ -1,19 +1,21 @@
 import styles from "../../css/related.module.css";
 import { useState, useEffect } from "react";
-import { Typography, Card, Divider, Flex, Image } from "antd";
+import { Typography, Card, Divider, Flex } from "antd";
+import { ChakraProvider, Text } from "@chakra-ui/react";
 import axios from "axios";
 
-export default function RelatedProducts() {
-  const { Text } = Typography;
-  const [isLoading, setIsLoading] = useState(false);
+export default function RelatedProducts({ categoryId }) {
+  // const { Text } = Typography;
   const [dataSource, setDataSource] = useState([]);
   const navigate = (toUrl) => {
     window.location.href = toUrl;
   };
 
+  console.log("casxxxx: ", categoryId);
+
   const fetchRelatedProducts = async () => {
     await axios
-      .get("http://localhost:8080/api/products/all")
+      .get(`http://localhost:8080/api/products/get/category/${categoryId}`)
       .then((res) => {
         setDataSource(res.data);
       })
@@ -25,47 +27,50 @@ export default function RelatedProducts() {
   }, []);
 
   return (
-    <div style={{ display: "block" }}>
-      <Divider orientation="left">
-        <Text className={styles.title}>OTHER PRODUCTS</Text>
-      </Divider>
-      <Flex justify="center" align="center">
-        <div className={styles.container}>
-          {dataSource.map((item) => (
-            <Card
-              hoverable
-              style={{
-                width: 200,
-                height: 250,
-              }}
-              onClick={() => {
-                navigate(`/products/${item.productId}`);
-                location.reload();
-              }}
-            >
-              <div className={styles.productImageSection}>
-                <img alt="" src={item.imageLink} />
-              </div>
-              <div className={styles.infoSection}>
-                <Text
-                  strong
-                  style={{ fontWeight: "700", fontSize: "130%" }}
-                  className={styles.itemName}
+    <>
+      <ChakraProvider>
+        <div style={{ display: "block" }}>
+          <Divider orientation="left">
+            <Text className={styles.title}>Related Product</Text>
+          </Divider>
+          <Flex justify="center" align="center">
+            <div className={styles.container}>
+              {dataSource.map((item) => (
+                <Card
+                  hoverable
+                  style={{
+                    width: 200,
+                    height: 250,
+                  }}
+                  onClick={() => {
+                    navigate(`/products/${item.productId}`);
+                  }}
                 >
-                  {item.productName}
-                </Text>
-                <Text type="secondary" italic style={{ fontWeight: "400" }}>
-                  <Text delete={item.status === 0}>
-                    {item.productPrice}&ensp; $
-                  </Text>
-                  &ensp;
-                  {item.status === 0 ? "SOLD OUT" : ""}
-                </Text>
-              </div>
-            </Card>
-          ))}
+                  <div className={styles.productImageSection}>
+                    <img alt="" src={item.imageLink} />
+                  </div>
+                  <div className={styles.infoSection}>
+                    <Text
+                      strong
+                      style={{ fontWeight: "700", fontSize: "130%" }}
+                      className={styles.itemName}
+                    >
+                      {item.productName}
+                    </Text>
+                    <Text type="secondary" italic style={{ fontWeight: "400" }}>
+                      <Text delete={item.status === 0}>
+                        {item.productPrice}&ensp; $
+                      </Text>
+                      &ensp;
+                      {item.status === 0 ? "SOLD OUT" : ""}
+                    </Text>
+                  </div>
+                </Card>
+              ))}
+            </div>
+          </Flex>
         </div>
-      </Flex>
-    </div>
+      </ChakraProvider>
+    </>
   );
 }

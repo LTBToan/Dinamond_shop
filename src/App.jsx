@@ -15,7 +15,7 @@ import OrderList from "./pages/Order/OrderList";
 import OrderStatus from "./pages/Order/OrderStatus";
 import ContactPage from "./pages/Contact/ContactPage";
 import SearchResult from "./pages/Search/SearchResult";
-import ProductList from "./pages/Product/ProductListPage";
+// import ProductList from "./pages/Product/ProductListPage";
 import Profile from "./pages/TestProfile/ProfilePage";
 import PayStatus from "./pages/Payment/PaymentSuccess";
 
@@ -24,7 +24,14 @@ import { ChakraProvider } from "@chakra-ui/react";
 function App() {
   return (
     <Routes>
-      <Route path="/" element={<Home />} />
+      <Route
+        path="/"
+        element={
+          <ChakraProvider>
+            <Home />
+          </ChakraProvider>
+        }
+      />
       <Route path="/signin" element={<Signin />} />
       <Route path="/signup" element={<Signup />} />
       <Route path="/signup/email" element={<EmailSignup />} />
@@ -51,17 +58,24 @@ function App() {
       <Route path="/order" element={<OrderList />} />
       <Route path="/orderStatus" element={<OrderStatus />} />
       <Route path="/admin" element={<AdminPage />} />
-      <Route path="/contact" element={<ContactPage />} />
+      <Route
+        path="/contact"
+        element={
+          <ChakraProvider>
+            <ContactPage />
+          </ChakraProvider>
+        }
+      />
       <Route path="/search" element={<SearchResult />} />
 
-      <Route
+      {/* <Route
         path="/products"
         element={
           <ChakraProvider>
             <ProductList />
           </ChakraProvider>
         }
-      />
+      /> */}
       <Route
         path="/products/:id"
         element={

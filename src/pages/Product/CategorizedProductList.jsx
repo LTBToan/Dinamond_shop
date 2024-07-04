@@ -28,6 +28,7 @@ import { faGrip, faList } from "@fortawesome/free-solid-svg-icons";
 import { useParams } from "react-router-dom";
 import { getProductByCategory } from "../../api/productAPI";
 import { getAllDiamond, getAllMaterial, getAllShell } from "../../api/shellAPI";
+import "../../components/ProductList/ProductList.css";
 
 import Navbar from "../../components/Navbar/Navbar";
 import Footer from "../../components/Home/Footer";

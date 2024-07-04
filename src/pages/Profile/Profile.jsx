@@ -17,7 +17,7 @@ export default function Profile() {
 
   const fetchUserData = async () => {
     await axios
-      .get(`http://localhost:3344/users/${userId.id}`)
+      .get(`http://localhost:8080/api/users/${userId.id}`)
       .then((res) => {
         setUser(res.data[0]);
       })

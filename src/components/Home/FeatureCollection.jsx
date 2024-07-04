@@ -11,12 +11,18 @@ const ProductsOfTheWeek = () => {
   };
 
   const fetchProductsOfTheWeek = async () => {
-    await axios
-      .get("http://localhost:3344/productsOfTheWeek")
-      .then((res) => {
-        setDataSource(res.data);
-      })
-      .catch((err) => console.log(err.message));
+    try {
+      const response = await axios.get(
+        "http://localhost:8080/api/products/all"
+      );
+      const allProducts = response.data;
+      const shuffledProducts = allProducts.sort(() => 0.5 - Math.random());
+      const randomProducts = shuffledProducts.slice(0, 4);
+
+      setDataSource(randomProducts);
+    } catch (error) {
+      console.log(error.message);
+    }
   };
 
   useEffect(() => {
@@ -36,10 +42,11 @@ const ProductsOfTheWeek = () => {
           <Card
             hoverable
             style={{ width: 300, backgroundColor: "#f8f8f8" }}
-            cover={<img alt="" src={item.image_url} />}
+            cover={<img alt="" src={item.imageLink} />}
             bodyStyle={{ backgroundColor: "white" }}
+            onClick={() => navigate(`/products/${item.productId}`)}
           >
-            <Meta title={item.name} description={item.price} />
+            <Meta title={item.productName} description={item.productPrice} />
           </Card>
           // <div
           //   className={styles.productContainer}
