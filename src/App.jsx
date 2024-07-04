@@ -17,6 +17,7 @@ import ContactPage from "./pages/Contact/ContactPage";
 import SearchResult from "./pages/Search/SearchResult";
 import ProductList from "./pages/Product/ProductListPage";
 import Profile from "./pages/TestProfile/ProfilePage";
+import PayStatus from "./pages/Payment/PaymentSuccess";
 
 import { ChakraProvider } from "@chakra-ui/react";
 
@@ -66,6 +67,15 @@ function App() {
         element={
           <ChakraProvider>
             <Product />
+          </ChakraProvider>
+        }
+      />
+
+      <Route
+        path="/payment-status"
+        element={
+          <ChakraProvider>
+            <PayStatus />
           </ChakraProvider>
         }
       />

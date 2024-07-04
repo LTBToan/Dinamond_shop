@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   Box,
   Flex,
@@ -15,6 +15,7 @@ import Navbar from "../../components/Navbar/Navbar.jsx";
 import axios from "axios";
 import CartItem from "./CartItem.jsx";
 import CartDetailList from "./CartDetailList.jsx";
+import { generateUniqueId } from "../../assistants/Generators.js";
 
 export default function Cart() {
   const navigate = (toUrl) => {
@@ -27,6 +28,7 @@ export default function Cart() {
   const [user, setUser] = useState({});
   const [totalAmount, setTotalAmount] = useState(0);
   const [loading, setLoading] = useState(true);
+  const cartFetched = useRef(false);
 
   const getTotalPrice = (price) => {
     setTotalAmount((c) => c + price / 2);
@@ -44,19 +46,36 @@ export default function Cart() {
       }
     };
 
-    const fetchCartItems = async () => {
+    const fetchCartData = async () => {
+      if (cartFetched.current) return;
+
       try {
         const res = await axios.get(
           `http://localhost:8080/api/carts/get/user/${currentUserId}`
         );
-        setCart(res.data[0]);
+        if (res.data.length > 0) {
+          setCart(res.data[0]);
+        } else {
+          const newCartId = generateUniqueId("C", 3);
+          // Create a new cart if no cart data is found
+          const newCart = await axios.post(
+            `http://localhost:8080/api/carts/add`,
+            {
+              cartId: newCartId,
+              accountId: currentUserId,
+              totalPrice: 0,
+            }
+          );
+          setCart(newCart.data);
+        }
+        cartFetched.current = true;
       } catch (err) {
         console.log(err);
       }
     };
 
     fetchUserData();
-    fetchCartItems();
+    fetchCartData();
   }, [currentUserId]);
 
   useEffect(() => {
@@ -82,20 +101,20 @@ export default function Cart() {
 
   const handleCheckout = async () => {
     try {
-      await axios
-        .post("http://localhost:8080/api/payment/create_payment", {
+      const res = await axios.post(
+        "http://localhost:8080/api/payment/create_payment",
+        {
           items: cartItems,
           orderInfo: "Thanh toan",
           bankCode: "VNBANK",
           orderType: "other",
-        })
-        .then((res) => {
-          const responseData = res.data.url;
-          window.location.href = responseData;
-          console.log("Post order: ", res.data);
-        });
+        }
+      );
+      const responseData = res.data.url;
+      window.location.href = responseData;
+      console.log("Post order: ", res.data);
     } catch (error) {
-      console.log("Error: ", err);
+      console.log("Error: ", error);
     }
   };
 
@@ -106,7 +125,7 @@ export default function Cart() {
         <Flex justify="center" align="center" height="80vh">
           <Spinner size="xl" />
         </Flex>
-      ) : cartItems.length === 0 ? (
+      ) : !cart || cartItems.length === 0 ? (
         <Flex direction="column" align="center" my={40}>
           <Image
             src="https://www.iconpacks.net/icons/2/free-shopping-cart-icon-1985-thumb.png"
