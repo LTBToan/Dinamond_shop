@@ -49,3 +49,35 @@ th {
   font-size: 120%;
   font-weight: 700;
 }
+
+/* Add this CSS to your Order.module.css or another appropriate CSS file */
+.pagination {
+  display: flex;
+  justify-content: center;
+  padding: 1rem;
+  list-style: none;
+}
+
+.pagination li {
+  margin: 0 0.5rem;
+}
+
+.pagination li a {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 0.25rem;
+  text-decoration: none;
+  color: #007bff;
+}
+
+.pagination li.active a {
+  background-color: #007bff;
+  color: white;
+  border-color: #007bff;
+}
+
+.pagination li.disabled a {
+  color: #6c757d;
+  pointer-events: none;
+  cursor: auto;
+}

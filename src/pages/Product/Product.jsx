@@ -155,16 +155,24 @@ export default function Product() {
                 m="auto"
               />
             </Box>
-            <Box p="4" w="50%">
+            <Box w="50%">
               <Text fontSize="36px" fontWeight="600">
                 {currentProduct.productName}
               </Text>
-              <Text fontSize="xl" color="gray.500">
+              <Text fontSize="14px" color="gray.500">
+                Code: {currentProduct.productId}
+              </Text>
+              <Text fontSize="xl" color="yellow.500" fontWeight="600">
                 {currentProduct.productPrice} $
               </Text>
-
+              <Text fontSize="16px">
+                Availability:{" "}
+                <span style={{ color: "#d69e2e" }}>
+                  {" "}
+                  {currentProduct.quantity} in stock
+                </span>
+              </Text>
               <Divider my="4" borderColor="gray.400" />
-
               <HStack spacing="3">
                 <Button
                   border="none"
@@ -205,7 +213,7 @@ export default function Product() {
                 border="none"
                 bgColor="yellow.400"
                 fontSize="18px"
-                w="49%"
+                w="46%"
                 onClick={buyNowForm.handleSubmit}
               >
                 Buy it now

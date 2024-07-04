@@ -1,15 +1,14 @@
 import { Button } from "antd";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
 
 const ProfileUI = () => {
-  const userId = useParams();
   const [user, setUser] = useState({});
+  const currentUserId = sessionStorage.getItem("loginUserId");
 
   const fetchUserData = async () => {
     await axios
-      .get(`http://localhost:8080/api/users/${userId.id}`)
+      .get(`http://localhost:8080/api/users/${currentUserId}`)
       .then((res) => {
         setUser(res.data);
       })

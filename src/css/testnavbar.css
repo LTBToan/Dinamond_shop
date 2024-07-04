@@ -82,9 +82,10 @@
   flex: 1;
   margin: 0 10px;
 }
-.mega-menu-section h4 {
+.mega-menu-section h5 {
+  text-decoration: "#d4af37";
   margin-bottom: 10px;
-  font-size: 16px;
+  font-size: 18px;
   font-weight: bold;
 }
 .mega-menu-section ul {

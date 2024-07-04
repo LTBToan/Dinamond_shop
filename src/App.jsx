@@ -37,7 +37,15 @@ function App() {
       <Route path="/signup/email" element={<EmailSignup />} />
       <Route path="/forgot" element={<Forgot />} />
       <Route path="/reset/:id" element={<Reset />} />
-      <Route path="/profile/:id" element={<Profile />} />
+
+      <Route
+        path="/profile/:id"
+        element={
+          <ChakraProvider>
+            <Profile />
+          </ChakraProvider>
+        }
+      />
 
       <Route
         path="/category/:name"
