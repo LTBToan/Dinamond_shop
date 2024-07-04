@@ -10,7 +10,6 @@ export default function CategorizedList({ name }) {
     window.location.href = toUrl;
   };
 
-
   const [productDataSource, setProductDataSource] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [page, setPage] = useState(1);
@@ -83,12 +82,15 @@ export default function CategorizedList({ name }) {
               </div>
               <div className={styles.infoSection}>
                 <Tooltip title={item.name}>
-                  <Text strong className={styles.productName}>
-                    {item.name}
-                  </Text>
+                  <Text className={styles.productName}>{item.name}</Text>
                 </Tooltip>
-                <Text type="secondary" italic style={{ fontWeight: "400" }}>
-                  <Text delete={item.status === 0}>{item.price} $</Text>&ensp;
+                <Text type="secondary" style={{ fontWeight: "400" }}>
+                  <Text
+                  // delete={item.status === 0}
+                  >
+                    {item.price} $
+                  </Text>
+                  &ensp;
                   {item.status === 0 ? "SOLD OUT" : ""}
                 </Text>
               </div>

@@ -23,7 +23,6 @@ import { useFormik } from "formik";
 import { generateUniqueId } from "../../assistants/Generators";
 
 export default function Product() {
-  const userId = sessionStorage.getItem("loginUserId");
   const { addToCart } = useCart();
   const [quantity, setQuantity] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
@@ -53,8 +52,6 @@ export default function Product() {
   useEffect(() => {
     fetchProductInfo();
   }, []);
-
-  console.log("csas: ", currentProduct);
 
   const onQuantityChange = (value) => {
     if (value) setQuantity(value);
@@ -253,7 +250,7 @@ export default function Product() {
             </Box>
           </Flex>
 
-          <SizeGuide />
+          <SizeGuide categoryId={currentProduct.categoryId} />
           <RelatedProducts categoryId={currentProduct.categoryId} />
         </>
       )}

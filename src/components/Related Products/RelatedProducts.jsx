@@ -37,6 +37,7 @@ export default function RelatedProducts({ categoryId }) {
             <div className={styles.container}>
               {dataSource.map((item) => (
                 <Card
+                  key={item.productId}
                   hoverable
                   style={{
                     width: 200,
@@ -51,14 +52,15 @@ export default function RelatedProducts({ categoryId }) {
                   </div>
                   <div className={styles.infoSection}>
                     <Text
-                      strong
                       style={{ fontWeight: "700", fontSize: "130%" }}
                       className={styles.itemName}
                     >
                       {item.productName}
                     </Text>
-                    <Text type="secondary" italic style={{ fontWeight: "400" }}>
-                      <Text delete={item.status === 0}>
+                    <Text type="secondary" style={{ fontWeight: "400" }}>
+                      <Text
+                      // delete={item.status === 0}
+                      >
                         {item.productPrice}&ensp; $
                       </Text>
                       &ensp;
