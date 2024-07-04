@@ -18,8 +18,6 @@ export default function CartItem({ productId, quantity }) {
     fetchProduct();
   }, [quantity]);
 
-  console.log("DADADxxxx: ", cartProduct);
-
   return (
     <>
       <Flex justify="space-between" align="center">
@@ -34,7 +32,10 @@ export default function CartItem({ productId, quantity }) {
       <Divider />
       <Flex justify="space-between" w="100%" mt={4} mb={4}>
         <Text fontSize="xl" fontWeight="bold">
-          Total: {Math.round(cartProduct.productPrice * quantity * 100) / 100}$
+          Total:
+        </Text>
+        <Text fontSize="xl" fontWeight="bold">
+          {Math.round(cartProduct.productPrice * quantity * 100) / 100}$
         </Text>
       </Flex>
     </>

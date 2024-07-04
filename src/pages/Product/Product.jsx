@@ -13,16 +13,16 @@ import {
 } from "@chakra-ui/react";
 import { CheckIcon, MinusIcon, AddIcon } from "@chakra-ui/icons";
 import { useParams } from "react-router-dom";
-import { useFormik } from "formik";
 import axios from "axios";
-import { generateId } from "../../assistants/Generators";
 import Navbar from "../../components/Navbar/Navbar";
 import RelatedProducts from "../../components/Related Products/RelatedProducts";
 import Footer from "../../components/Home/Footer";
 import SizeGuide from "./SizeGuide";
+import { useCart } from "../../context/CartContext";
 
 export default function Product() {
   const userId = sessionStorage.getItem("loginUserId");
+  const { addToCart } = useCart();
   const [quantity, setQuantity] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const [currentProduct, setCurrentProduct] = useState({
@@ -64,93 +64,14 @@ export default function Product() {
     if (quantity < 20) setQuantity((currentQuantity) => currentQuantity + 1);
   };
 
-  console.log("currentProduct: ", currentProduct);
-
-  const addToCartForm = useFormik({
-    enableReinitialize: true,
-    initialValues: {
-      quantity: quantity,
-    },
-    onSubmit: (values) => {
-      console.log("Form values: ", values);
-      const newCartId = generateId("C", 3);
-      axios
-        .get(`http://localhost:8080/api/carts/get/user/${userId}`)
-        .then(async (res) => {
-          console.log("sa:", res.data[0]?.cartId);
-
-          if (res.data.length > 0) {
-            // User has a cart
-            const cartId = res.data[0].cartId;
-            return axios.post(`http://localhost:8080/api/carts/product/add`, {
-              cartId: cartId,
-              productId: id,
-              productName: currentProduct.productName,
-              quantity: values.quantity,
-              price: currentProduct.productPrice,
-            });
-          } else {
-            // User doesn't have a cart, create one first
-            await axios.post(`http://localhost:8080/api/carts/add`, {
-              cartId: newCartId,
-              accountId: userId,
-              totalPrice: 0,
-            });
-            return await axios.post(
-              `http://localhost:8080/api/carts/products/add`,
-              {
-                cartId: newCartId,
-                productId: id,
-                prodName: currentProduct.productName,
-                quantity: values.quantity,
-                price: currentProduct.productPrice,
-              }
-            );
-          }
-        })
-        .then((result) => {
-          console.log("Item added: ", result.data);
-        })
-        .catch((err) => {
-          console.log(err.message);
-        });
-    },
-  });
-
-  const buyNowForm = useFormik({
-    initialValues: {
-      quantity: quantity,
-    },
-    enableReinitialize: true,
-    onSubmit: async (values) => {
-      console.log("Buy now form values: ", values);
-      try {
-        await axios
-          .post("http://localhost:8080/api/payment/create_payment", {
-            items: [
-              {
-                productId: id,
-                productName: currentProduct.productName,
-                quantity: values.quantity,
-                // price: currentProduct.productPrice,
-                price: 100000,
-              },
-            ],
-            orderInfo: id,
-            bankCode: "VNBANK",
-            orderType: "other",
-          })
-          .then((res) => {
-            const responseData = res.data.url;
-            window.location.href = responseData;
-            console.log("Post order: ", res.data);
-          })
-          .catch((err) => console.log(err));
-      } catch (err) {
-        console.log("Error: ", err);
-      }
-    },
-  });
+  const handleAddToCart = () => {
+    addToCart(
+      id,
+      currentProduct.productName,
+      currentProduct.productPrice,
+      quantity
+    );
+  };
 
   return (
     <>
@@ -225,7 +146,7 @@ export default function Product() {
                 mt="4"
                 colorScheme="teal"
                 border="none"
-                onClick={addToCartForm.handleSubmit}
+                onClick={handleAddToCart}
               >
                 ADD TO BAG
               </Button>
@@ -233,7 +154,7 @@ export default function Product() {
                 mt="4"
                 border="none"
                 colorScheme="yellow"
-                onClick={buyNowForm.handleSubmit}
+                // onClick={buyNowForm.handleSubmit}
               >
                 BUY NOW
               </Button>

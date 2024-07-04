@@ -118,20 +118,13 @@
 }
 
 .iconButton {
-  background-color: #1a1a1a;
-  color: #fff;
-  border: solid 1px #fff;
-  margin: 0 3%;
-  transition: background-color 0.3s ease, border-color 0.3s ease;
-}
+  border: none;
 
-.iconButton:hover {
-  border-color: #d4af37;
-  background-color: #2e2e2e;
 }
 
 .logButton {
   background-color: #fff;
+  margin-right: 200px;
   color: #000;
   margin: 0 3% 0 0;
   transition: background-color 0.3s ease, border-color 0.3s ease;

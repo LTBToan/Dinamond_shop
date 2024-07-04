@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import eFurniLogo from "../../assets/logos/diamondlogo.png";
 import "../../css/testnavbar.css";
 import { Link } from "react-router-dom";
@@ -12,10 +12,12 @@ import {
 import { Badge, Tooltip } from "antd";
 import axios from "axios";
 
+import { CartContext } from "../../context/CartContext";
+
 const Navbar = () => {
   const currentUserId = sessionStorage.getItem("loginUserId");
   const [currentUser, setCurrentUser] = useState(null);
-  const [userCart, setUserCart] = useState({ products: [] });
+  const { cartItems } = useContext(CartContext);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -29,19 +31,7 @@ const Navbar = () => {
       }
     };
 
-    const fetchUserCartData = async () => {
-      if (currentUserId) {
-        await axios
-          .get(`http://localhost:8080/api/carts/get/user/${currentUserId}`)
-          .then((res) => {
-            setUserCart(res.data[0] || { products: [] });
-          })
-          .catch((err) => console.log(err.message));
-      }
-    };
-
     fetchUserData();
-    fetchUserCartData();
   }, [currentUserId]);
 
   const logout = () => {
@@ -61,7 +51,7 @@ const Navbar = () => {
           <img className="logo" src={eFurniLogo} alt="" />
         </Link>
       </div>
-      <div style={{ display: "flex", marginRight: "100px" }}>
+      <div style={{ display: "flex", marginRight: "80px" }}>
         {/* Menu Items */}
         <div className="menu-item">
           <span onClick={() => (window.location.href = "/category/ring")}>
@@ -287,29 +277,34 @@ const Navbar = () => {
       </div>
 
       <div className="right">
-        <button
+        {/* <button
           className="iconButton"
           onClick={() => (window.location.href = `/search`)}
         >
-          <SearchOutlined style={{ color: "#FFF", fontSize: "150%" }} />
-        </button>
+          <SearchOutlined style={{ fontSize: "150%", marginRight: "20px"  }} />
+        </button> */}
         {currentUser ? (
           <>
             <Tooltip title="Cart">
-              <Badge count={userCart.products.length} showZero={true} title="">
+              <Badge
+                style={{ marginRight: "35px", marginTop: "8px" }}
+                count={cartItems.length}
+                showZero={true}
+                title=""
+              >
                 <button
                   className="iconButton"
+                  style={{ backgroundColor: "white", color: "black" }}
                   onClick={() => (window.location.href = "/cart")}
                 >
-                  <ShoppingCartOutlined
-                    style={{ color: "#FFF", fontSize: "180%" }}
-                  />
+                  <ShoppingCartOutlined style={{ fontSize: "180%" }} />
                 </button>
               </Badge>
             </Tooltip>
             <Tooltip title="Profile">
               <button
                 className="iconButton"
+                style={{ backgroundColor: "white", color: "black" }}
                 onClick={() =>
                   (window.location.href = `/profile/${currentUserId}`)
                 }
@@ -318,7 +313,11 @@ const Navbar = () => {
               </button>
             </Tooltip>
             <Tooltip title="Log out">
-              <button className="logButton" onClick={logout}>
+              <button
+                style={{ marginRight: "20px" }}
+                className="logButton"
+                onClick={logout}
+              >
                 <LogoutOutlined style={{ fontSize: "150%" }} />
               </button>
             </Tooltip>
