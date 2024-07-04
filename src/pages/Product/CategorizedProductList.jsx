@@ -26,7 +26,10 @@ import ReactPaginate from "react-paginate";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGrip, faList } from "@fortawesome/free-solid-svg-icons";
 import { useParams } from "react-router-dom";
-import { getProductByCategory } from "../../api/productAPI";
+import {
+  getProductByCategory,
+  getProductByMaterial,
+} from "../../api/productAPI";
 import { getAllDiamond, getAllMaterial, getAllShell } from "../../api/shellAPI";
 import "../../components/ProductList/ProductList.css";
 
@@ -152,15 +155,21 @@ const ProductList = () => {
 
     // Filter by materials
     if (filters.materials.length > 0) {
-      const hasMaterial = shellData.some(
-        (shellItem) =>
-          filters.materials.includes(shellItem.materialID) &&
-          shellItem.shellId === product.shellId
-      );
-      if (!hasMaterial) {
+      if (!filters.materials.includes(product.materialId)) {
         return false;
       }
     }
+
+    // if (filters.materials.length > 0) {
+    //   const hasMaterial = shellData.some(
+    //     (shellItem) =>
+    //       filters.materials.includes(shellItem.materialID) &&
+    //       shellItem.shellId === product.shellId
+    //   );
+    //   if (!hasMaterial) {
+    //     return false;
+    //   }
+    // }
 
     // Filter by colors
     if (filters.colors.length > 0) {
