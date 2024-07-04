@@ -20,6 +20,7 @@ import Footer from "../../components/Home/Footer";
 import SizeGuide from "./SizeGuide";
 import { useCart } from "../../context/CartContext";
 import { useFormik } from "formik";
+import { generateUniqueId } from "../../assistants/Generators";
 
 export default function Product() {
   const userId = sessionStorage.getItem("loginUserId");
@@ -95,7 +96,7 @@ export default function Product() {
                 price: 100000,
               },
             ],
-            orderInfo: id,
+            orderInfo: generateUniqueId("O", 6),
             bankCode: "VNBANK",
             orderType: "other",
           })

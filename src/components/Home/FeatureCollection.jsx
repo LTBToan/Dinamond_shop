@@ -40,33 +40,19 @@ const ProductsOfTheWeek = () => {
       <div className={styles.imageSection}>
         {dataSource.map((item, i) => (
           <Card
+            key={item.productId}
             hoverable
             style={{ width: 300, backgroundColor: "#f8f8f8" }}
             cover={<img alt="" src={item.imageLink} />}
             bodyStyle={{ backgroundColor: "white" }}
             onClick={() => navigate(`/products/${item.productId}`)}
           >
-            <Meta title={item.productName} description={item.productPrice} />
+            <Meta
+              key={item.productId}
+              title={item.productName}
+              description={item.productPrice}
+            />
           </Card>
-          // <div
-          //   className={styles.productContainer}
-          //   key={i}
-          //   onClick={() => {
-          //     navigate(`/products/${item.product_id}`);
-          //   }}
-          // >
-          //   <div className={styles.productImageContainer}>
-          //     <img
-          //       className={styles.productImages}
-          //       src={item.image_url}
-          //       alt=""
-          //     />
-          //   </div>
-          //   <div className={styles.productImagesDesc}>
-          //     <h6 style={{ fontSize: "150%" }}>{item.name}</h6>
-          //     <p>{item.price} $</p>
-          //   </div>
-          // </div>
         ))}
       </div>
     </div>

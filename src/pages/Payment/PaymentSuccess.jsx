@@ -1,18 +1,31 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import { Box, Text, VStack, Icon, Divider, Button } from "@chakra-ui/react";
+import {
+  Box,
+  Text,
+  VStack,
+  Icon,
+  Divider,
+  Button,
+  HStack,
+} from "@chakra-ui/react";
 import { CheckCircleIcon, WarningIcon, InfoIcon } from "@chakra-ui/icons";
-
 import Navbar from "../../components/Navbar/Navbar";
 import Footer from "../../components/Home/Footer";
+import axios from "axios";
+import { CartContext } from "../../context/CartContext";
 
 const PayStatus = () => {
+  const { cartItems, setCartItems } = useContext(CartContext);
+  const currentUserId = sessionStorage.getItem("loginUserId");
+
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
 
+  const transactionNo = queryParams.get("vnp_TransactionNo");
   const transactionStatus = queryParams.get("vnp_TransactionStatus");
   const responseCode = queryParams.get("vnp_ResponseCode");
-  const orderInfo = queryParams.get("vnp_OrderInfo");
+  const orderId = queryParams.get("vnp_OrderInfo");
   const amount = queryParams.get("vnp_Amount");
 
   let statusMessage = "";
@@ -41,17 +54,72 @@ const PayStatus = () => {
     window.location.href = "/";
   };
 
+  useEffect(() => {
+    const fetchOrderData = async () => {
+      if (
+        transactionStatus === "00" &&
+        responseCode === "00" &&
+        cartItems.length > 0
+      ) {
+        console.log("Conditions met for creating order");
+        try {
+          const orderResponse = await axios.post(
+            "http://localhost:8080/api/orders",
+            {
+              orderId: orderId,
+              accountId: currentUserId,
+              totalPrice: 0,
+              address: "",
+              statusId: 0,
+            }
+          );
+
+          const orderDetailsPromises = cartItems.map((item) => {
+            return axios.post(`http://localhost:8080/api/orders/details`, {
+              ordersId: orderResponse.data.orderId,
+              productsId: item.productId,
+              quantity: item.quantity,
+              price: item.price,
+            });
+          });
+
+          await Promise.all(orderDetailsPromises);
+
+          const deleteCartItemsPromises = cartItems.map((item) => {
+            return axios
+              .delete(
+                `http://localhost:8080/api/carts/product/delete?cartId=${item.cartId}&prodId=${item.productId}`
+              )
+              .catch((err) => console.log(err.message));
+          });
+
+          await Promise.all(deleteCartItemsPromises);
+          setCartItems([]);
+        } catch (error) {
+          console.error(
+            "Error creating order or order details:",
+            error.message
+          );
+        }
+      } else {
+        console.log("Conditions not met or cartItems is empty");
+      }
+    };
+
+    fetchOrderData();
+  }, [transactionStatus, responseCode, cartItems]);
+
   return (
     <>
       <Navbar />
       <Box
         maxW="md"
         mx="auto"
-        mt={10}
+        my={40}
         p={5}
         borderWidth="1px"
         borderRadius="lg"
-        boxShadow="lg"
+        boxShadow="2xl"
         textAlign="center"
         bg={bgColor}
       >
@@ -61,23 +129,34 @@ const PayStatus = () => {
             {statusMessage}
           </Text>
           <Divider />
-          <Box w="100%" textAlign="left">
-            <Text fontSize="lg" fontWeight="semibold">
-              Order Info:
-            </Text>
-            <Text>{orderInfo}</Text>
-          </Box>
-          <Box w="100%" textAlign="left">
-            <Text fontSize="lg" fontWeight="semibold">
-              Amount:
-            </Text>
-            <Text>{parseInt(amount / 100, 10).toLocaleString()} VND</Text>
+          <Box w="100%">
+            <HStack justifyContent="space-between">
+              <Text fontSize="sm">Transaction ID</Text>
+              <Text color="gray.500">{transactionNo}</Text>
+            </HStack>
+            <HStack justifyContent="space-between">
+              <Text fontSize="sm">Payment Type</Text>
+              <Text color="gray.500">Net Banking</Text>
+            </HStack>
+            <HStack justifyContent="space-between">
+              <Text fontSize="sm">Bank</Text>
+              <Text color="gray.500">NCB</Text>
+            </HStack>
+            <HStack justifyContent="space-between">
+              <Text fontSize="lg" fontWeight="semibold">
+                Amount Paid
+              </Text>
+              <Text fontSize="lg" fontWeight="semibold" color="gray.500">
+                {parseInt(amount / 100, 10).toLocaleString()} VND
+              </Text>
+            </HStack>
           </Box>
           <Button border="none" colorScheme="teal" onClick={handleReturnHome}>
             Return to Home
           </Button>
         </VStack>
       </Box>
+
       <Footer />
     </>
   );
