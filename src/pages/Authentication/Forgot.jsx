@@ -37,10 +37,13 @@ export default function Forgot() {
   const sendEmail = () => {
     emailjs
       .sendForm(
-        "service_qm91avr",
-        "template_0ftxhqc",
+        // "service_qm91avr",
+        "service_ouycs4m",
+        // "template_yyrd4jj",
+        "template_e3h0q28",
         formRef.current,
-        "WcYGL3eDIXuI0SMzS"
+        // "WcYGL3eDIXuI0SMzS"
+        "IrOpJK68w18CRXQPL"
       )
       .then(
         (result) => {
@@ -148,6 +151,13 @@ export default function Forgot() {
                 onBlur={emailForm.handleBlur}
                 value={emailForm.values.email}
               />
+              <input
+                type="hidden"
+                name="code"
+                onChange={codeVerifyForm.handleChange}
+                onBlur={codeVerifyForm.handleBlur}
+                value={emailForm.values.code}
+              />
               <div className="error">
                 {emailForm.errors.email ? (
                   <i>{emailForm.errors.email}</i>
@@ -219,7 +229,7 @@ export default function Forgot() {
                   shape="round"
                   disabled={isLoading ? true : false}
                 >
-                  {isLoading ? <LoadingOutlined /> : <p>Verify {verifyCode}</p>}
+                  {isLoading ? <LoadingOutlined /> : <p>Verify</p>}
                 </Button>
               </span>
             </form>

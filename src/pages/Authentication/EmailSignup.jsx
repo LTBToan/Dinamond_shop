@@ -10,7 +10,6 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { jwtDecode } from "jwt-decode";
 import {
-  generateId,
   generatePassword,
   generateUniqueId,
 } from "../../assistants/Generators";
@@ -79,7 +78,7 @@ export default function EmailSignup() {
           if (foundUserByEmail) {
             sessionStorage.setItem("loginUserId", foundUserByEmail.user_id);
           } else {
-            const newUserId = generateId(30, "");
+            const newUserId = generateUniqueId("US", 5);
             // const createAt = dateFormat(new Date(), "yyyy/mm/dd HH:MM:ss");
             var registerUser = {
               accountId: newUserId,
