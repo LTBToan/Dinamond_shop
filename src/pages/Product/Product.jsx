@@ -89,8 +89,8 @@ export default function Product() {
                 productId: id,
                 productName: currentProduct.productName,
                 quantity: values.quantity,
-                // price: currentProduct.productPrice,
-                price: 100000,
+                price: currentProduct.productPrice,
+                // price: 100000,
               },
             ],
             orderInfo: generateUniqueId("O", 6),
@@ -99,6 +99,7 @@ export default function Product() {
           })
           .then((res) => {
             const responseData = res.data.url;
+            sessionStorage.setItem("productId", id);
             window.location.href = responseData;
             console.log("Post order: ", res.data);
           })

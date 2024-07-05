@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import {
   Box,
@@ -18,6 +18,8 @@ import { CartContext } from "../../context/CartContext";
 const PayStatus = () => {
   const { cartItems, setCartItems } = useContext(CartContext);
   const currentUserId = sessionStorage.getItem("loginUserId");
+  const currentProductId = sessionStorage.getItem("productId");
+  const [productData, setProductData] = useState();
 
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
@@ -53,6 +55,20 @@ const PayStatus = () => {
   const handleReturnHome = () => {
     window.location.href = "/";
   };
+
+  useEffect(() => {
+    const fetchProductData = async () => {
+      try {
+        await axios
+          .get(`http://localhost:8080/api/products/get/${currentProductId}`)
+          .then((res) => setProductData(res.data));
+      } catch (error) {
+        console.log(error.message);
+      }
+    };
+
+    fetchProductData();
+  }, []);
 
   useEffect(() => {
     const fetchOrderData = async () => {
@@ -102,6 +118,21 @@ const PayStatus = () => {
           );
         }
       } else {
+        const newOrder = await axios.post("http://localhost:8080/api/orders", {
+          orderId: orderId,
+          accountId: currentUserId,
+          totalPrice: 0,
+          address: "",
+          statusId: 0,
+        });
+
+        await axios.post(`http://localhost:8080/api/orders/details`, {
+          ordersId: newOrder.data.orderId,
+          productsId: currentProductId,
+          quantity: (amount / 100 / productData.productPrice).toFixed(),
+          price: productData.productPrice,
+        });
+
         console.log("Conditions not met or cartItems is empty");
       }
     };
