@@ -2,6 +2,7 @@ import React from "react";
 import styles from "./home.module.css";
 import Navbar from "../../components/Navbar/Navbar";
 import Herosection from "../../components/Home/Herosection";
+import BannerCollection from "../../components/Home/BannerCollection";
 import ShopYourChoice from "../../components/Home/ShopYourChoice";
 import ProductsOfTheWeek from "../../components/Home/ProductsOfTheWeek";
 import FeatureCollection from "../../components/Home/FeatureCollection";
@@ -20,6 +21,8 @@ const Home = () => {
     <div className={styles.container}>
       <Navbar />
       <Herosection />
+      <Features />
+      <BannerCollection />
       <Fade direction="up" triggerOnce>
         <ShopYourChoice />
         <Catagories />
@@ -29,7 +32,6 @@ const Home = () => {
         <UpcomingCollections />
         <BlueBanner />
         <Chatbot />
-        <Features />
         <Footer />
       </Fade>
     </div>

@@ -11,11 +11,7 @@ import AdminPage from "./pages/Admin/Admin";
 import Product from "./pages/Product/Product";
 import CategorizedProductList from "./pages/Product/CategorizedProductList";
 import Cart from "./pages/Cart/Cart";
-import OrderList from "./pages/Order/OrderList";
-import OrderStatus from "./pages/Order/OrderStatus";
 import ContactPage from "./pages/Contact/ContactPage";
-import SearchResult from "./pages/Search/SearchResult";
-// import ProductList from "./pages/Product/ProductListPage";
 import Profile from "./pages/TestProfile/ProfilePage";
 import PayStatus from "./pages/Payment/PaymentSuccess";
 
@@ -24,6 +20,13 @@ import { ChakraProvider } from "@chakra-ui/react";
 function App() {
   return (
     <Routes>
+      <Route path="/signin" element={<Signin />} />
+      <Route path="/signup" element={<Signup />} />
+      <Route path="/signup/email" element={<EmailSignup />} />
+      <Route path="/forgot" element={<Forgot />} />
+      <Route path="/reset/:id" element={<Reset />} />
+      <Route path="/admin" element={<AdminPage />} />
+
       <Route
         path="/"
         element={
@@ -32,11 +35,6 @@ function App() {
           </ChakraProvider>
         }
       />
-      <Route path="/signin" element={<Signin />} />
-      <Route path="/signup" element={<Signup />} />
-      <Route path="/signup/email" element={<EmailSignup />} />
-      <Route path="/forgot" element={<Forgot />} />
-      <Route path="/reset/:id" element={<Reset />} />
 
       <Route
         path="/profile/:id"
@@ -63,9 +61,7 @@ function App() {
           </ChakraProvider>
         }
       />
-      <Route path="/order" element={<OrderList />} />
-      <Route path="/orderStatus" element={<OrderStatus />} />
-      <Route path="/admin" element={<AdminPage />} />
+
       <Route
         path="/contact"
         element={
@@ -74,16 +70,6 @@ function App() {
           </ChakraProvider>
         }
       />
-      <Route path="/search" element={<SearchResult />} />
-
-      {/* <Route
-        path="/products"
-        element={
-          <ChakraProvider>
-            <ProductList />
-          </ChakraProvider>
-        }
-      /> */}
       <Route
         path="/products/:id"
         element={
