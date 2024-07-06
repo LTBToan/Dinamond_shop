@@ -3,6 +3,7 @@ import styles from "./home.module.css";
 import Navbar from "../../components/Navbar/Navbar";
 import Herosection from "../../components/Home/Herosection";
 import BannerCollection from "../../components/Home/BannerCollection";
+import ShopCollection from "../../components/Home/ShopCollection";
 import ShopYourChoice from "../../components/Home/ShopYourChoice";
 import ProductsOfTheWeek from "../../components/Home/ProductsOfTheWeek";
 import FeatureCollection from "../../components/Home/FeatureCollection";
@@ -22,18 +23,20 @@ const Home = () => {
       <Navbar />
       <Herosection />
       <Features />
-      <BannerCollection />
       <Fade direction="up" triggerOnce>
-        <ShopYourChoice />
+        <BannerCollection />
         <Catagories />
+        <ShopCollection />
+        <ShopYourChoice />
+
         <ProductsOfTheWeek />
         <AboutUs />
         <FeatureCollection />
-        <UpcomingCollections />
-        <BlueBanner />
-        <Chatbot />
-        <Footer />
       </Fade>
+      <UpcomingCollections />
+      <BlueBanner />
+      <Chatbot />
+      <Footer />
     </div>
   );
 };

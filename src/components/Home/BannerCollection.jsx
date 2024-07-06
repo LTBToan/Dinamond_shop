@@ -19,21 +19,24 @@ function BannerItem({ cls, bg_clr, bg, content, title, isBtn = false }) {
       }}
     >
       <div className="tp-banner-content-4" style={{ width: "100%" }}>
-        <span style={{ display: "block", marginBottom: "10px", color: "#888" }}>
-          {content}
-        </span>
+        <span style={{ display: "block", color: "gray.500" }}>{content}</span>
         <h3
           className="tp-banner-title-4"
-          style={{ marginBottom: "10px", fontSize: "24px" }}
+          style={{ marginBottom: "20px", fontSize: "24px" }}
         >
-          <Link to="/shop" style={{ color: "#000", textDecoration: "none" }}>
+          <Link
+            to={""}
+            onClick={() => (window.location.href = "/category/earrings")}
+            style={{ color: "#000", textDecoration: "none" }}
+          >
             {title}
           </Link>
         </h3>
         {isBtn && (
           <div className="tp-banner-btn-4">
             <Link
-              to="/shop"
+              to={""}
+              onClick={() => (window.location.href = "/category/earrings")}
               className="tp-btn tp-btn-border"
               style={{
                 display: "inline-block",
@@ -61,8 +64,8 @@ function BannerItem({ cls, bg_clr, bg, content, title, isBtn = false }) {
         className="tp-banner-thumb-4 include-bg black-bg transition-3"
         style={{
           backgroundImage: `url(${bg})`,
-          width: "150%",
-          height: "250px",
+          width: "200%",
+          height: "200px",
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}
@@ -77,7 +80,7 @@ const JewelryShopBanner = () => {
       <section className="tp-banner-area" style={{ padding: "50px 0" }}>
         <div
           className="container"
-          style={{ maxWidth: "1500px", margin: "0 auto" }}
+          style={{ maxWidth: "1200px", margin: "0 auto" }}
         >
           <div
             className="row"
@@ -108,7 +111,7 @@ const JewelryShopBanner = () => {
                     bg_clr="F0F6EF"
                     bg={banner_bg_2}
                     content="Trending"
-                    title="Tropical Set"
+                    title="Summer Collection"
                   />
                 </div>
                 <div className="col-md-6 col-sm-6" style={{ padding: "15px" }}>
@@ -157,7 +160,10 @@ const JewelryShopBanner = () => {
                     }}
                   >
                     <Link
-                      to="/shop"
+                      to={""}
+                      onClick={() =>
+                        (window.location.href = "/category/earrings")
+                      }
                       style={{
                         color: "#fff",
                         textDecoration: "none",
