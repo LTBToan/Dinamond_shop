@@ -46,6 +46,8 @@ export default function Cart() {
     }
   };
 
+  console.log("Item:", cartItems);
+
   return (
     <>
       <Navbar />

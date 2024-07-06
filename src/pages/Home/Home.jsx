@@ -28,7 +28,6 @@ const Home = () => {
         <Catagories />
         <ShopCollection />
         <ShopYourChoice />
-
         <ProductsOfTheWeek />
         <AboutUs />
         <FeatureCollection />

@@ -95,6 +95,8 @@ export default function OrderItemList({ orderId, date, isDelivered }) {
     // FEEDBACK
   };
 
+  console.log("orderDetail: ", orderItemList);
+
   return (
     <>
       {orderItemList.map((item, i) => (

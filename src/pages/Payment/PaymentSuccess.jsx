@@ -59,9 +59,11 @@ const PayStatus = () => {
   useEffect(() => {
     const fetchProductData = async () => {
       try {
-        await axios
-          .get(`http://localhost:8080/api/products/get/${currentProductId}`)
-          .then((res) => setProductData(res.data));
+        if (currentProductId) {
+          await axios
+            .get(`http://localhost:8080/api/products/get/${currentProductId}`)
+            .then((res) => setProductData(res.data));
+        }
       } catch (error) {
         console.log(error.message);
       }
@@ -69,6 +71,8 @@ const PayStatus = () => {
 
     fetchProductData();
   }, []);
+
+  console.log("xa: ", cartItems);
 
   useEffect(() => {
     const fetchOrderData = async () => {
@@ -94,6 +98,7 @@ const PayStatus = () => {
             return axios.post(`http://localhost:8080/api/orders/details`, {
               ordersId: orderResponse.data.orderId,
               productsId: item.productId,
+              productsSize: item.productSize,
               quantity: item.quantity,
               price: item.price,
             });
@@ -117,7 +122,7 @@ const PayStatus = () => {
             error.message
           );
         }
-      } else {
+      } else if (currentProductId) {
         const newOrder = await axios.post("http://localhost:8080/api/orders", {
           orderId: orderId,
           accountId: currentUserId,
@@ -129,16 +134,19 @@ const PayStatus = () => {
         await axios.post(`http://localhost:8080/api/orders/details`, {
           ordersId: newOrder.data.orderId,
           productsId: currentProductId,
+          productsSize: productData.productSize,
           quantity: (amount / 100 / productData.productPrice).toFixed(),
           price: productData.productPrice,
         });
-
+        sessionStorage.removeItem("productId");
         console.log("Conditions not met or cartItems is empty");
       }
     };
 
     fetchOrderData();
   }, [transactionStatus, responseCode, cartItems]);
+
+  console.log("sxax: ", productData.productSize);
 
   return (
     <>

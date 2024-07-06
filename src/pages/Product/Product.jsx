@@ -31,6 +31,7 @@ export default function Product() {
     imageLink: "",
     description: "",
     productPrice: "",
+    productSize: "",
     categoryId: "",
     status: 0,
   });
@@ -70,6 +71,7 @@ export default function Product() {
       id,
       currentProduct.productName,
       currentProduct.productPrice,
+      currentProduct.productSize,
       quantity
     );
   };
