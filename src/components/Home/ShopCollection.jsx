@@ -29,11 +29,11 @@ const JewelryAbout = () => {
               </div>
               <div className="tp-about-content pl-120">
                 <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.{" "}
-                  <br /> Cras vel mi quam. Fusce vehicula vitae mauris sit amet
-                  tempor. Donec consectetur lorem ipsum dolor sit amet,
-                  consectetur adipiscing elit, sed do eiusmod tempor incididunt
-                  ut labore et dolore magna.
+                  Visit Diamond Shop to experience a luxurious shopping
+                  environment, professional consultation services, and enjoy
+                  exclusive offers tailored just for you. We believe that every
+                  customer at Diamond Shop will find the perfect ring to mark
+                  the most memorable moments of their lives.
                 </p>
                 <div className="tp-about-btn">
                   <Link

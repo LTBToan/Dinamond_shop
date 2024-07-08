@@ -6,6 +6,7 @@ import {
   updateProduct,
   deleteProduct,
 } from "../../../dataControllers/productController";
+import { truncateString } from "../../../assistants/Generators";
 import AddModal from "./Modal";
 
 const options = [
@@ -134,7 +135,7 @@ function Products() {
           {
             title: "Picture",
             key: "image_url",
-            dataIndex: "image_url",
+            dataIndex: "imageLink",
             render: (link) => {
               return <Image src={link} width={45} />;
             },
@@ -142,35 +143,26 @@ function Products() {
           {
             title: "Name",
             key: "name",
-            dataIndex: "name",
+            dataIndex: "productName",
+            render: (name) => {
+              return <span>{truncateString(name, 20)}</span>;
+            },
           },
           {
             title: "Price",
             key: "price",
-            dataIndex: "price",
-            render: (value) => <span>${value}</span>,
+            dataIndex: "productPrice",
+            render: (value) => <span>{value.toLocaleString()}₫‌</span>,
           },
           {
             title: "Category",
             key: "category",
-            dataIndex: "category_name",
+            dataIndex: "categoryId",
           },
           {
-            title: "Status",
+            title: "Quantity",
             key: "status",
-            dataIndex: "status",
-            render: (status) => (
-              <span
-                style={{
-                  backgroundColor: status ? "green" : "red",
-                  padding: "4px 8px",
-                  borderRadius: "4px",
-                  color: "white",
-                }}
-              >
-                {status ? "Available" : "Unavailable"}
-              </span>
-            ),
+            dataIndex: "quantity",
           },
           {
             title: "Action",

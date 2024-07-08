@@ -346,7 +346,8 @@ const ProductList = () => {
                       cursor="pointer"
                     >
                       <Image src={product.imageLink} alt={product.name} />
-                      <Box p="6">
+                      <Divider borderColor="gray.400" />
+                      <Box p={3}>
                         <Box display="flex" alignItems="baseline">
                           <Badge
                             borderRadius="full"
