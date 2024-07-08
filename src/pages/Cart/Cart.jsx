@@ -88,7 +88,9 @@ export default function Cart() {
                   key={item.productId}
                   cartItemId={cart.cartId}
                   productId={item.productId}
+                  productName={item.prodName}
                   quantity={item.quantity}
+                  price={item.price}
                 />
               ))}
             </Box>
@@ -109,14 +111,15 @@ export default function Cart() {
                 {cartItems.map((item) => (
                   <CartDetailList
                     key={item.productId}
-                    productId={item.productId}
+                    productName={item.prodName}
                     quantity={item.quantity}
+                    price={item.price}
                   />
                 ))}
               </Box>
-              {/* <Text fontWeight="bold" fontSize="xl" color="yellow.600">
-                Total: ${totalAmount.toFixed(2)}
-              </Text> */}
+              <Text fontWeight="bold" fontSize="xl" color="yellow.600">
+                Total: {totalAmount.toLocaleString()}₫‌
+              </Text>
               <Button
                 rightIcon={<CheckCircleIcon color="green" />}
                 colorScheme="yellow"

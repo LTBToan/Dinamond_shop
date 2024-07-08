@@ -36,7 +36,11 @@ const JewelryAbout = () => {
                   ut labore et dolore magna.
                 </p>
                 <div className="tp-about-btn">
-                  <Link to="/contact" className="tp-btn">
+                  <Link
+                    to=""
+                    onClick={() => (window.location.href = "/contact")}
+                    className="tp-btn"
+                  >
                     Contact Us
                   </Link>
                 </div>

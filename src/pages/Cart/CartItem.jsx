@@ -3,8 +3,15 @@ import { Box, Text, Flex, Image, Button, Input } from "@chakra-ui/react";
 import axios from "axios";
 import { DeleteIcon } from "@chakra-ui/icons";
 import { CartContext } from "../../context/CartContext";
+import { truncateString } from "../../assistants/Generators";
 
-export default function CartItem({ cartItemId, productId, quantity }) {
+export default function CartItem({
+  cartItemId,
+  productId,
+  productName,
+  quantity,
+  price,
+}) {
   const navigate = (toUrl) => {
     window.location.href = toUrl;
   };
@@ -40,8 +47,7 @@ export default function CartItem({ cartItemId, productId, quantity }) {
     );
 
     setTotalAmount(
-      (prevTotal) =>
-        prevTotal + cartProduct.productPrice * (quantityValue - quantity)
+      (prevTotal) => prevTotal + price * (quantityValue - quantity)
     );
   };
 
@@ -53,7 +59,7 @@ export default function CartItem({ cartItemId, productId, quantity }) {
           `http://localhost:8080/api/carts/product/update?cartId=${cartItemId}&prodId=${cartProduct.productId}`,
           {
             quantity: quantityValue - 1,
-            price: cartProduct.productPrice,
+            price: price,
           }
         )
         .then((res) => console.log(res))
@@ -68,7 +74,7 @@ export default function CartItem({ cartItemId, productId, quantity }) {
         `http://localhost:8080/api/carts/product/update?cartId=${cartItemId}&prodId=${cartProduct.productId}`,
         {
           quantity: quantityValue + 1,
-          price: cartProduct.productPrice,
+          price: price,
         }
       )
       .then((res) => console.log(res))
@@ -106,7 +112,7 @@ export default function CartItem({ cartItemId, productId, quantity }) {
         <Box boxSize="150px">
           <Image
             src={cartProduct.imageLink}
-            alt={cartProduct.productName}
+            alt={productName}
             borderRadius="lg"
             objectFit="cover"
           />
@@ -120,10 +126,10 @@ export default function CartItem({ cartItemId, productId, quantity }) {
           }}
           cursor="pointer"
         >
-          {cartProduct.productName}
+          {truncateString(productName, 20)}
         </Text>
         <Text minWidth="100px" fontSize="xm" color="gray.500">
-          {cartProduct.productPrice}$
+          {price.toLocaleString()}₫‌
         </Text>
         <Flex direction="column" justify="space-between" align="center" mx="4">
           <Flex alignItems="center" mb={4}>
@@ -156,7 +162,7 @@ export default function CartItem({ cartItemId, productId, quantity }) {
         </Flex>
         <Box textAlign="right" minWidth="100px">
           <Text fontWeight="bold" fontSize="xl" color="yellow.600">
-            {Math.round(cartProduct.productPrice * quantityValue * 100) / 100}$
+            {(Math.round(price * quantityValue * 100) / 100).toLocaleString()}₫‌
           </Text>
         </Box>
         <Button

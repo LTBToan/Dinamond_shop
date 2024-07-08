@@ -27,7 +27,7 @@ const Home = () => {
         <BannerCollection />
         <Catagories />
         <ShopCollection />
-        <ShopYourChoice />
+        {/* <ShopYourChoice /> */}
         <ProductsOfTheWeek />
         <AboutUs />
         <FeatureCollection />

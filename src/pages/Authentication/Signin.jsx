@@ -144,7 +144,7 @@ export default function Signin() {
 
   console.log("adadad: ", sessionStorage.getItem("loginUserId"));
 
-  // const handleAvatarUpload = async (e) => {
+  // const handleUploadImage = async (e) => {
   //   const file = e.target.files[0];
   //   const formData = new FormData();
   //   formData.append("file", file);
@@ -166,7 +166,7 @@ export default function Signin() {
       <Navbar />
       <div className={styles.container}>
         <div className={styles.rightContainer}>
-          {/* <input type="file" onChange={handleAvatarUpload}></input> */}
+          {/* <input type="file" onChange={handleUploadImage}></input> */}
           <Image
             className={styles.image}
             src={eFurniLogo}

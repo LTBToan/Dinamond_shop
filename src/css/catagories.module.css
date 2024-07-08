@@ -64,10 +64,11 @@
 
 #plate:hover > .plate {
   position: absolute;
-  right: -1rem;
+  /* right: -1rem; */
   top: 0px;
   display: block;
-  height: 50%;
+  width: auto;
+  height: 60%;
 }
 
 #light:hover > .light {

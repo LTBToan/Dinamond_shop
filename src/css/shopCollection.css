@@ -41,9 +41,16 @@
 .tp-about-btn .tp-btn {
   display: inline-block;
   padding: 10px 20px;
+  border: 1px solid black;
   background-color: #000;
   color: #fff;
   text-decoration: none;
+}
+
+.tp-about-btn .tp-btn:hover {
+  background-color: white;
+  color: black;
+  transition: 0.3s;
 }
 
 .tp-about-thumb-2 {

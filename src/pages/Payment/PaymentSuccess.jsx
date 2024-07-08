@@ -90,6 +90,7 @@ const PayStatus = () => {
               accountId: currentUserId,
               totalPrice: 0,
               address: "",
+              date: new Date().toISOString(),
               statusId: 0,
             }
           );
@@ -145,8 +146,6 @@ const PayStatus = () => {
 
     fetchOrderData();
   }, [transactionStatus, responseCode, cartItems]);
-
-  console.log("sxax: ", productData.productSize);
 
   return (
     <>

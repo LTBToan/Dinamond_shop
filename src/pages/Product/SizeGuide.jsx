@@ -14,16 +14,15 @@ import {
 } from "@chakra-ui/react";
 
 const SizeGuide = ({ categoryId }) => {
-  console.log("CASS: ", categoryId);
   const bannerImage = () => {
     switch (categoryId) {
-      case "001":
+      case "1":
         return "/images/ring-measure.jpg";
-      case "002":
+      case "2":
         return "https://lovelements.com/wp-content/uploads/2024/01/Necklace-Length-Size-Chart-by-lovelements.com_-1024x536.png.webp";
-      case "003":
+      case "3":
         return "https://images-aka.ernestjones.co.uk/guides/earrings-size-guide/EJ2108W04_Size_Guide_Earring_Graphic_3840x1800.png";
-      case "004":
+      case "4":
         return "https://www.nafisadesigns.com/media/wysiwyg/Bangle-Size-Guide-Step-Lurree.jpg";
     }
   };

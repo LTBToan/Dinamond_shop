@@ -16,10 +16,10 @@ const Catagories = () => {
         }}
       >
         <div className={styles.textContainer}>
-          <h3>Diamond</h3>
+          <h3>Ring</h3>
           <span>High-end jewelry</span>
         </div>
-        <img className={styles.plate} src="./images/dia5.png" alt="" />
+        <img className={styles.plate} src="./images/diaring.png" alt="" />
       </div>
       <div
         id={styles.africanArt}
@@ -29,10 +29,10 @@ const Catagories = () => {
         }}
       >
         <div className={styles.textContainer}>
-          <h3>Diamond Ring</h3>
+          <h3>Bracelets</h3>
           <span>The charm of hands</span>
         </div>
-        <img className={styles.africanArt} src="./images/dia2.png" alt="" />
+        <img className={styles.africanArt} src="./images/diabracelet.png" alt="" />
       </div>
       <div
         id={styles.light}
@@ -42,10 +42,10 @@ const Catagories = () => {
         }}
       >
         <div className={styles.textContainer}>
-          <h3>Diamond Ring</h3>
+          <h3>Earrings</h3>
           <span>Perfect combination</span>
         </div>
-        <img className={styles.light} src="./images/dia4.png" alt="" />
+        <img className={styles.light} src="./images/diaearring.png" alt="" />
       </div>
       <div
         id={styles.sofa}
@@ -55,10 +55,10 @@ const Catagories = () => {
         }}
       >
         <div className={styles.textContainer}>
-          <h3>Diamond Ring Couple</h3>
-          <span>Let's build happiness together</span>
+          <h3>Necklace</h3>
+          <span>Connect to Beauty</span>
         </div>
-        <img className={styles.sofa} src="./images/dia6.webp" alt="" />
+        <img className={styles.sofa} src="./images/dianecklace.png" alt="" />
       </div>
     </div>
   );

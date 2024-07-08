@@ -1,17 +1,14 @@
 import styles from "../../css/related.module.css";
 import { useState, useEffect } from "react";
-import { Typography, Card, Divider, Flex } from "antd";
+import { Card, Divider, Flex } from "antd";
 import { ChakraProvider, Text } from "@chakra-ui/react";
 import axios from "axios";
 
 export default function RelatedProducts({ categoryId }) {
-  // const { Text } = Typography;
   const [dataSource, setDataSource] = useState([]);
   const navigate = (toUrl) => {
     window.location.href = toUrl;
   };
-
-  console.log("casxxxx: ", categoryId);
 
   const fetchRelatedProducts = async () => {
     await axios
@@ -61,7 +58,7 @@ export default function RelatedProducts({ categoryId }) {
                       <Text
                       // delete={item.status === 0}
                       >
-                        {item.productPrice}&ensp; $
+                        {item.productPrice.toLocaleString()}₫‌
                       </Text>
                       &ensp;
                       {item.status === 0 ? "SOLD OUT" : ""}
