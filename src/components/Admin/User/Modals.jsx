@@ -23,52 +23,41 @@ const formItemLayout = {
   },
 };
 
-const options = [
+const Option = [
   {
-    value: "Table",
-    label: "Table",
+    value: "US",
+    label: "User",
   },
   {
-    value: "Sofa",
-    label: "Sofa",
+    value: "DS",
+    label: "Dealer sale",
   },
   {
-    value: "Bed",
-    label: "Bed",
+    value: "AD",
+    label: "Admin",
   },
   {
-    value: "Chair",
-    label: "Chair",
+    value: "MN",
+    label: "Manager",
   },
   {
-    value: "Lighting",
-    label: "Lighting",
-  },
-  {
-    value: "Shelf",
-    label: "Shelf",
-  },
-  {
-    value: "Outdoor",
-    label: "Outdoor",
+    value: "SS",
+    label: "Sale store",
   },
 ];
 
 const AddModal = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedImage, setSelectedImage] = useState(null);
   const [formData, setFormData] = useState({
-    categoryId: "",
-    diamondId: "",
-    shellId: "",
     accountId: "",
-    materialId: "",
-    description: "",
-    productId: "",
-    productName: "",
-    productSize: "",
-    imageLink: "",
-    productId: "",
+    name: "",
+    fullname: "",
+    email: "",
+    role_id: "",
+    address: "",
+    phonenumber: "",
+    password: "",
+    role: "",
   });
 
   const showModal = () => {
@@ -83,15 +72,16 @@ const AddModal = () => {
     setIsModalOpen(false);
     setFormData({
       ...formData,
-      product_id: "",
+      accountId: "",
       name: "",
-      price: "",
-      description: "",
-      image_url: "",
-      status: 0,
-      category_name: "",
+      fullname: "",
+      email: "",
+      role_id: "",
+      address: "",
+      phonenumber: "",
+      password: "",
+      role: "",
     });
-    setSelectedImage(null);
   };
 
   const handleChange = (event) => {
@@ -125,15 +115,16 @@ const AddModal = () => {
     addProduct(formData);
     setFormData({
       ...formData,
-      product_id: "",
+      accountId: "",
       name: "",
-      price: "",
-      description: "",
-      image_url: "",
-      status: 1,
-      category_name: "",
+      fullname: "",
+      email: "",
+      role_id: "",
+      address: "",
+      phonenumber: "",
+      password: "",
+      role: "",
     });
-    setSelectedImage(null);
   };
 
   return (
@@ -144,10 +135,10 @@ const AddModal = () => {
         onClick={showModal}
         icon={<PlusCircleOutlined />}
       >
-        Add Product
+        Create User
       </Button>
       <Modal
-        title="Create Product"
+        title="Create User"
         open={isModalOpen}
         onOk={handleSubmit}
         onCancel={handleCancel}
@@ -160,61 +151,72 @@ const AddModal = () => {
             maxWidth: 600,
           }}
         >
-          <Form.Item label="Product Namesss">
+          <Form.Item label="Account Id">
             <Input
               type="text"
-              name="name"
-              value={formData?.name}
+              name="accountId"
+              value={formData?.accountId}
               onChange={handleChange}
             />
           </Form.Item>
-          <Form.Item label="Category">
+          <Form.Item label="User Name">
+            <Input
+              type="text"
+              name="username"
+              value={formData?.username}
+              onChange={handleChange}
+            />
+          </Form.Item>
+          <Form.Item label="Full Name">
+            <Input
+              name="fullname"
+              value={formData?.fullname}
+              onChange={handleChange}
+            />
+          </Form.Item>
+          <Form.Item label="Email">
+            <Input
+              type="text"
+              name="email"
+              value={formData?.email}
+              onChange={handleChange}
+            />
+          </Form.Item>
+          <Form.Item label="Password">
+            <Input
+              type="text"
+              name="password"
+              value={formData?.password}
+              onChange={handleChange}
+            />
+          </Form.Item>
+          <Form.Item label="Phone Number">
+            <Input
+              type="text"
+              name="phonenumber"
+              value={formData?.phonenumber}
+              onChange={handleChange}
+            />
+          </Form.Item>
+          <Form.Item label="Role">
             <Select
-              value={formData?.category_name}
-              options={options}
-              style={{ width: 200 }}
-              onChange={(value) => {
-                setFormData((pre) => {
-                  return { ...pre, category_name: value };
-                });
-              }}
-              // onChange={handleChange}
-            />
+              name="role"
+              options={Option}
+              value={formData?.role}
+              onChange={(value) =>
+                handleChange({ target: { name: "role", value } })
+              }
+            >
+              {/* Add more options as needed */}
+            </Select>
           </Form.Item>
-          <Form.Item label="Price">
-            <Input
-              type="number"
-              name="price"
-              value={formData?.price}
-              onChange={handleChange}
-            />
-          </Form.Item>
-          <Form.Item label="Description">
+          <Form.Item label="address">
             <Input
               type="text"
-              name="description"
-              value={formData?.description}
+              name="address"
+              value={formData?.address}
               onChange={handleChange}
             />
-          </Form.Item>
-          <Form.Item label="Image">
-            <Input
-              type="text"
-              name="image"
-              value={formData?.image_url}
-              onChange={handleChange}
-            />
-          </Form.Item>
-          <Form.Item label="Add Image">
-            <Input
-              type="file"
-              name="image_url"
-              value={formData?.image_url}
-              onChange={handleImage}
-            />
-          </Form.Item>
-          <Form.Item label="Available">
-            <Switch value={formData?.status} onChange={handleSwitchChange} />
           </Form.Item>
         </Form>
       </Modal>

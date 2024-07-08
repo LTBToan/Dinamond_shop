@@ -14,7 +14,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(
   cors({
-    origin: "http://localhost:5173", // Allow requests from your website
+    origin: "http://localhost:8080", // Allow requests from your website
     methods: ["GET", "POST", "PATCH", "DELETE"], // Allow GET, POST, PATCH, DELETE methods
     credentials: true, // Allow sending cookies with the request
   })
@@ -616,12 +616,10 @@ app.get("/vnpay_ipn", function (req, res, next) {
               .json({ RspCode: "02", Message: "Transaction failed" });
           }
         } else {
-          res
-            .status(200)
-            .json({
-              RspCode: "02",
-              Message: "This order has been updated to the payment status",
-            });
+          res.status(200).json({
+            RspCode: "02",
+            Message: "This order has been updated to the payment status",
+          });
         }
       } else {
         res.status(200).json({ RspCode: "04", Message: "Amount invalid" });
