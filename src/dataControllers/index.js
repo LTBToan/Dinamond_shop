@@ -3,6 +3,11 @@ export const getOrders = () => {
     res.json()
   );
 };
+export const getOrdersById = (id) => {
+  return fetch(`http://localhost:8080/api/orders/get/${id}`).then((res) =>
+    res.json()
+  );
+};
 
 export const getOrderDetails = (id) => {
   return fetch(`http://localhost:8080/api/orders/details/get/order/${id}`).then(

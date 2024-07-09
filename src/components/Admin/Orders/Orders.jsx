@@ -1,6 +1,16 @@
-import { Modal, Space, Table, Typography } from "antd";
+import { Input, Modal, Space, Table, Typography } from "antd";
 import { useEffect, useState } from "react";
-import { getOrders, getOrderDetails } from "../../../dataControllers/index";
+import {
+  getOrders,
+  getOrderDetails,
+  getOrdersById,
+} from "../../../dataControllers/index";
+import axios from "axios";
+import {
+  CheckOutlined,
+  CloseOutlined,
+  InfoCircleOutlined,
+} from "@ant-design/icons";
 
 function Orders() {
   const [loading, setLoading] = useState(false);
@@ -8,13 +18,35 @@ function Orders() {
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [orderDetails, setOrderDetails] = useState([]);
+  const [isEditing, setIsEditing] = useState(false);
+  const [testRecord, setTestRecord] = useState();
+  const [editFormData, setEditFormData] = useState({
+    orderId: "",
+    accountId: "",
+    totalPrice: "",
+    address: "",
+    date: "",
+    statusId: "",
+    products: "",
+  });
 
+  // useEffect(() => {
+  //   setLoading(true);
+  //   getOrders().then((res) => {
+  //     setDataSource(res);
+  //     setLoading(false);
+  //   });
+  // }, []);
   useEffect(() => {
-    setLoading(true);
-    getOrders().then((res) => {
-      setDataSource(res);
+    const fetchData = async () => {
+      setLoading(true);
+      const newData = await getOrders();
+      setDataSource(newData);
       setLoading(false);
-    });
+    };
+    fetchData();
+    const intervalId = setInterval(fetchData, 3000);
+    return () => clearInterval(intervalId);
   }, []);
   const handleOrderClick = (record) => {
     setSelectedOrder(record);
@@ -28,7 +60,35 @@ function Orders() {
   const closeModal = () => {
     setModalVisible(false);
   };
-
+  // const handleUpdateClick = async (record) => {
+  //   setIsEditing(true);
+  //   // let data = { ...editFormData, id: record };
+  //   console.log(record);
+  //   const productNew = await getOrdersById(record);
+  //   console.log(productNew);
+  //   setEditFormData(productNew);
+  //   setTestRecord(record);
+  // };
+  // const resetEditing = () => {
+  //   setIsEditing(false);
+  //   setEditFormData(null);
+  // };
+  const updateOrder = async (id, data) => {
+    try {
+      const updatedData = { ...data, statusId: 1 };
+      axios.put(`http://localhost:8080/api/orders/update/${id}`, updatedData);
+    } catch (error) {
+      console.log.error(error);
+    }
+  };
+  const updateOrder1 = async (id, data) => {
+    try {
+      const updatedData = { ...data, statusId: 3 };
+      axios.put(`http://localhost:8080/api/orders/update/${id}`, updatedData);
+    } catch (error) {
+      console.log.error(error);
+    }
+  };
   return (
     <Space size={20} direction="vertical">
       <Typography.Title level={4}>Orders</Typography.Title>
@@ -65,21 +125,50 @@ function Orders() {
           {
             title: "Action",
             dataIndex: "orderId",
-            render: (orderId, record) => (
-              <a
-                onClick={() => handleOrderClick(record)}
-                style={{
-                  color: "white",
-                  backgroundColor: "rgb(38, 122, 245)",
-                  padding: "10px 10px",
-                  borderRadius: "5px",
-                  textDecoration: "none",
-                  display: "inline-block",
-                  cursor: "pointer",
-                }}
-              >
-                View Details
-              </a>
+            render: (record) => (
+              <>
+                <div>
+                  {/* <a
+                    onClick={() => handleOrderClick(record)}
+                    style={{
+                      color: "white",
+                      backgroundColor: "rgb(38, 122, 245)",
+                      padding: "10px 10px",
+                      borderRadius: "5px",
+                      textDecoration: "none",
+                      display: "inline-block",
+                      cursor: "pointer",
+                      marginRight: "10px",
+                    }}
+                  >
+                    View Details
+                  </a> */}
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-evenly",
+                      fontSize: "20px",
+                    }}
+                  >
+                    <InfoCircleOutlined
+                      onClick={() => {
+                        handleOrderClick(record);
+                      }}
+                    />
+                    <CheckOutlined
+                      onClick={() => {
+                        updateOrder(record);
+                      }}
+                    />
+                    <CloseOutlined
+                      onClick={() => {
+                        updateOrder1(record);
+                      }}
+                      style={{ color: "red" }}
+                    />
+                  </div>
+                </div>
+              </>
             ),
           },
         ]}
@@ -107,6 +196,38 @@ function Orders() {
           pagination={false}
         />
       </Modal>
+      {/* <Modal
+        title="Update Status"
+        open={isEditing}
+        okText="Confirm"
+        onCancel={() => {
+          resetEditing();
+        }}
+        onOk={() => {
+          updateOrder(testRecord, editFormData);
+          resetEditing();
+        }}
+      >
+        <div style={{ lineHeight: "2.5" }}>
+          <Input
+            value={editFormData?.orderId}
+            onChange={(e) => {
+              setEditFormData((pre) => {
+                return { ...pre, orderId: e.target.value };
+              });
+            }}
+          />
+
+          <Input
+            value={editFormData?.statusId}
+            onChange={(e) => {
+              setEditFormData((pre) => {
+                return { ...pre, statusId: e.target.value };
+              });
+            }}
+          />
+        </div>
+      </Modal> */}
     </Space>
   );
 }
