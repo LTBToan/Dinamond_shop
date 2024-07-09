@@ -199,6 +199,8 @@ const ProductList = () => {
     setPage(event.selected);
   };
 
+  console.log("Shell,", shellData);
+
   return (
     <>
       <Navbar />
@@ -345,7 +347,15 @@ const ProductList = () => {
                       onClick={() => navigate(`/products/${product.productId}`)}
                       cursor="pointer"
                     >
-                      <div style={{ minHeight: "250px", maxHeight: "250px", display: "flex", justifyContent: "center", alignItems: "center" }}>
+                      <div
+                        style={{
+                          minHeight: "250px",
+                          maxHeight: "250px",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                      >
                         <Image src={product.imageLink} alt={product.name} />
                       </div>
                       <Divider borderColor="gray.400" />

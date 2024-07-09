@@ -7,17 +7,14 @@ import {
   SolutionOutlined,
   HomeOutlined,
   InboxOutlined,
-  BookOutlined,
-  ExceptionOutlined,
 } from "@ant-design/icons";
 import { Layout, Menu, theme, Breadcrumb, Image } from "antd";
-import eFurniLogo from "../../assets/logos/eFurniLogo_transparent.png";
+import eFurniLogo from "../../assets/logos/diamondlogo.png";
 import Users from "../../components/Admin/User/Users";
 import Dashboard from "../../components/Admin/Dashboard/Dashboard";
 import Products from "../../components/Admin/Product/Products";
 import Orders from "../../components/Admin/Orders/Orders";
 import Inventory from "../../components/Admin/Inventory/Inventory";
-import Feedback from "../../components/Admin/Feedback/Feedback";
 import { Link } from "react-router-dom";
 
 const { Header, Sider, Content } = Layout;
@@ -59,12 +56,6 @@ const Admin = () => {
       icon: <InboxOutlined />,
       label: "Inventory",
       onClick: () => setActiveComponent("Inventory"),
-    },
-    {
-      key: "7",
-      icon: <ExceptionOutlined />,
-      label: "Feedback",
-      onClick: () => setActiveComponent("Feedback"),
     },
   ];
 
@@ -139,7 +130,6 @@ const Admin = () => {
           {activeComponent === "Orders" && <Orders />}
           {activeComponent === "Products" && <Products />}
           {activeComponent === "Inventory" && <Inventory />}
-          {activeComponent === "Feedback" && <Feedback />}
         </Content>
       </Layout>
     </Layout>
