@@ -50,7 +50,7 @@ export default function OrderItemList({ orderId, date, isDelivered }) {
               color={isDelivered === 1 ? "green.500" : "gray.500"}
               bgColor={isDelivered === 1 ? "green.100" : "gray.100"}
             >
-              {isDelivered === 1 ? "Delivered" : "On delivery"}
+              {isDelivered === 1 ? "Delivered" : "In delivery"}
             </Text>
           </Td>
         </Tr>

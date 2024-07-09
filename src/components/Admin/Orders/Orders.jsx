@@ -9,10 +9,12 @@ function Orders() {
   useEffect(() => {
     setLoading(true);
     getOrders().then((res) => {
-      setDataSource(res.products);
+      setDataSource(res);
       setLoading(false);
     });
   }, []);
+
+  console.log("s:", dataSource);
 
   return (
     <Space size={20} direction="vertical">
@@ -22,13 +24,12 @@ function Orders() {
         loading={loading}
         columns={[
           {
-            title: "Title",
-            dataIndex: "title",
+            title: "Order ID",
+            dataIndex: "orderId",
           },
           {
-            title: "Price",
-            dataIndex: "price",
-            render: (value) => <span>${value}</span>,
+            title: "User",
+            dataIndex: "accountId",
           },
           {
             title: "DiscountedPrice",
@@ -36,8 +37,8 @@ function Orders() {
             render: (value) => <span>${value}</span>,
           },
           {
-            title: "Quantity",
-            dataIndex: "quantity",
+            title: "Status",
+            dataIndex: "statusId",
           },
           {
             title: "Total",

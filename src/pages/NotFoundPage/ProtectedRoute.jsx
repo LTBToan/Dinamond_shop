@@ -14,6 +14,8 @@ const ProtectedRoutes = (props) => {
         emptyColor="gray.200"
         color="blue.500"
         size="xl"
+        top="50%"
+        left="50%"
       />
     );
   }

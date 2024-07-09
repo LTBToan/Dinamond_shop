@@ -38,7 +38,7 @@ import Footer from "../../components/Home/Footer";
 
 const categoryMap = {
   ring: "1",
-  necklace: "2",
+  necklace: "5",
   earrings: "3",
   bracelet: "4",
 };
@@ -64,7 +64,7 @@ const ProductList = () => {
     switch (categoryId) {
       case "1":
         return "https://cdn.shopify.com/s/files/1/0014/5686/5316/files/Manfredi_category_banners_2.png?v=1667486214";
-      case "2":
+      case "5":
         return "https://cdn.shopify.com/s/files/1/0014/5686/5316/files/Manfredi_category_banners_1.png?v=1667485293";
       case "3":
         return "https://cdn.shopify.com/s/files/1/0014/5686/5316/files/Manfredi_category_banners_4.png?v=1667486547";

@@ -181,7 +181,7 @@ export default function Product() {
               <Image
                 src={mainImage}
                 alt={currentProduct.productName}
-                boxSize="500px"
+                boxSize="60%"
                 objectFit="cover"
                 m="auto"
               />

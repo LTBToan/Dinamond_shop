@@ -6,8 +6,9 @@ import Navbar from "../../components/Navbar/Navbar";
 import Footer from "../../components/Home/Footer";
 import PrivacySetting from "../../components/Profile/PrivacySettings/PrivacySetting";
 import axios from "axios";
+import { Navigate } from "react-router-dom";
 
-const Sidebar = ({ selectedItem, onSelect }) => {
+const Sidebar = ({ selectedItem, onSelect, user }) => {
   const menuItems = [
     "Profile",
     "Address",
@@ -17,21 +18,9 @@ const Sidebar = ({ selectedItem, onSelect }) => {
     "Privacy Settings",
   ];
 
-  const [user, setUser] = useState({});
-  const currentUserId = sessionStorage.getItem("loginUserId");
-
-  const fetchUserData = async () => {
-    await axios
-      .get(`http://localhost:8080/api/users/${currentUserId}`)
-      .then((res) => {
-        setUser(res.data);
-      })
-      .catch((err) => console.log(err));
-  };
-
-  useEffect(() => {
-    fetchUserData();
-  }, []);
+  if (user.role === "AD") {
+    menuItems.push("Administration");
+  }
 
   return (
     <div style={{ width: "200px" }}>
@@ -79,6 +68,21 @@ const Sidebar = ({ selectedItem, onSelect }) => {
 
 const ProfilePage = () => {
   const [selectedItem, setSelectedItem] = useState("Profile");
+  const [user, setUser] = useState({});
+  const currentUserId = sessionStorage.getItem("loginUserId");
+
+  const fetchUserData = async () => {
+    await axios
+      .get(`http://localhost:8080/api/users/${currentUserId}`)
+      .then((res) => {
+        setUser(res.data);
+      })
+      .catch((err) => console.log(err));
+  };
+
+  useEffect(() => {
+    fetchUserData();
+  }, []);
 
   const renderComponent = () => {
     switch (selectedItem) {
@@ -94,6 +98,8 @@ const ProfilePage = () => {
         return "Voucher";
       case "Privacy Settings":
         return <PrivacySetting />;
+      case "Administration":
+        return <Navigate to="/admin" />;
       default:
         return null;
     }
@@ -109,7 +115,11 @@ const ProfilePage = () => {
           fontFamily: "Arial, sans-serif",
         }}
       >
-        <Sidebar selectedItem={selectedItem} onSelect={setSelectedItem} />
+        <Sidebar
+          selectedItem={selectedItem}
+          onSelect={setSelectedItem}
+          user={user}
+        />
         <div
           style={{
             flex: "1",
