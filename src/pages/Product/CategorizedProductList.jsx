@@ -345,7 +345,9 @@ const ProductList = () => {
                       onClick={() => navigate(`/products/${product.productId}`)}
                       cursor="pointer"
                     >
-                      <Image src={product.imageLink} alt={product.name} />
+                      <div style={{ minHeight: "250px", maxHeight: "250px", display: "flex", justifyContent: "center", alignItems: "center" }}>
+                        <Image src={product.imageLink} alt={product.name} />
+                      </div>
                       <Divider borderColor="gray.400" />
                       <Box p={3}>
                         <Box display="flex" alignItems="baseline">

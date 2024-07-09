@@ -26,6 +26,7 @@ import { useFormik } from "formik";
 import { generateUniqueId } from "../../assistants/Generators";
 
 import payment_option_img from "../../assets/img/product/payment-option.png";
+import { message } from "antd";
 
 export default function Product() {
   const { addToCart } = useCart();
@@ -118,9 +119,12 @@ export default function Product() {
       selectedSize,
       quantity
     );
+    message.success({
+      key: "Add to cart",
+      content: "Product added to cart",
+      duration: 5,
+    });
   };
-
-  console.log("XAXA: ", shellProduct);
 
   const buyNowForm = useFormik({
     initialValues: {
@@ -182,7 +186,7 @@ export default function Product() {
                 src={mainImage}
                 alt={currentProduct.productName}
                 boxSize="60%"
-                objectFit="cover"
+                objectFit="contain"
                 m="auto"
               />
               <HStack mt={5} justifyContent="center">
@@ -201,11 +205,11 @@ export default function Product() {
                     src={currentProduct.imageLink}
                     alt={currentProduct.productName}
                     boxSize="100px"
-                    objectFit="cover"
+                    objectFit="contain"
                     _hover={{ border: "1px solid #d4af37", transition: "0.5s" }}
                   />
                 </Box>
-                {/* <Box
+                <Box
                   onClick={() => {
                     setMainImage(
                       "https://www.candere.com/media/jewellery/images/GR00103__1.jpeg"
@@ -248,29 +252,7 @@ export default function Product() {
                     objectFit="cover"
                     _hover={{ border: "1px solid #d4af37", transition: "0.5s" }}
                   />
-                </Box> */}
-                {shellProduct.map((shell) => {
-                  <Box
-                    onClick={() => setMainImage(shell.imageLink)}
-                    cursor="pointer"
-                    border={
-                      mainImage === shell.imageLink
-                        ? "1px solid #d4af37"
-                        : "none"
-                    }
-                  >
-                    <Image
-                      src={shell.imageLink}
-                      alt={shell.productName}
-                      boxSize="100px"
-                      objectFit="cover"
-                      _hover={{
-                        border: "1px solid #d4af37",
-                        transition: "0.5s",
-                      }}
-                    />
-                  </Box>;
-                })}
+                </Box>
               </HStack>
             </Box>
             <Box w="50%" pr={40}>

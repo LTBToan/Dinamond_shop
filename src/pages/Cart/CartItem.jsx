@@ -4,6 +4,7 @@ import axios from "axios";
 import { DeleteIcon } from "@chakra-ui/icons";
 import { CartContext } from "../../context/CartContext";
 import { truncateString } from "../../assistants/Generators";
+import { message } from "antd";
 
 export default function CartItem({
   cartItemId,
@@ -95,6 +96,11 @@ export default function CartItem({
         );
       })
       .catch((err) => console.log(err));
+    message.info({
+      key: "Remove from cart",
+      content: "Product removed from cart",
+      duration: 5,
+    });
   };
 
   return (
