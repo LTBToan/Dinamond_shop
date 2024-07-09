@@ -54,12 +54,6 @@ const Admin = () => {
       label: "Orders",
       onClick: () => setActiveComponent("Orders"),
     },
-    {
-      key: "5",
-      icon: <InboxOutlined />,
-      label: "Inventory",
-      onClick: () => setActiveComponent("Inventory"),
-    },
   ];
 
   return (

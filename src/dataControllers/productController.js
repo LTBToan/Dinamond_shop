@@ -11,7 +11,7 @@ export const getProductById = (id) => {
 };
 
 export const addProduct = (data) => {
-  return fetch(`http://localhost:8080/api/users`, {
+  return fetch(`http://localhost:8080/api/products/add`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

@@ -125,13 +125,13 @@ function Products() {
       }
     });
   };
-  // const updateProduct1 = async (id, data) => {
-  //   try {
-  //     axios.put(`http://localhost:8080/api/products/get/${id}`, data);
-  //   } catch (error) {
-  //     console.log.error(error);
-  //   }
-  // };
+  const updateProduct1 = async (id, data) => {
+    try {
+      axios.put(`http://localhost:8080/api/products/update/${id}`, data);
+    } catch (error) {
+      console.log.error(error);
+    }
+  };
 
   return (
     <Space size={20} direction="vertical">
@@ -144,7 +144,7 @@ function Products() {
           enterButton
           style={{ width: "500px" }}
         />
-        <AddModal>Add Product</AddModal>
+        <AddModal>New Product</AddModal>
       </div>
       <Table
         style={{ width: "1250px" }}
@@ -164,7 +164,7 @@ function Products() {
             title: "Product Name",
             key: "productName",
             dataIndex: "productName",
-            render: (value) => <span>${value}</span>,
+            // render: (value) => <span>${value}</span>,
           },
           {
             title: "Product Size",
@@ -224,7 +224,7 @@ function Products() {
           resetEditing();
         }}
         onOk={() => {
-          updateProduct(testRecord, editFormData);
+          updateProduct1(testRecord, editFormData);
           resetEditing();
         }}
       >

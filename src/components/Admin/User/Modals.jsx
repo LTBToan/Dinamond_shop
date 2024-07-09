@@ -93,21 +93,9 @@ const AddModal = () => {
     });
   };
 
-  const handleImage = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      // const imageUrl = URL.createObjectURL(file);
-      // console.log("URL: ", imageUrl);
-      setFormData({
-        ...formData,
-        image_url: file,
-      });
-    }
-  };
-
-  const handleSwitchChange = (checked) => {
-    setFormData({ ...formData, status: checked ? true : false });
-  };
+  // const handleSwitchChange = (checked) => {
+  //   setFormData({ ...formData, status: checked ? true : false });
+  // };
 
   const handleSubmit = (event) => {
     setIsModalOpen(false);

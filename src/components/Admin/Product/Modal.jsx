@@ -58,17 +58,18 @@ const AddModal = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
   const [formData, setFormData] = useState({
+    productId: "",
+    productName: "",
+    productSize: "",
+    productPrice: "",
+    quantity: "",
+    description: "",
+    imageLink: "",
     categoryId: "",
     diamondId: "",
     shellId: "",
     accountId: "",
     materialId: "",
-    description: "",
-    productId: "",
-    productName: "",
-    productSize: "",
-    imageLink: "",
-    productId: "",
   });
 
   const showModal = () => {
@@ -82,14 +83,18 @@ const AddModal = () => {
   const handleCancel = () => {
     setIsModalOpen(false);
     setFormData({
-      ...formData,
-      product_id: "",
-      name: "",
-      price: "",
+      productId: "",
+      productName: "",
+      productSize: "",
+      productPrice: "",
+      quantity: "",
       description: "",
-      image_url: "",
-      status: 0,
-      category_name: "",
+      imageLink: "",
+      categoryId: "",
+      diamondId: "",
+      shellId: "",
+      accountId: "",
+      materialId: "",
     });
     setSelectedImage(null);
   };
@@ -125,13 +130,18 @@ const AddModal = () => {
     addProduct(formData);
     setFormData({
       ...formData,
-      product_id: "",
-      name: "",
-      price: "",
+      productId: "",
+      productName: "",
+      productSize: "",
+      productPrice: "",
+      quantity: "",
       description: "",
-      image_url: "",
-      status: 1,
-      category_name: "",
+      imageLink: "",
+      categoryId: "",
+      diamondId: "",
+      shellId: "",
+      accountId: "",
+      materialId: "",
     });
     setSelectedImage(null);
   };
@@ -144,10 +154,10 @@ const AddModal = () => {
         onClick={showModal}
         icon={<PlusCircleOutlined />}
       >
-        Add Product
+        New Product
       </Button>
       <Modal
-        title="Create Product"
+        title="Input Information Product"
         open={isModalOpen}
         onOk={handleSubmit}
         onCancel={handleCancel}
@@ -160,15 +170,15 @@ const AddModal = () => {
             maxWidth: 600,
           }}
         >
-          <Form.Item label="Product Namesss">
+          <Form.Item label="Product Id">
             <Input
               type="text"
-              name="name"
-              value={formData?.name}
+              name="productId"
+              value={formData?.productId}
               onChange={handleChange}
             />
           </Form.Item>
-          <Form.Item label="Category">
+          {/* <Form.Item label="Category">
             <Select
               value={formData?.category_name}
               options={options}
@@ -178,14 +188,38 @@ const AddModal = () => {
                   return { ...pre, category_name: value };
                 });
               }}
-              // onChange={handleChange}
+               onChange={handleChange}
+            >
+          </Form.Item> */}
+          <Form.Item label="Product Name">
+            <Input
+              type="text"
+              name="productName"
+              value={formData?.productName}
+              onChange={handleChange}
             />
           </Form.Item>
-          <Form.Item label="Price">
+          <Form.Item label="Product Size">
             <Input
               type="number"
-              name="price"
-              value={formData?.price}
+              name="productSize"
+              value={formData?.productSize}
+              onChange={handleChange}
+            />
+          </Form.Item>
+          <Form.Item label="Product Price">
+            <Input
+              type="number"
+              name="productPrice"
+              value={formData?.productPrice}
+              onChange={handleChange}
+            />
+          </Form.Item>
+          <Form.Item label="Quantity">
+            <Input
+              type="number"
+              name="quantity"
+              value={formData?.quantity}
               onChange={handleChange}
             />
           </Form.Item>
@@ -197,24 +231,53 @@ const AddModal = () => {
               onChange={handleChange}
             />
           </Form.Item>
-          <Form.Item label="Image">
+          <Form.Item label="Image Link">
             <Input
               type="text"
-              name="image"
-              value={formData?.image_url}
+              name="imageLink"
+              value={formData?.imageLink}
               onChange={handleChange}
             />
           </Form.Item>
-          <Form.Item label="Add Image">
+          <Form.Item label="Category Id">
             <Input
-              type="file"
-              name="image_url"
-              value={formData?.image_url}
-              onChange={handleImage}
+              type="text"
+              name="categoryId"
+              value={formData?.categoryId}
+              onChange={handleChange}
             />
           </Form.Item>
-          <Form.Item label="Available">
-            <Switch value={formData?.status} onChange={handleSwitchChange} />
+          <Form.Item label="Diamond Id">
+            <Input
+              type="text"
+              name="diamondId"
+              value={formData?.diamondId}
+              onChange={handleChange}
+            />
+          </Form.Item>
+          <Form.Item label="Shell Id">
+            <Input
+              type="text"
+              name="shellId"
+              value={formData?.shellId}
+              onChange={handleChange}
+            />
+          </Form.Item>
+          <Form.Item label="Account Id">
+            <Input
+              type="text"
+              name="accountId"
+              value={formData?.accountId}
+              onChange={handleChange}
+            />
+          </Form.Item>
+          <Form.Item label="Material Id">
+            <Input
+              type="text"
+              name="materialId"
+              value={formData?.materialId}
+              onChange={handleChange}
+            />
           </Form.Item>
         </Form>
       </Modal>

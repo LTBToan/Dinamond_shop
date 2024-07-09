@@ -164,7 +164,7 @@ function Users() {
           enterButton
           style={{ width: "500px" }}
         />
-        <AddModal>Create User</AddModal>
+        <AddModal>New User</AddModal>
       </div>
       <Table
         style={{ width: "1250px" }}
