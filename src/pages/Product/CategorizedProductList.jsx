@@ -86,7 +86,7 @@ const ProductList = () => {
         const productData = await getProductByCategory(categoryId);
         setProductDataSource(productData);
 
-        const shellData = await getAllShell();
+        const shellData = await getAllShell(categoryId);
         setShellData(shellData);
 
         const materialData = await getAllMaterial();
@@ -198,8 +198,6 @@ const ProductList = () => {
   const handlePageChange = (event) => {
     setPage(event.selected);
   };
-
-  console.log("Shell,", shellData);
 
   return (
     <>

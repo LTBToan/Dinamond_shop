@@ -65,7 +65,7 @@ export default function Forgot() {
     }),
     onSubmit: async (values) => {
       setIsLoading(true);
-      await fetch("http://localhost:8080/api/users")
+      await fetch("http://localhost:8080/api/users/all")
         .then((res) => res.json())
         .then((data) => {
           const foundAccountByEmail = data.find(

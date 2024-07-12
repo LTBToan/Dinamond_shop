@@ -64,7 +64,7 @@ export default function Signup() {
         decoded.email
       );
 
-      await fetch("http://localhost:8080/api/users")
+      await fetch("http://localhost:8080/api/users/all")
         .then((res) => res.json())
         .then((data) => {
           var foundUserByEmail = data.find(

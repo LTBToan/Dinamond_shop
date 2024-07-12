@@ -28,14 +28,6 @@ const SizeGuide = ({ categoryId }) => {
   };
   return (
     <Box px={30}>
-      <Flex alignItems="center">
-        <Flex w="40%" alignItems="center">
-          <Text as="h3" mt={1}>
-            How to measure your size
-          </Text>
-        </Flex>
-        <Divider />
-      </Flex>
       <Text>
         To choose the right ring size, you need to measure your finger size
         accurately so that when wearing the ring, the ring is not too wide or

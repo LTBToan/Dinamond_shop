@@ -166,6 +166,7 @@ export default function OrderList() {
                 <Th>Total</Th>
                 <Th>Date</Th>
                 <Th>Status</Th>
+                <Th>Feedback</Th>
               </Tr>
             </Thead>
             <Tbody>

@@ -90,7 +90,7 @@ const PayStatus = () => {
               accountId: currentUserId,
               totalPrice: 0,
               address: "",
-              date: new Date().toISOString(),
+              // date: new Date().toISOString(),
               statusId: 0,
             }
           );

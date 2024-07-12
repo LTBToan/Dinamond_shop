@@ -1,14 +1,18 @@
-import styles from "../../css/related.module.css";
-import { useState, useEffect } from "react";
-import { Card, Divider, Flex } from "antd";
-import { ChakraProvider, Text } from "@chakra-ui/react";
+import React, { useState, useEffect } from "react";
+import {
+  Box,
+  Flex,
+  Text,
+  Image,
+  Divider,
+  ChakraProvider,
+  Badge,
+} from "@chakra-ui/react";
 import axios from "axios";
+import styles from "../../css/related.module.css";
 
-export default function RelatedProducts({ categoryId }) {
+const RelatedProducts = ({ categoryId }) => {
   const [dataSource, setDataSource] = useState([]);
-  const navigate = (toUrl) => {
-    window.location.href = toUrl;
-  };
 
   const fetchRelatedProducts = async () => {
     await axios
@@ -21,55 +25,90 @@ export default function RelatedProducts({ categoryId }) {
 
   useEffect(() => {
     fetchRelatedProducts();
-  }, []);
+  }, [categoryId]);
 
   return (
-    <>
-      <ChakraProvider>
-        <div style={{ display: "block" }}>
-          <Divider orientation="left">
-            <Text className={styles.title}>Related Product</Text>
-          </Divider>
-          <Flex justify="center" align="center">
-            <div className={styles.container}>
+    <ChakraProvider>
+      <Box display="block" p={5} mb={20}>
+        <Text fontSize="44px" fontWeight="500" align="center">
+          Related Products
+        </Text>
+        <Flex justify="center" align="center">
+          <Flex overflowX="auto" width="100%">
+            <Flex width="max-content">
               {dataSource.map((item) => (
-                <Card
+                <Box
                   key={item.productId}
-                  hoverable
-                  style={{
-                    width: 200,
-                    height: 250,
-                  }}
-                  onClick={() => {
-                    navigate(`/products/${item.productId}`);
-                  }}
+                  width="200px" // Set a fixed width
+                  borderWidth="1px"
+                  borderRadius="lg"
+                  overflow="hidden"
+                  onClick={() =>
+                    (window.location.href = `/products/${item.productId}`)
+                  }
+                  cursor="pointer"
+                  m={3} // Add margin to separate items a bit
                 >
-                  <div className={styles.productImageSection}>
-                    <img alt="" src={item.imageLink} />
+                  <div
+                    style={{
+                      height: "200px",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <Image
+                      src={item.imageLink}
+                      alt={item.productName}
+                      objectFit="cover"
+                    />
                   </div>
-                  <div className={styles.infoSection}>
-                    <Text
-                      style={{ fontWeight: "700", fontSize: "130%" }}
-                      className={styles.itemName}
+                  <Divider borderColor="gray.400" />
+                  <Box p={3}>
+                    <Box display="flex" alignItems="baseline">
+                      <Badge
+                        borderRadius="full"
+                        px="2"
+                        bgColor="#d4af37"
+                        color="whitesmoke"
+                      >
+                        New
+                      </Badge>
+                      <Box
+                        color="gray.500"
+                        fontWeight="semibold"
+                        letterSpacing="wide"
+                        fontSize="xs"
+                        textTransform="uppercase"
+                        ml="2"
+                      >
+                        Summer
+                      </Box>
+                    </Box>
+                    <Box
+                      mt="1"
+                      fontWeight="semibold"
+                      as="h3"
+                      fontSize="18px"
+                      lineHeight="tight"
+                      noOfLines={1}
                     >
                       {item.productName}
-                    </Text>
-                    <Text type="secondary" style={{ fontWeight: "400" }}>
-                      <Text
-                      // delete={item.status === 0}
-                      >
+                    </Box>
+                    <Box>
+                      <Text color="gray.500" fontSize="sm">
                         {item.productPrice.toLocaleString()}₫‌
                       </Text>
-                      &ensp;
-                      {item.status === 0 ? "SOLD OUT" : ""}
-                    </Text>
-                  </div>
-                </Card>
+                    </Box>
+                  </Box>
+                </Box>
               ))}
-            </div>
+            </Flex>
           </Flex>
-        </div>
-      </ChakraProvider>
-    </>
+        </Flex>
+      </Box>
+    </ChakraProvider>
   );
-}
+};
+
+export default RelatedProducts;

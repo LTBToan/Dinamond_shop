@@ -1,5 +1,5 @@
-export const getAllShell = async () => {
-  const res = await fetch("http://localhost:8080/api/shells/all");
+export const getAllShell = async (id) => {
+  const res = await fetch(`http://localhost:8080/api/shells/get/category/${id}`);
   return await res.json();
 };
 

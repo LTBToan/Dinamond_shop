@@ -13,6 +13,15 @@ import {
   Circle,
   Alert,
   AlertIcon,
+  Tabs,
+  TabList,
+  TabPanels,
+  Tab,
+  TabPanel,
+  FormControl,
+  FormLabel,
+  Textarea,
+  TabIndicator,
 } from "@chakra-ui/react";
 import { MinusIcon, AddIcon } from "@chakra-ui/icons";
 import { useParams } from "react-router-dom";
@@ -27,6 +36,8 @@ import { generateUniqueId } from "../../assistants/Generators";
 
 import payment_option_img from "../../assets/img/product/payment-option.png";
 import { message } from "antd";
+
+const data = ["Hello"];
 
 export default function Product() {
   const { addToCart } = useCart();
@@ -389,18 +400,78 @@ export default function Product() {
 
               <Text fontWeight={600}>Guaranteed safe checkout</Text>
               <Image src={payment_option_img} alt="payment_option_img" />
-
-              <Divider my="4" borderColor="gray.400" />
-              <Text as="h3" fontSize="20px">
-                DETAILS FROM OUR MASTER JEWELLERS
-              </Text>
-              <Text mt="4" as="p" color="gray.500">
-                {currentProduct.description}
-              </Text>
             </Box>
           </Flex>
-
-          <SizeGuide categoryId={currentProduct.categoryId} />
+          <Box px={150} py={50}>
+            <Tabs variant="enclosed" colorScheme="yellow">
+              <TabList justifyContent="center">
+                <Tab
+                  mx={5}
+                  border="none"
+                  fontSize="20px"
+                  color="gray.500"
+                  _hover={{ color: "black" }}
+                  _selected={{ color: "black" }}
+                >
+                  Description
+                </Tab>
+                <Tab
+                  mx={5}
+                  border="none"
+                  fontSize="20px"
+                  color="gray.500"
+                  _hover={{ color: "black" }}
+                  _selected={{ color: "black" }}
+                >
+                  Measure Size
+                </Tab>
+                <Tab
+                  mx={5}
+                  border="none"
+                  fontSize="20px"
+                  color="gray.500"
+                  _hover={{ color: "black" }}
+                  _selected={{ color: "black" }}
+                >
+                  Reviews
+                </Tab>
+              </TabList>
+              <TabIndicator mt="-1.5px" height="2px" bg="yellow.500" />
+              <TabPanels>
+                <TabPanel py="30px">
+                  <Text fontSize="18px">{currentProduct.description}</Text>
+                </TabPanel>
+                <TabPanel py="30px">
+                  <SizeGuide categoryId={currentProduct.categoryId} />
+                </TabPanel>
+                <TabPanel>
+                  <Flex gap={6} py="30px">
+                    <Box w="50%">
+                      <Text fontSize="24px" fontWeight="500">
+                        Rating & Review
+                      </Text>
+                      <Box>
+                        {!data ? <Text>No reviews yet.</Text> : <>{data}</>}
+                      </Box>
+                    </Box>
+                    <Box w="50%">
+                      <Text fontSize="24px" fontWeight="500">
+                        Review this product
+                      </Text>
+                      <FormControl id="review">
+                        <FormLabel>Your review</FormLabel>
+                        <Textarea placeholder="Write your review here..." />
+                      </FormControl>
+                      <Button mt={2} colorScheme="yellow">
+                        Submit
+                      </Button>
+                    </Box>
+                  </Flex>
+                </TabPanel>
+              </TabPanels>
+            </Tabs>
+          </Box>
+          <Divider my="10" borderColor="gray.500" />
           <RelatedProducts categoryId={currentProduct.categoryId} />
         </>
       )}
