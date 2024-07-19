@@ -135,6 +135,8 @@ export default function OrderList() {
   const currentPageData = orderList.slice(offset, offset + ITEMS_PER_PAGE);
   const pageCount = Math.ceil(orderList.length / ITEMS_PER_PAGE);
 
+  console.log("Orde: ", currentPageData);
+
   return (
     <>
       {orderList.length === 0 ? (

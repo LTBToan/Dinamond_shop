@@ -38,57 +38,16 @@ function Orders() {
   //   });
   // }, []);
   useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      const newData = await getOrders();
-      setDataSource(newData);
+    setLoading(true);
+    getOrders().then((res) => {
+      setDataSource(res.products);
       setLoading(false);
     };
     fetchData();
     const intervalId = setInterval(fetchData, 3000);
     return () => clearInterval(intervalId);
   }, []);
-  const handleOrderClick = (record) => {
-    setSelectedOrder(record);
-    console.log(record);
-    getOrderDetails(record).then((details) => {
-      setOrderDetails(details);
-      console.log(details);
-      setModalVisible(true);
-    });
-  };
-  const closeModal = () => {
-    setModalVisible(false);
-  };
-  // const handleUpdateClick = async (record) => {
-  //   setIsEditing(true);
-  //   // let data = { ...editFormData, id: record };
-  //   console.log(record);
-  //   const productNew = await getOrdersById(record);
-  //   console.log(productNew);
-  //   setEditFormData(productNew);
-  //   setTestRecord(record);
-  // };
-  // const resetEditing = () => {
-  //   setIsEditing(false);
-  //   setEditFormData(null);
-  // };
-  const updateOrder = async (id, data) => {
-    try {
-      const updatedData = { ...data, statusId: 1 };
-      axios.put(`http://localhost:8080/api/orders/update/${id}`, updatedData);
-    } catch (error) {
-      console.log.error(error);
-    }
-  };
-  const updateOrder1 = async (id, data) => {
-    try {
-      const updatedData = { ...data, statusId: 3 };
-      axios.put(`http://localhost:8080/api/orders/update/${id}`, updatedData);
-    } catch (error) {
-      console.log.error(error);
-    }
-  };
+
   return (
     <Space size={20} direction="vertical">
       <Typography.Title level={4}>Orders</Typography.Title>
@@ -97,13 +56,13 @@ function Orders() {
         loading={loading}
         columns={[
           {
-            title: "Order Id",
-            dataIndex: "orderId",
+            title: "Title",
+            dataIndex: "title",
           },
           {
-            title: "Account Id",
-            dataIndex: "accountId",
-            // render: (value) => <span>${value}</span>,
+            title: "Price",
+            dataIndex: "price",
+            render: (value) => <span>${value}</span>,
           },
           {
             title: "Total Price",
@@ -111,16 +70,8 @@ function Orders() {
             // render: (value) => <span>${value}</span>,
           },
           {
-            title: "Address",
-            dataIndex: "address",
-          },
-          {
-            title: "date",
-            dataIndex: "date",
-          },
-          {
-            title: "Status Id",
-            dataIndex: "statusId",
+            title: "Quantity",
+            dataIndex: "quantity",
           },
           {
             title: "Action",

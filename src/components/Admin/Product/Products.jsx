@@ -7,6 +7,7 @@ import {
   updateProduct,
   deleteProduct,
 } from "../../../dataControllers/productController";
+import { truncateString } from "../../../assistants/Generators";
 import AddModal from "./Modal";
 import axios from "axios";
 // const options = [
@@ -151,35 +152,45 @@ function Products() {
         loading={loading}
         columns={[
           {
-            title: "Category Id",
-            key: "categoryId",
-            dataIndex: "categoryId",
+            title: "Picture",
+            key: "image_url",
+            dataIndex: "image_url",
+            render: (link) => {
+              return <Image src={link} width={45} />;
+            },
           },
           {
-            title: "Product Id",
-            key: "productId",
-            dataIndex: "productId",
+            title: "Name",
+            key: "name",
+            dataIndex: "name",
           },
           {
-            title: "Product Name",
-            key: "productName",
-            dataIndex: "productName",
-            // render: (value) => <span>${value}</span>,
+            title: "Price",
+            key: "price",
+            dataIndex: "price",
+            render: (value) => <span>${value}</span>,
           },
           {
-            title: "Product Size",
-            key: "productSize",
-            dataIndex: "productSize",
+            title: "Category",
+            key: "category",
+            dataIndex: "category_name",
           },
           {
-            title: "Product Price",
-            key: "productPrice",
-            dataIndex: "productPrice",
-          },
-          {
-            title: "Quantity",
-            key: "quantity",
-            dataIndex: "quantity",
+            title: "Status",
+            key: "status",
+            dataIndex: "status",
+            render: (status) => (
+              <span
+                style={{
+                  backgroundColor: status ? "green" : "red",
+                  padding: "4px 8px",
+                  borderRadius: "4px",
+                  color: "white",
+                }}
+              >
+                {status ? "Available" : "Unavailable"}
+              </span>
+            ),
           },
           {
             title: "Action",

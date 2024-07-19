@@ -85,7 +85,9 @@ export default function OrderItem({ orderId, productId, quantity }) {
         </Text>
       </Td>
       <Td>{quantity}</Td>
-      <Td fontWeight="bold">{quantity * product.productPrice} $</Td>
+      <Td fontWeight="bold">
+        {(quantity * product.productPrice).toLocaleString()}₫‌
+      </Td>
     </>
   );
 }

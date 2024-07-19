@@ -70,16 +70,23 @@ export const CartProvider = ({ children }) => {
     setTotalAmount(total);
   };
 
-  const addToCart = async (productId, productName, productPrice, quantity) => {
+  const addToCart = async (
+    productId,
+    productName,
+    productPrice,
+    productSize,
+    quantity
+  ) => {
     try {
       const res = await axios.post(
         "http://localhost:8080/api/carts/product/add",
         {
           cartId: cart.cartId,
           productId,
-          productName,
+          prodName: productName,
           quantity,
           price: productPrice,
+          productSize,
         }
       );
       const newItem = res.data;

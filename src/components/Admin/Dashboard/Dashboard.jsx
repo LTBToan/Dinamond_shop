@@ -22,7 +22,7 @@ import {
   Legend,
 } from "chart.js";
 import { Bar } from "react-chartjs-2";
-import { getBooking } from "../../../dataControllers/bookingController";
+
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -36,21 +36,15 @@ function Dashboard() {
   const [orders, setOrders] = useState(0);
   const [products, setProducts] = useState(0);
   const [users, setUsers] = useState(0);
-  const [revenue, setRevenue] = useState(0);
-  const [bookings, setBookings] = useState(0);
   useEffect(() => {
     getOrders().then((res) => {
       setOrders(res.total);
-      setRevenue(res.discountedTotal);
     });
     getProduct().then((res) => {
       setProducts(res.length);
     });
     getUser().then((res) => {
       setUsers(res.length);
-    });
-    getBooking().then((res) => {
-      setBookings(res.length);
     });
   }, []);
   return (
@@ -88,7 +82,7 @@ function Dashboard() {
         <DashboardCard
           icon={<BookOutlined style={{ fontSize: "20px" }} />}
           title={"Booking"}
-          value={bookings}
+          // value={bookings}
           gradientColors={["#2196F3", "#00C9FF"]}
         />
       </Space>

@@ -13,17 +13,21 @@ import {
   Flex,
 } from "@chakra-ui/react";
 
-const SizeGuide = () => {
+const SizeGuide = ({ categoryId }) => {
+  const bannerImage = () => {
+    switch (categoryId) {
+      case "1":
+        return "/images/ring-measure.jpg";
+      case "5":
+        return "https://lovelements.com/wp-content/uploads/2024/01/Necklace-Length-Size-Chart-by-lovelements.com_-1024x536.png.webp";
+      case "3":
+        return "https://images-aka.ernestjones.co.uk/guides/earrings-size-guide/EJ2108W04_Size_Guide_Earring_Graphic_3840x1800.png";
+      case "4":
+        return "https://www.nafisadesigns.com/media/wysiwyg/Bangle-Size-Guide-Step-Lurree.jpg";
+    }
+  };
   return (
     <Box px={30}>
-      <Flex alignItems="center">
-        <Flex w="40%" alignItems="center">
-          <Text as="h3" mt={1}>
-            How to measure your ring size
-          </Text>
-        </Flex>
-        <Divider />
-      </Flex>
       <Text>
         To choose the right ring size, you need to measure your finger size
         accurately so that when wearing the ring, the ring is not too wide or
@@ -43,15 +47,15 @@ const SizeGuide = () => {
         </li>
       </ol>
       <Box display="flex" justifyContent="center">
-        <Image src="/images/ring-measure.jpg" alt="Step 1 to 3" boxSize="70%" />
+        <Image src={bannerImage()} alt="Step 1 to 3" boxSize="70%" py={10}/>
       </Box>
-      <Text as="h3">Ring Size</Text>
+      {/* <Text as="h3">Ring Size</Text>
       <Text>
         To choose the correct ring size, you should know the length of different
         types of rings. Below is a common size conversion table:
-      </Text>
+      </Text> */}
 
-      <Table>
+      {/* <Table>
         <Thead>
           <Tr>
             <Th>Size vòng cổ (inch)</Th>
@@ -81,7 +85,7 @@ const SizeGuide = () => {
             <Td>Giữa ngực</Td>
           </Tr>
         </Tbody>
-      </Table>
+      </Table> */}
     </Box>
   );
 };

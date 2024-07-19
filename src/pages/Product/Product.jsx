@@ -7,11 +7,23 @@ import {
   Flex,
   Input,
   Divider,
-  VStack,
   HStack,
   Spinner,
+  Badge,
+  Circle,
+  Alert,
+  AlertIcon,
+  Tabs,
+  TabList,
+  TabPanels,
+  Tab,
+  TabPanel,
+  FormControl,
+  FormLabel,
+  Textarea,
+  TabIndicator,
 } from "@chakra-ui/react";
-import { CheckIcon, MinusIcon, AddIcon } from "@chakra-ui/icons";
+import { MinusIcon, AddIcon } from "@chakra-ui/icons";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import Navbar from "../../components/Navbar/Navbar";
@@ -22,39 +34,69 @@ import { useCart } from "../../context/CartContext";
 import { useFormik } from "formik";
 import { generateUniqueId } from "../../assistants/Generators";
 
+import payment_option_img from "../../assets/img/product/payment-option.png";
+import { message } from "antd";
+
+const data = ["Hello"];
+
 export default function Product() {
-  const userId = sessionStorage.getItem("loginUserId");
   const { addToCart } = useCart();
   const [quantity, setQuantity] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
+  const [mainImage, setMainImage] = useState("");
   const [currentProduct, setCurrentProduct] = useState({
     productName: "",
     imageLink: "",
     description: "",
     productPrice: "",
+    productSize: "",
     categoryId: "",
     status: 0,
   });
+  const [shellProduct, setShellProduct] = useState([]);
+  const [selectedSize, setSelectedSize] = useState(null);
+  const [errorMessage, setErrorMessage] = useState("");
+
   const { id } = useParams();
 
   const fetchProductInfo = async () => {
     setIsLoading(true);
-    await axios
-      .get(`http://localhost:8080/api/products/get/${id}`)
-      .then((res) => {
-        setCurrentProduct(res.data);
-        setTimeout(() => {
-          setIsLoading(false);
-        }, 0);
-      })
-      .catch((err) => console.log(err.message));
+    try {
+      const res = await axios.get(
+        `http://localhost:8080/api/products/get/${id}`
+      );
+      setCurrentProduct(res.data);
+      setMainImage(res.data.imageLink);
+    } catch (err) {
+      console.error(err.message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const fetchShellProduct = async (shellId) => {
+    setIsLoading(true);
+    try {
+      const res = await axios.get(
+        `http://localhost:8080/api/products/get/shell/${shellId}`
+      );
+      setShellProduct(res.data);
+    } catch (err) {
+      console.error(err.message);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   useEffect(() => {
     fetchProductInfo();
-  }, []);
+  }, [id]);
 
-  console.log("csas: ", currentProduct);
+  useEffect(() => {
+    if (currentProduct.shellId) {
+      fetchShellProduct(currentProduct.shellId);
+    }
+  }, [currentProduct.shellId]);
 
   const onQuantityChange = (value) => {
     if (value) setQuantity(value);
@@ -65,16 +107,34 @@ export default function Product() {
   };
 
   const increaseQuantity = () => {
-    if (quantity < 20) setQuantity((currentQuantity) => currentQuantity + 1);
+    if (quantity < 3) setQuantity((currentQuantity) => currentQuantity + 1);
+  };
+
+  const handleSizeSelect = (size) => {
+    setSelectedSize(size);
+    setErrorMessage("");
   };
 
   const handleAddToCart = () => {
+    if (!selectedSize) {
+      setErrorMessage("Please select a size.");
+      return;
+    }
+
+    const updatedPrice = currentProduct.productPrice + selectedSize * 1000;
+
     addToCart(
       id,
       currentProduct.productName,
-      currentProduct.productPrice,
+      updatedPrice,
+      selectedSize,
       quantity
     );
+    message.success({
+      key: "Add to cart",
+      content: "Product added to cart",
+      duration: 5,
+    });
   };
 
   const buyNowForm = useFormik({
@@ -83,29 +143,35 @@ export default function Product() {
     },
     enableReinitialize: true,
     onSubmit: async (values) => {
+      if (!selectedSize) {
+        setErrorMessage("Please select a size.");
+        return;
+      }
+
+      const updatedPrice = currentProduct.productPrice + selectedSize * 1000;
+
       console.log("Buy now form values: ", values);
       try {
-        await axios
-          .post("http://localhost:8080/api/payment/create_payment", {
+        const res = await axios.post(
+          "http://localhost:8080/api/payment/create_payment",
+          {
             items: [
               {
                 productId: id,
                 productName: currentProduct.productName,
                 quantity: values.quantity,
-                // price: currentProduct.productPrice,
-                price: 100000,
+                price: updatedPrice,
               },
             ],
             orderInfo: generateUniqueId("O", 6),
             bankCode: "VNBANK",
             orderType: "other",
-          })
-          .then((res) => {
-            const responseData = res.data.url;
-            window.location.href = responseData;
-            console.log("Post order: ", res.data);
-          })
-          .catch((err) => console.log(err));
+          }
+        );
+        const responseData = res.data.url;
+        sessionStorage.setItem("productId", id);
+        window.location.href = responseData;
+        console.log("Post order: ", res.data);
       } catch (err) {
         console.log("Error: ", err);
       }
@@ -126,54 +192,162 @@ export default function Product() {
             p={10}
             justifyContent="center"
           >
-            <Box ml={100} w="10%">
-              <VStack>
-                <Image
-                  src={currentProduct.imageLink}
-                  alt={currentProduct.productName}
-                  boxSize="100px"
-                  objectFit="cover"
-                  onClick={() => console.log("Thumbnail clicked")}
-                  cursor="pointer"
-                />
-                <Image
-                  src={currentProduct.imageLink}
-                  alt={currentProduct.productName}
-                  boxSize="100px"
-                  objectFit="cover"
-                  onClick={() => console.log("Thumbnail clicked")}
-                  cursor="pointer"
-                />
-              </VStack>
-            </Box>
-            <Box w="40%">
+            <Box w="50%">
               <Image
-                src={currentProduct.imageLink}
+                src={mainImage}
                 alt={currentProduct.productName}
-                boxSize="400px"
-                objectFit="cover"
-                pt={50}
+                boxSize="60%"
+                objectFit="contain"
                 m="auto"
               />
+              <HStack mt={5} justifyContent="center">
+                <Box
+                  onClick={() => {
+                    setMainImage(currentProduct.imageLink);
+                  }}
+                  cursor="pointer"
+                  border={
+                    mainImage === currentProduct.imageLink
+                      ? "1px solid #d4af37"
+                      : "none"
+                  }
+                >
+                  <Image
+                    src={currentProduct.imageLink}
+                    alt={currentProduct.productName}
+                    boxSize="100px"
+                    objectFit="contain"
+                    _hover={{ border: "1px solid #d4af37", transition: "0.5s" }}
+                  />
+                </Box>
+                <Box
+                  onClick={() => {
+                    setMainImage(
+                      "https://www.candere.com/media/jewellery/images/GR00103__1.jpeg"
+                    );
+                  }}
+                  cursor="pointer"
+                  border={
+                    mainImage ===
+                    "https://www.candere.com/media/jewellery/images/GR00103__1.jpeg"
+                      ? "1px solid #d4af37"
+                      : "none"
+                  }
+                >
+                  <Image
+                    src="https://www.candere.com/media/jewellery/images/GR00103__1.jpeg"
+                    alt={currentProduct.productName}
+                    boxSize="100px"
+                    objectFit="cover"
+                    _hover={{ border: "1px solid #d4af37", transition: "0.5s" }}
+                  />
+                </Box>
+                <Box
+                  onClick={() => {
+                    setMainImage(
+                      "https://www.orra.co.in/media/catalog/product/cache/a062e776095ada03f265202079309f18/o/p/opr11105_1_0ufvimxzal9jqm1w.jpg"
+                    );
+                  }}
+                  cursor="pointer"
+                  border={
+                    mainImage ===
+                    "https://www.orra.co.in/media/catalog/product/cache/a062e776095ada03f265202079309f18/o/p/opr11105_1_0ufvimxzal9jqm1w.jpg"
+                      ? "1px solid #d4af37"
+                      : "none"
+                  }
+                >
+                  <Image
+                    src="https://www.orra.co.in/media/catalog/product/cache/a062e776095ada03f265202079309f18/o/p/opr11105_1_0ufvimxzal9jqm1w.jpg"
+                    alt={currentProduct.productName}
+                    boxSize="100px"
+                    objectFit="cover"
+                    _hover={{ border: "1px solid #d4af37", transition: "0.5s" }}
+                  />
+                </Box>
+              </HStack>
             </Box>
-            <Box w="50%">
-              <Text fontSize="36px" fontWeight="600">
+            <Box w="50%" pr={40}>
+              <Text lineHeight={1.2} fontSize="30px" fontWeight="400">
                 {currentProduct.productName}
               </Text>
-              <Text fontSize="14px" color="gray.500">
-                Code: {currentProduct.productId}
+              <Badge px="2" my={2} bgColor="#d4af37" color="whitesmoke">
+                in stock
+              </Badge>
+              <Text fontSize="24px" color="yellow.500" fontWeight="600">
+                {(
+                  currentProduct.productPrice +
+                  (selectedSize ? selectedSize * 12000 : 0)
+                ).toLocaleString()}
+                ₫‌
               </Text>
-              <Text fontSize="xl" color="yellow.500" fontWeight="600">
-                {currentProduct.productPrice} $
-              </Text>
-              <Text fontSize="16px">
-                Availability:{" "}
-                <span style={{ color: "#d69e2e" }}>
-                  {" "}
-                  {currentProduct.quantity} in stock
-                </span>
-              </Text>
-              <Divider my="4" borderColor="gray.400" />
+              <HStack spacing={4} my={2}>
+                <Text fontSize="16px">Size:</Text>
+
+                {[7, 8, 9, 10].map((size) => (
+                  <Button
+                    key={size}
+                    onClick={() => handleSizeSelect(size)}
+                    border="none"
+                    bg={selectedSize === size ? "yellow.400" : "gray.200"}
+                    color={selectedSize === size ? "white" : "black"}
+                  >
+                    {size}
+                  </Button>
+                ))}
+              </HStack>
+              {errorMessage && (
+                <Alert status="error">
+                  <AlertIcon />
+                  {errorMessage}
+                </Alert>
+              )}
+              <Text fontSize="16px">Material:</Text>
+              <HStack spacing={4} my={2}>
+                <Circle
+                  size="30px"
+                  bg="#FFD700"
+                  border={
+                    mainImage === currentProduct.imageLink
+                      ? "2px solid #d4af37"
+                      : "none"
+                  }
+                  onClick={() => setMainImage(currentProduct.imageLink)}
+                  cursor="pointer"
+                />
+                <Circle
+                  size="30px"
+                  bg="#C0C0C0"
+                  border={
+                    mainImage ===
+                    "https://www.orra.co.in/media/catalog/product/cache/a062e776095ada03f265202079309f18/o/p/opr11105_1_0ufvimxzal9jqm1w.jpg"
+                      ? "2px solid #d4af37"
+                      : "none"
+                  }
+                  onClick={() =>
+                    setMainImage(
+                      "https://www.orra.co.in/media/catalog/product/cache/a062e776095ada03f265202079309f18/o/p/opr11105_1_0ufvimxzal9jqm1w.jpg"
+                    )
+                  }
+                  cursor="pointer"
+                />
+                <Circle
+                  size="30px"
+                  bg="#e5e4e2"
+                  border={
+                    mainImage ===
+                    "https://www.candere.com/media/jewellery/images/GR00103__1.jpeg"
+                      ? "2px solid #d4af37"
+                      : "none"
+                  }
+                  onClick={() =>
+                    setMainImage(
+                      "https://www.candere.com/media/jewellery/images/GR00103__1.jpeg"
+                    )
+                  }
+                  cursor="pointer"
+                />
+              </HStack>
+              <Text fontSize="16px">Quantity:</Text>
               <HStack spacing="3">
                 <Button
                   border="none"
@@ -192,18 +366,19 @@ export default function Product() {
                 <Button
                   border="none"
                   onClick={increaseQuantity}
-                  isDisabled={quantity >= 20}
+                  isDisabled={quantity >= 3}
                 >
                   <AddIcon />
                 </Button>
                 <Button
+                  w="100%"
                   p={5}
-                  bgColor="black"
-                  color="white"
-                  border="none"
-                  borderRadius="50px"
+                  bgColor="white"
+                  color="black"
+                  border="1px ridge gray"
                   onClick={handleAddToCart}
                   fontSize="14px"
+                  _hover={{ bgColor: "black", color: "white" }}
                 >
                   Add to Cart
                 </Button>
@@ -214,46 +389,89 @@ export default function Product() {
                 border="none"
                 bgColor="yellow.400"
                 fontSize="18px"
-                w="46%"
+                w="100%"
                 onClick={buyNowForm.handleSubmit}
+                _hover={{ bgColor: "black", color: "white" }}
               >
-                Buy it now
+                Buy Now
               </Button>
 
               <Divider my="4" borderColor="gray.400" />
-              <Text as="p" fontSize="18px">
-                <CheckIcon mx={3} />
-                Product prices vary depending on the weight of gold and stones
-              </Text>
-              <Text as="p" fontSize="18px">
-                <CheckIcon mx={3} />
-                Exchange products within 48 hours at PNJ stores
-              </Text>
-              <Text as="p" fontSize="18px">
-                <CheckIcon mx={3} />
-                Pawnbroking and Purchasing.
-              </Text>
-              <Text as="p" fontSize="18px">
-                <CheckIcon mx={3} />
-                Free fast delivery nationwide 1-7 days
-              </Text>
 
-              <Divider my="4" borderColor="gray.400" />
-              <Text as="h3" fontSize="20px">
-                DETAILS FROM OUR MASTER JEWELLERS
-              </Text>
-              <Text mt="4" as="p" color="gray.500">
-                {/* {currentProduct.description} */}
-                Get the look of beautiful luxury on your wedding day with this
-                magnificent Danielle diamond wedding ring featuring exquisite
-                milgrain work. Skillfully handcrafted with 0.30ct of H/Si
-                quality diamonds in UK hallmarked platinum. Also available with
-                a perfectly matching Danielle diamond engagement ring.
-              </Text>
+              <Text fontWeight={600}>Guaranteed safe checkout</Text>
+              <Image src={payment_option_img} alt="payment_option_img" />
             </Box>
           </Flex>
-
-          <SizeGuide />
+          <Box px={150} py={50}>
+            <Tabs variant="enclosed" colorScheme="yellow">
+              <TabList justifyContent="center">
+                <Tab
+                  mx={5}
+                  border="none"
+                  fontSize="20px"
+                  color="gray.500"
+                  _hover={{ color: "black" }}
+                  _selected={{ color: "black" }}
+                >
+                  Description
+                </Tab>
+                <Tab
+                  mx={5}
+                  border="none"
+                  fontSize="20px"
+                  color="gray.500"
+                  _hover={{ color: "black" }}
+                  _selected={{ color: "black" }}
+                >
+                  Measure Size
+                </Tab>
+                <Tab
+                  mx={5}
+                  border="none"
+                  fontSize="20px"
+                  color="gray.500"
+                  _hover={{ color: "black" }}
+                  _selected={{ color: "black" }}
+                >
+                  Reviews
+                </Tab>
+              </TabList>
+              <TabIndicator mt="-1.5px" height="2px" bg="yellow.500" />
+              <TabPanels>
+                <TabPanel py="30px">
+                  <Text fontSize="18px">{currentProduct.description}</Text>
+                </TabPanel>
+                <TabPanel py="30px">
+                  <SizeGuide categoryId={currentProduct.categoryId} />
+                </TabPanel>
+                <TabPanel>
+                  <Flex gap={6} py="30px">
+                    <Box w="50%">
+                      <Text fontSize="24px" fontWeight="500">
+                        Rating & Review
+                      </Text>
+                      <Box>
+                        {!data ? <Text>No reviews yet.</Text> : <>{data}</>}
+                      </Box>
+                    </Box>
+                    <Box w="50%">
+                      <Text fontSize="24px" fontWeight="500">
+                        Review this product
+                      </Text>
+                      <FormControl id="review">
+                        <FormLabel>Your review</FormLabel>
+                        <Textarea placeholder="Write your review here..." />
+                      </FormControl>
+                      <Button mt={2} colorScheme="yellow">
+                        Submit
+                      </Button>
+                    </Box>
+                  </Flex>
+                </TabPanel>
+              </TabPanels>
+            </Tabs>
+          </Box>
+          <Divider my="10" borderColor="gray.500" />
           <RelatedProducts categoryId={currentProduct.categoryId} />
         </>
       )}

@@ -48,5 +48,7 @@
 
 .upcomingProductsBtn:hover {
   background-color: white;
-  transition: ease-in 500px;
+  border: #ffffff 2px solid;
+  color: black;
+  transition: 0.3s;
 }

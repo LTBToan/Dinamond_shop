@@ -1,18 +1,6 @@
 export const getOrders = () => {
-  return fetch("http://localhost:8080/api/orders/all").then((res) =>
-    res.json()
-  );
-};
-export const getOrdersById = (id) => {
-  return fetch(`http://localhost:8080/api/orders/get/${id}`).then((res) =>
-    res.json()
-  );
-};
-
-export const getOrderDetails = (id) => {
-  return fetch(`http://localhost:8080/api/orders/details/get/order/${id}`).then(
-    (res) => res.json()
-  );
+  // return fetch("https://dummyjson.com/carts/1").then((res) => res.json());
+  return fetch("http://localhost:8080/api/orders/all").then((res) => res.json());
 };
 
 export const getRevenue = () => {

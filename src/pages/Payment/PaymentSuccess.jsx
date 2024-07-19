@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import {
   Box,
@@ -18,6 +18,8 @@ import { CartContext } from "../../context/CartContext";
 const PayStatus = () => {
   const { cartItems, setCartItems } = useContext(CartContext);
   const currentUserId = sessionStorage.getItem("loginUserId");
+  const currentProductId = sessionStorage.getItem("productId");
+  const [productData, setProductData] = useState();
 
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
@@ -55,6 +57,24 @@ const PayStatus = () => {
   };
 
   useEffect(() => {
+    const fetchProductData = async () => {
+      try {
+        if (currentProductId) {
+          await axios
+            .get(`http://localhost:8080/api/products/get/${currentProductId}`)
+            .then((res) => setProductData(res.data));
+        }
+      } catch (error) {
+        console.log(error.message);
+      }
+    };
+
+    fetchProductData();
+  }, []);
+
+  console.log("xa: ", cartItems);
+
+  useEffect(() => {
     const fetchOrderData = async () => {
       if (
         transactionStatus === "00" &&
@@ -70,6 +90,7 @@ const PayStatus = () => {
               accountId: currentUserId,
               totalPrice: 0,
               address: "",
+              // date: new Date().toISOString(),
               statusId: 0,
             }
           );
@@ -78,6 +99,7 @@ const PayStatus = () => {
             return axios.post(`http://localhost:8080/api/orders/details`, {
               ordersId: orderResponse.data.orderId,
               productsId: item.productId,
+              productsSize: item.productSize,
               quantity: item.quantity,
               price: item.price,
             });
@@ -101,7 +123,23 @@ const PayStatus = () => {
             error.message
           );
         }
-      } else {
+      } else if (currentProductId) {
+        const newOrder = await axios.post("http://localhost:8080/api/orders", {
+          orderId: orderId,
+          accountId: currentUserId,
+          totalPrice: 0,
+          address: "",
+          statusId: 0,
+        });
+
+        await axios.post(`http://localhost:8080/api/orders/details`, {
+          ordersId: newOrder.data.orderId,
+          productsId: currentProductId,
+          productsSize: productData.productSize,
+          quantity: (amount / 100 / productData.productPrice).toFixed(),
+          price: productData.productPrice,
+        });
+        sessionStorage.removeItem("productId");
         console.log("Conditions not met or cartItems is empty");
       }
     };

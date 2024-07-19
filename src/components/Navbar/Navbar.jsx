@@ -59,7 +59,7 @@ const Navbar = () => {
           <div className="mega-menu">
             <div className="mega-menu-content">
               <div className="mega-menu-section">
-                <h5 style={{color: "#d4af37"}}>RING STYLES</h5>
+                <h5 style={{ color: "#d4af37" }}>RING STYLES</h5>
                 <ul>
                   <li>Solitaire</li>
                   <li>3 Stone Trilogy</li>
@@ -74,7 +74,7 @@ const Navbar = () => {
                 </ul>
               </div>
               <div className="mega-menu-section">
-                <h5 style={{color: "#d4af37"}}>DIAMOND SHAPES</h5>
+                <h5 style={{ color: "#d4af37" }}>DIAMOND SHAPES</h5>
                 <ul>
                   <li>Round</li>
                   <li>Princess cut</li>
@@ -88,7 +88,7 @@ const Navbar = () => {
                 </ul>
               </div>
               <div className="mega-menu-section">
-                <h5 style={{color: "#d4af37"}}>GEMSTONE</h5>
+                <h5 style={{ color: "#d4af37" }}>GEMSTONE</h5>
                 <ul>
                   <li>Mined Diamond</li>
                   <li>Lab Grown Diamond</li>
@@ -101,7 +101,7 @@ const Navbar = () => {
                 </ul>
               </div>
               <div className="mega-menu-section">
-                <h5 style={{color: "#d4af37"}}>MATERIALS</h5>
+                <h5 style={{ color: "#d4af37" }}>MATERIALS</h5>
                 <ul>
                   <li>Yellow Gold</li>
                   <li>White Gold</li>
@@ -126,7 +126,7 @@ const Navbar = () => {
           <div className="mega-menu">
             <div className="mega-menu-content">
               <div className="mega-menu-section">
-                <h5 style={{color: "#d4af37"}}>BRACELET TYPES</h5>
+                <h5 style={{ color: "#d4af37" }}>BRACELET TYPES</h5>
                 <ul>
                   <li>Chain Bracelets</li>
                   <li>Bangle Bracelets</li>
@@ -139,7 +139,7 @@ const Navbar = () => {
                 </ul>
               </div>
               <div className="mega-menu-section">
-                <h5 style={{color: "#d4af37"}}>GEMSTONE</h5>
+                <h5 style={{ color: "#d4af37" }}>GEMSTONE</h5>
                 <ul>
                   <li>Mined Diamond</li>
                   <li>Lab Grown Diamond</li>
@@ -152,7 +152,7 @@ const Navbar = () => {
                 </ul>
               </div>
               <div className="mega-menu-section">
-                <h5 style={{color: "#d4af37"}}>MATERIALS</h5>
+                <h5 style={{ color: "#d4af37" }}>MATERIALS</h5>
                 <ul>
                   <li>Yellow Gold</li>
                   <li>White Gold</li>
@@ -177,7 +177,7 @@ const Navbar = () => {
           <div className="mega-menu">
             <div className="mega-menu-content">
               <div className="mega-menu-section">
-                <h5 style={{color: "#d4af37"}}>EARRING STYLES</h5>
+                <h5 style={{ color: "#d4af37" }}>EARRING STYLES</h5>
                 <ul>
                   <li>Stud Earrings</li>
                   <li>Hoop Earrings</li>
@@ -190,7 +190,7 @@ const Navbar = () => {
                 </ul>
               </div>
               <div className="mega-menu-section">
-                <h5 style={{color: "#d4af37"}}>GEMSTONE</h5>
+                <h5 style={{ color: "#d4af37" }}>GEMSTONE</h5>
                 <ul>
                   <li>Mined Diamond</li>
                   <li>Lab Grown Diamond</li>
@@ -203,7 +203,7 @@ const Navbar = () => {
                 </ul>
               </div>
               <div className="mega-menu-section">
-                <h5 style={{color: "#d4af37"}}>MATERIALS</h5>
+                <h5 style={{ color: "#d4af37" }}>MATERIALS</h5>
                 <ul>
                   <li>Yellow Gold</li>
                   <li>White Gold</li>
@@ -228,7 +228,7 @@ const Navbar = () => {
           <div className="mega-menu">
             <div className="mega-menu-content">
               <div className="mega-menu-section">
-                <h5 style={{color: "#d4af37"}}>NECKLACE TYPES</h5>
+                <h5 style={{ color: "#d4af37" }}>NECKLACE TYPES</h5>
                 <ul>
                   <li>Chain Necklaces</li>
                   <li>Pendant Necklaces</li>
@@ -241,7 +241,7 @@ const Navbar = () => {
                 </ul>
               </div>
               <div className="mega-menu-section">
-                <h5 style={{color: "#d4af37"}}>GEMSTONE</h5>
+                <h5 style={{ color: "#d4af37" }}>GEMSTONE</h5>
                 <ul>
                   <li>Mined Diamond</li>
                   <li>Lab Grown Diamond</li>
@@ -254,7 +254,7 @@ const Navbar = () => {
                 </ul>
               </div>
               <div className="mega-menu-section">
-                <h5 style={{color: "#d4af37"}}>MATERIALS</h5>
+                <h5 style={{ color: "#d4af37" }}>MATERIALS</h5>
                 <ul>
                   <li>Yellow Gold</li>
                   <li>White Gold</li>
@@ -278,28 +278,25 @@ const Navbar = () => {
       <div className="right">
         {currentUser ? (
           <>
-            <Tooltip title="Cart">
-              <Badge count={cartItems.length} showZero={true} title="">
-                <button
-                  className="iconButton"
-                  style={{ backgroundColor: "white", color: "black" }}
-                  onClick={() => (window.location.href = "/cart")}
-                >
-                  <ShoppingCartOutlined style={{ fontSize: "150%" }} />
-                </button>
-              </Badge>
-            </Tooltip>
-            <Tooltip title="Profile">
+            <Badge count={cartItems.length} showZero={true} title="">
               <button
                 className="iconButton"
                 style={{ backgroundColor: "white", color: "black" }}
-                onClick={() =>
-                  (window.location.href = `/profile/${currentUserId}`)
-                }
+                onClick={() => (window.location.href = "/cart")}
               >
-                <UserOutlined style={{ color: "#ce8f2b", fontSize: "150%" }} />
+                <ShoppingCartOutlined style={{ fontSize: "150%" }} />
               </button>
-            </Tooltip>
+            </Badge>
+
+            <button
+              className="iconButton"
+              style={{ backgroundColor: "white", color: "black" }}
+              onClick={() =>
+                (window.location.href = `/profile/${currentUserId}`)
+              }
+            >
+              <UserOutlined style={{ color: "#ce8f2b", fontSize: "150%" }} />
+            </button>
             <Tooltip title="Log out">
               <button
                 style={{ marginRight: "20px" }}

@@ -1,18 +1,14 @@
 export const getProduct = () => {
-  return fetch("http://localhost:8080/api/products/all").then((res) =>
-    res.json()
-  );
+  return fetch("http://localhost:3344/products").then((res) => res.json());
 };
 
 export const getProductById = (id) => {
-  return fetch(`http://localhost:8080/api/products/get/${id}`).then((res) =>
-    res.json()
-  );
-};
+  return fetch(`http://localhost:3344/products/${id}`).then((res) => res.json());
+}
 
 export const addProduct = (data) => {
-  return fetch(`http://localhost:8080/api/products/add`, {
-    method: "POST",
+  return fetch(`http://localhost:3344/products`, {
+    method: 'POST',
     headers: {
       "Content-Type": "application/json",
     },
@@ -33,8 +29,8 @@ export const addProduct = (data) => {
 };
 
 export const updateProduct = (id, data) => {
-  return fetch(`http://localhost:8080/api/products/get/${id}`, {
-    method: "PATCH",
+  return fetch(`http://localhost:3344/products/${id}`, {
+    method: 'PATCH',
     headers: {
       "Content-Type": "application/json",
     },
@@ -43,8 +39,8 @@ export const updateProduct = (id, data) => {
 };
 
 export const deleteProduct = (id) => {
-  return fetch(`http://localhost:8080/api/products/${id}`, {
-    method: "DELETE",
+  return fetch(`http://localhost:3344/products/${id}`, {
+    method: 'DELETE',
   })
     .then((res) => {
       if (!res.ok) {

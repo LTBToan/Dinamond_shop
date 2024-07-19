@@ -1,0 +1,75 @@
+.tp-about-area {
+  padding-top: 125px;
+}
+
+.tp-about-thumb-wrapper {
+  position: relative;
+  margin-right: 35px;
+}
+
+.tp-about-thumb {
+  margin-bottom: 20px;
+}
+
+.tp-about-thumb img,
+.tp-about-thumb-2 img {
+  margin-left: 100px;
+  width: 80%;
+  display: block;
+}
+
+.tp-about-wrapper {
+  padding-left: 80px;
+  padding-top: 75px;
+  padding-right: 60px;
+}
+
+.tp-section-title-wrapper-4 {
+  margin-bottom: 50px;
+}
+
+.tp-section-title-pre-4 {
+  display: block;
+  font-size: 20px;
+  color: #b87d56;
+}
+
+.tp-about-content {
+  padding-left: 120px;
+}
+
+.tp-about-btn .tp-btn {
+  display: inline-block;
+  padding: 10px 20px;
+  border: 1px solid black;
+  background-color: #000;
+  color: #fff;
+  text-decoration: none;
+}
+
+.tp-about-btn .tp-btn:hover {
+  background-color: white;
+  color: black;
+  transition: 0.3s;
+}
+
+.tp-about-thumb-2 {
+  position: relative;
+  bottom: 150px;
+  margin-bottom: -50px;
+  left: 50px;
+  width: 300px;
+}
+
+.tp-about-thumb-2 img {
+  margin-left: 300px;
+}
+
+.tp-section-title-4 {
+  font-size: 50px;
+  margin-bottom: 20px;
+}
+
+.tp-about-content p {
+  margin-bottom: 20px;
+}

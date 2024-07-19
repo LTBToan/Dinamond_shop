@@ -13,11 +13,9 @@ import { jwtDecode } from "jwt-decode";
 import emailjs from "@emailjs/browser";
 import {
   generateCode,
-  generateId,
   generatePassword,
   generateUniqueId,
 } from "../../assistants/Generators";
-import dateFormat from "../../assistants/date.format";
 import axios from "axios";
 import eFurniLogo from "../../assets/logos/logoDia.png";
 import Navbar from "../../components/Navbar/Navbar";
@@ -66,7 +64,7 @@ export default function Signup() {
         decoded.email
       );
 
-      await fetch("http://localhost:8080/api/users")
+      await fetch("http://localhost:8080/api/users/all")
         .then((res) => res.json())
         .then((data) => {
           var foundUserByEmail = data.find(
@@ -116,10 +114,13 @@ export default function Signup() {
   const sendEmail = () => {
     emailjs
       .sendForm(
-        "service_qm91avr",
-        "template_yyrd4jj",
+        // "service_qm91avr",
+        "service_ouycs4m",
+        // "template_yyrd4jj",
+        "template_34nzd3r",
         formRef.current,
-        "WcYGL3eDIXuI0SMzS"
+        // "WcYGL3eDIXuI0SMzS"
+        "IrOpJK68w18CRXQPL"
       )
       .then(
         (result) => {
@@ -357,11 +358,7 @@ export default function Signup() {
                     shape="round"
                     disabled={isLoading ? true : false}
                   >
-                    {isLoading ? (
-                      <LoadingOutlined />
-                    ) : (
-                      <p>Verify {verifyCode}</p>
-                    )}
+                    {isLoading ? <LoadingOutlined /> : <p>Verify</p>}
                   </Button>
                 </span>
               </form>

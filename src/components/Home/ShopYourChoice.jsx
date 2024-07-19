@@ -11,7 +11,7 @@ const ShopYourChoice = () => {
       // style={{ backgroundImage: `url("./images/triangle.png")` }}
     >
       <div className={styles.title}>
-        <h1>Our Products</h1>
+        <h1>Discover our Products</h1>
         <h4>Designed for you</h4>
       </div>
       <div className={styles.chairsAndTables}>

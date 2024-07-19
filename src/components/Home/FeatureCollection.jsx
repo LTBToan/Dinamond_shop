@@ -50,7 +50,10 @@ const ProductsOfTheWeek = () => {
             <Meta
               key={item.productId}
               title={item.productName}
-              description={item.productPrice}
+              description={item.productPrice.toLocaleString("vi-VN", {
+                style: "currency",
+                currency: "VND",
+              })}
             />
           </Card>
         ))}

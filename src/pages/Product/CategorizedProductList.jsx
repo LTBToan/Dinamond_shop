@@ -26,7 +26,10 @@ import ReactPaginate from "react-paginate";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGrip, faList } from "@fortawesome/free-solid-svg-icons";
 import { useParams } from "react-router-dom";
-import { getProductByCategory } from "../../api/productAPI";
+import {
+  getProductByCategory,
+  getProductByMaterial,
+} from "../../api/productAPI";
 import { getAllDiamond, getAllMaterial, getAllShell } from "../../api/shellAPI";
 import "../../components/ProductList/ProductList.css";
 
@@ -34,17 +37,16 @@ import Navbar from "../../components/Navbar/Navbar";
 import Footer from "../../components/Home/Footer";
 
 const categoryMap = {
-  ring: "001",
-  necklace: "002",
-  earrings: "003",
-  bracelet: "004",
+  ring: "1",
+  necklace: "5",
+  earrings: "3",
+  bracelet: "4",
 };
 
 const ProductList = () => {
   const [filters, setFilters] = useState({
     categories: [],
     materials: [],
-    colors: [],
   });
   const [layout, setLayout] = useState("grid");
   const [searchTerm, setSearchTerm] = useState("");
@@ -52,7 +54,6 @@ const ProductList = () => {
   const [productDataSource, setProductDataSource] = useState([]);
   const [shellData, setShellData] = useState([]);
   const [materialData, setMaterialData] = useState([]);
-  const [colorData, setColorData] = useState([]);
   const [page, setPage] = useState(0);
   const [itemsPerPage, setItemsPerPage] = useState(16);
   const [opacity, setOpacity] = useState(1);
@@ -61,20 +62,19 @@ const ProductList = () => {
   const categoryId = categoryMap[name];
   const bannerImage = () => {
     switch (categoryId) {
-      case "001":
+      case "1":
         return "https://cdn.shopify.com/s/files/1/0014/5686/5316/files/Manfredi_category_banners_2.png?v=1667486214";
-      case "002":
+      case "5":
         return "https://cdn.shopify.com/s/files/1/0014/5686/5316/files/Manfredi_category_banners_1.png?v=1667485293";
-      case "003":
+      case "3":
         return "https://cdn.shopify.com/s/files/1/0014/5686/5316/files/Manfredi_category_banners_4.png?v=1667486547";
-      case "004":
+      case "4":
         return "https://cdn.shopify.com/s/files/1/0014/5686/5316/files/Manfredi_category_banners_3.png?v=1667486404";
     }
   };
 
   const [isCategoryFilterOpen, setIsCategoryFilterOpen] = useState(true);
   const [isMaterialFilterOpen, setIsMaterialFilterOpen] = useState(true);
-  const [isColorFilterOpen, setIsColorFilterOpen] = useState(true);
 
   const navigate = (toUrl) => {
     window.location.href = toUrl;
@@ -86,14 +86,11 @@ const ProductList = () => {
         const productData = await getProductByCategory(categoryId);
         setProductDataSource(productData);
 
-        const shellData = await getAllShell();
+        const shellData = await getAllShell(categoryId);
         setShellData(shellData);
 
         const materialData = await getAllMaterial();
         setMaterialData(materialData);
-
-        const colorData = await getAllDiamond();
-        setColorData(colorData);
       } catch (error) {
         console.error("Error fetching data:", error);
         // You can handle the error here (e.g., show an error message)
@@ -142,6 +139,25 @@ const ProductList = () => {
     });
   };
 
+  const handleSort = (products, sortType) => {
+    switch (sortType) {
+      case "Alphabetically, A-Z":
+        return products.sort((a, b) =>
+          a.productName.localeCompare(b.productName)
+        );
+      case "Alphabetically, Z-A":
+        return products.sort((a, b) =>
+          b.productName.localeCompare(a.productName)
+        );
+      case "Price, low to high":
+        return products.sort((a, b) => a.productPrice - b.productPrice);
+      case "Price, high to low":
+        return products.sort((a, b) => b.productPrice - a.productPrice);
+      default:
+        return products;
+    }
+  };
+
   const filteredProducts = productDataSource.filter((product) => {
     // Filter by categories (shell)
     if (filters.categories.length > 0) {
@@ -152,19 +168,7 @@ const ProductList = () => {
 
     // Filter by materials
     if (filters.materials.length > 0) {
-      const hasMaterial = shellData.some(
-        (shellItem) =>
-          filters.materials.includes(shellItem.materialID) &&
-          shellItem.shellId === product.shellId
-      );
-      if (!hasMaterial) {
-        return false;
-      }
-    }
-
-    // Filter by colors
-    if (filters.colors.length > 0) {
-      if (!filters.colors.includes(product.color)) {
+      if (!filters.materials.includes(product.materialId)) {
         return false;
       }
     }
@@ -181,10 +185,12 @@ const ProductList = () => {
     return true;
   });
 
-  const totalResults = filteredProducts.length;
+  const sortedProducts = handleSort(filteredProducts, sort);
+
+  const totalResults = sortedProducts.length;
   const totalPages = Math.ceil(totalResults / itemsPerPage);
 
-  const displayedProducts = filteredProducts.slice(
+  const displayedProducts = sortedProducts.slice(
     page * itemsPerPage,
     (page + 1) * itemsPerPage
   );
@@ -282,40 +288,6 @@ const ProductList = () => {
                   ))}
                 </Box>
               </Collapse>
-              <Button
-                width="100%"
-                justifyContent="space-between"
-                border="none"
-                bg="none"
-                rightIcon={
-                  isColorFilterOpen ? <ChevronDownIcon /> : <ChevronUpIcon />
-                }
-                fontSize="xl"
-                onClick={() => setIsColorFilterOpen(!isColorFilterOpen)}
-              >
-                Color Grade
-              </Button>
-              <Collapse in={isColorFilterOpen}>
-                <Box
-                  display="flex"
-                  flexDirection="column"
-                  width="100%"
-                  lineHeight={10}
-                  px={3}
-                >
-                  {colorData.map((category) => (
-                    <Checkbox
-                      key={category.diamondId}
-                      isChecked={filters.colors.includes(category.color)}
-                      onChange={() =>
-                        handleFilterChange("colors", category.color)
-                      }
-                    >
-                      {category.color}
-                    </Checkbox>
-                  ))}
-                </Box>
-              </Collapse>
             </VStack>
           </Box>
           <GridItem colSpan={3}>
@@ -373,8 +345,19 @@ const ProductList = () => {
                       onClick={() => navigate(`/products/${product.productId}`)}
                       cursor="pointer"
                     >
-                      <Image src={product.imageLink} alt={product.name} />
-                      <Box p="6">
+                      <div
+                        style={{
+                          minHeight: "250px",
+                          maxHeight: "250px",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                      >
+                        <Image src={product.imageLink} alt={product.name} />
+                      </div>
+                      <Divider borderColor="gray.400" />
+                      <Box p={3}>
                         <Box display="flex" alignItems="baseline">
                           <Badge
                             borderRadius="full"
@@ -407,7 +390,7 @@ const ProductList = () => {
                         </Box>
                         <Box>
                           <Text color="gray.500" fontSize="sm">
-                            ${product.productPrice}
+                            {product.productPrice.toLocaleString()}₫‌
                           </Text>
                         </Box>
                         {layout === "list" && (
@@ -475,7 +458,7 @@ const ProductList = () => {
                         </Box>
                         <Box>
                           <Text color="gray.500" fontSize="sm">
-                            ${product.productPrice}
+                            {product.productPrice.toLocaleString()}₫‌
                           </Text>
                         </Box>
                         <Divider my={2} />

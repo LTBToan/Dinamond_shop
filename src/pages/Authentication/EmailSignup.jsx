@@ -10,7 +10,6 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { jwtDecode } from "jwt-decode";
 import {
-  generateId,
   generatePassword,
   generateUniqueId,
 } from "../../assistants/Generators";
@@ -37,7 +36,7 @@ export default function EmailSignup() {
     }),
     onSubmit: async (values) => {
       setIsLoading(true);
-      await fetch("http://localhost:8080/api/users")
+      await fetch("http://localhost:8080/api/users/all")
         .then((res) => res.json())
         .then((data) => {
           var foundAccountByEmail = data.find(
@@ -70,7 +69,7 @@ export default function EmailSignup() {
         decoded.email
       );
 
-      await fetch("http://localhost:8080/api/users")
+      await fetch("http://localhost:8080/api/users/all")
         .then((res) => res.json())
         .then((data) => {
           var foundUserByEmail = data.find(
@@ -79,7 +78,7 @@ export default function EmailSignup() {
           if (foundUserByEmail) {
             sessionStorage.setItem("loginUserId", foundUserByEmail.user_id);
           } else {
-            const newUserId = generateId(30, "");
+            const newUserId = generateUniqueId("US", 5);
             // const createAt = dateFormat(new Date(), "yyyy/mm/dd HH:MM:ss");
             var registerUser = {
               accountId: newUserId,
