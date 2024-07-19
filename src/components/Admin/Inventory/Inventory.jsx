@@ -2,10 +2,10 @@ import { Space, Table, Image, Modal, Input, Switch, Select } from "antd";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import { useEffect, useState } from "react";
 import {
-  getProduct,
-  updateProduct,
-  deleteProduct,
-} from "../../../dataControllers/productController";
+  getInventoryItem,
+  createBooking,
+  updateInventoryItem,
+} from "../../../dataControllers/inventoryController";
 // import AddModal from "./Modal";
 
 const options = [
@@ -52,7 +52,7 @@ function Inventory() {
 
   useEffect(() => {
     setLoading(true);
-    getProduct().then((res) => {
+    getInventoryItem().then((res) => {
       setDataSource(res);
       setLoading(false);
     });
@@ -86,7 +86,7 @@ function Inventory() {
 
   const handleSearch = (searchText) => {
     setSearchInput(searchText);
-    getProduct().then((res) => {
+    getInventoryItem().then((res) => {
       if (searchText === "") {
         setDataSource(res);
       } else {
@@ -119,51 +119,51 @@ function Inventory() {
         style={{ width: "1250px" }}
         loading={loading}
         columns={[
+          {
+            title: "Delivery Id",
+            key: "deliveryId",
+            dataIndex: "deliveryId",
+          },
           // {
-          //   title: "Id",
-          //   key: "product_id",
-          //   dataIndex: "product_id",
+          //   title: "Picture",
+          //   key: "image_url",
+          //   dataIndex: "image_url",
+          //   render: (link) => {
+          //     return <Image src={link} width={45} />;
+          //   },
           // },
           {
-            title: "Picture",
-            key: "image_url",
-            dataIndex: "image_url",
-            render: (link) => {
-              return <Image src={link} width={45} />;
-            },
+            title: "OrderId",
+            key: "orderId",
+            dataIndex: "orderId",
           },
           {
-            title: "Name",
-            key: "name",
-            dataIndex: "name",
+            title: "AccountId",
+            key: "accountId",
+            dataIndex: "accountId",
+            // render: (value) => <span>${value}</span>,
           },
           {
-            title: "Price",
-            key: "price",
-            dataIndex: "price",
-            render: (value) => <span>${value}</span>,
-          },
-          {
-            title: "Category",
-            key: "category",
-            dataIndex: "category_name",
+            title: "Address",
+            key: "address",
+            dataIndex: "address",
           },
           {
             title: "Status",
-            key: "status",
-            dataIndex: "status",
-            render: (status) => (
-              <span
-                style={{
-                  backgroundColor: status ? "green" : "red",
-                  padding: "4px 8px",
-                  borderRadius: "4px",
-                  color: "white",
-                }}
-              >
-                {status ? "Available" : "Unavailable"}
-              </span>
-            ),
+            key: "statusId",
+            dataIndex: "statusId",
+            // render: (status) => (
+            //   <span
+            //     style={{
+            //       backgroundColor: status ? "green" : "red",
+            //       padding: "4px 8px",
+            //       borderRadius: "4px",
+            //       color: "white",
+            //     }}
+            //   >
+            //     {status ? "Available" : "Unavailable"}
+            //   </span>
+            // ),
           },
           {
             title: "Action",
@@ -179,18 +179,18 @@ function Inventory() {
                     fontSize: "20px",
                   }}
                 >
-                  <EditOutlined
+                  {/* <EditOutlined
                     onClick={() => {
                       onUpdateProduct(record);
                     }}
                     style={{ color: "blue" }}
-                  />
-                  {/* <DeleteOutlined
+                  /> */}
+                  <DeleteOutlined
                     onClick={() => {
                       onDeleteProduct(record);
                     }}
                     style={{ color: "red" }}
-                  /> */}
+                  />
                 </div>
               );
             },

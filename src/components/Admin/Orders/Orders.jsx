@@ -51,7 +51,7 @@ function Orders() {
   const handleOrderClick = (record) => {
     setSelectedOrder(record);
     console.log(record);
-    getOrderDetails(record.orderId).then((details) => {
+    getOrderDetails(record).then((details) => {
       setOrderDetails(details);
       console.log(details);
       setModalVisible(true);

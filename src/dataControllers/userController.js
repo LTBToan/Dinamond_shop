@@ -1,5 +1,5 @@
 export const getUser = () => {
-  return fetch("http://localhost:8080/api/users").then((res) => res.json());
+  return fetch("http://localhost:8080/api/users/all").then((res) => res.json());
 };
 
 export const getUserById = (id) => {

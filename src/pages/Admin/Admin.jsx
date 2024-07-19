@@ -6,7 +6,7 @@ import {
   UserOutlined,
   SolutionOutlined,
   HomeOutlined,
-  InboxOutlined,
+  BarChartOutlined,
   BookOutlined,
   ExceptionOutlined,
 } from "@ant-design/icons";
@@ -53,6 +53,12 @@ const Admin = () => {
       icon: <ShoppingCartOutlined />,
       label: "Orders",
       onClick: () => setActiveComponent("Orders"),
+    },
+    {
+      key: "5",
+      icon: <BarChartOutlined />,
+      label: "Deliveries",
+      onClick: () => setActiveComponent("Deliveries"),
     },
   ];
 
@@ -126,7 +132,7 @@ const Admin = () => {
           {activeComponent === "Users" && <Users />}
           {activeComponent === "Orders" && <Orders />}
           {activeComponent === "Products" && <Products />}
-          {activeComponent === "Inventory" && <Inventory />}
+          {activeComponent === "Deliveries" && <Inventory />}
           {activeComponent === "Feedback" && <Feedback />}
         </Content>
       </Layout>
