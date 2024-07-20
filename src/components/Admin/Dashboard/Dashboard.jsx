@@ -38,13 +38,13 @@ function Dashboard() {
   const [users, setUsers] = useState(0);
   useEffect(() => {
     getOrders().then((res) => {
-      setOrders(res.total);
+      setOrders(res?.length);
     });
     getProduct().then((res) => {
-      setProducts(res.length);
+      setProducts(res?.length);
     });
     getUser().then((res) => {
-      setUsers(res.length);
+      setUsers(res?.length);
     });
   }, []);
   return (

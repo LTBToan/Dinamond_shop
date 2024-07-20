@@ -54,7 +54,7 @@ const options = [
   },
 ];
 
-const AddModal = () => {
+const AddModal = ({ setLoad, load }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
   const [formData, setFormData] = useState({
@@ -128,6 +128,7 @@ const AddModal = () => {
     setIsModalOpen(false);
     event.preventDefault();
     addProduct(formData);
+    setLoad(!load);
     setFormData({
       ...formData,
       productId: "",

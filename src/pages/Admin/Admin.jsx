@@ -7,7 +7,7 @@ import {
   SolutionOutlined,
   HomeOutlined,
   InboxOutlined,
-  BookOutlined,
+  LogoutOutlined,
   ExceptionOutlined,
 } from "@ant-design/icons";
 import { Layout, Menu, theme, Breadcrumb, Image } from "antd";
@@ -23,11 +23,13 @@ const { Header, Sider, Content } = Layout;
 
 const Admin = () => {
   const [activeComponent, setActiveComponent] = useState("Dashboard");
-
+  const [currentUser, setCurrentUser] = useState(null);
   const {
     token: { colorBgContainer },
   } = theme.useToken();
-
+  const navigate = (toUrl) => {
+    window.location.href = toUrl;
+  };
   const menuItems = [
     {
       key: "1",
@@ -66,7 +68,11 @@ const Admin = () => {
       onClick: () => setActiveComponent("Feedback"),
     },
   ];
-
+  const logout = () => {
+    sessionStorage.removeItem("loginUserId");
+    setCurrentUser(null);
+    navigate("/signin");
+  };
   return (
     <Layout className={styles.admin}>
       <Sider style={{ background: "white" }}>
@@ -102,6 +108,13 @@ const Admin = () => {
           }}
         >
           <h2 style={{ marginLeft: "620px" }}>Admin</h2>
+          <button
+            style={{ marginRight: "20px" }}
+            className="iconButton"
+            onClick={logout}
+          >
+            <LogoutOutlined style={{ fontSize: "150%" }} />
+          </button>
         </Header>
         <Content
           style={{

@@ -41,6 +41,7 @@ const options = [
 
 function Users() {
   const [loading, setLoading] = useState(false);
+  const [load, setLoad] = useState(false);
   const [dataSource, setDataSource] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
   const [testRecord, setTestRecord] = useState(null);
@@ -71,9 +72,7 @@ function Users() {
       setLoading(false);
     };
     fetchData();
-    const intervalId = setInterval(fetchData, 3000);
-    return () => clearInterval(intervalId);
-  }, []);
+  }, [load]);
 
   const onDeleteUser = (record) => {
     console.log(record);
@@ -83,6 +82,7 @@ function Users() {
       okType: "danger",
       onOk: () => {
         deleteUser(record);
+        setLoad(!load);
       },
       refetchInterval: 5000,
     });
@@ -107,6 +107,7 @@ function Users() {
     // console.log(userDetails);
     setEditFormData(userDetails);
     setTestRecord(record);
+    setLoad(!load);
   };
 
   const resetEditing = () => {
@@ -149,6 +150,7 @@ function Users() {
   const updateUser1 = async (id, data) => {
     try {
       await axios.put(`http://localhost:8080/api/users/${id}`, data);
+      setLoad(!load);
     } catch (error) {
       console.log.error(error);
     }
@@ -164,7 +166,9 @@ function Users() {
           enterButton
           style={{ width: "500px" }}
         />
-        <AddModal>New User</AddModal>
+        <AddModal setLoad={setLoad} load={load}>
+          New User
+        </AddModal>
       </div>
       <Table
         style={{ width: "1250px" }}

@@ -3,6 +3,7 @@ import { Button, Form, Modal, Input, Select, Switch } from "antd";
 import { addProduct } from "../../../dataControllers/productController";
 import { generateId } from "../../../assistants/Generators";
 import { PlusCircleOutlined } from "@ant-design/icons";
+import { addUser } from "../../../dataControllers/userController";
 
 const formItemLayout = {
   labelCol: {
@@ -46,7 +47,7 @@ const Option = [
   },
 ];
 
-const AddModal = () => {
+const AddModal = ({ setLoad, load }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [formData, setFormData] = useState({
     accountId: "",
@@ -100,7 +101,9 @@ const AddModal = () => {
   const handleSubmit = (event) => {
     setIsModalOpen(false);
     event.preventDefault();
-    addProduct(formData);
+    // addProduct(formData);
+    addUser(formData);
+    setLoad(!load);
     setFormData({
       ...formData,
       accountId: "",

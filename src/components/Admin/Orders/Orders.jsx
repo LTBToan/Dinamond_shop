@@ -14,6 +14,7 @@ import {
 
 function Orders() {
   const [loading, setLoading] = useState(false);
+  const [load, setLoad] = useState(false);
   const [dataSource, setDataSource] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState(null);
@@ -38,16 +39,63 @@ function Orders() {
   //   });
   // }, []);
   useEffect(() => {
-    setLoading(true);
-    getOrders().then((res) => {
-      setDataSource(res.products);
+    const fetchData = async () => {
+      setLoading(true);
+      const newData = await getOrders();
+      setDataSource(newData);
       setLoading(false);
     };
     fetchData();
-    const intervalId = setInterval(fetchData, 3000);
-    return () => clearInterval(intervalId);
-  }, []);
-
+  }, [load]);
+  const handleOrderClick = (record) => {
+    setSelectedOrder(record);
+    console.log(record);
+    getOrderDetails(record).then((details) => {
+      setOrderDetails(details);
+      console.log(details);
+      setModalVisible(true);
+    });
+  };
+  const closeModal = () => {
+    setModalVisible(false);
+  };
+  // const handleUpdateClick = async (record) => {
+  //   setIsEditing(true);
+  //   // let data = { ...editFormData, id: record };
+  //   console.log(record);
+  //   const productNew = await getOrdersById(record);
+  //   console.log(productNew);
+  //   setEditFormData(productNew);
+  //   setTestRecord(record);
+  // };
+  // const resetEditing = () => {
+  //   setIsEditing(false);
+  //   setEditFormData(null);
+  // };
+  const updateOrder = async (id, data) => {
+    try {
+      const updatedData = { ...data, statusId: 1 };
+      await axios.put(
+        `http://localhost:8080/api/orders/update/${id}`,
+        updatedData
+      );
+      setLoad(!load);
+    } catch (error) {
+      console.log.error(error);
+    }
+  };
+  const updateOrder1 = async (id, data) => {
+    try {
+      const updatedData = { ...data, statusId: 3 };
+      await axios.put(
+        `http://localhost:8080/api/orders/update/${id}`,
+        updatedData
+      );
+      setLoad(!load);
+    } catch (error) {
+      console.log.error(error);
+    }
+  };
   return (
     <Space size={20} direction="vertical">
       <Typography.Title level={4}>Orders</Typography.Title>
@@ -56,13 +104,13 @@ function Orders() {
         loading={loading}
         columns={[
           {
-            title: "Title",
-            dataIndex: "title",
+            title: "Order Id",
+            dataIndex: "orderId",
           },
           {
-            title: "Price",
-            dataIndex: "price",
-            render: (value) => <span>${value}</span>,
+            title: "Account Id",
+            dataIndex: "accountId",
+            // render: (value) => <span>${value}</span>,
           },
           {
             title: "Total Price",
@@ -70,8 +118,16 @@ function Orders() {
             // render: (value) => <span>${value}</span>,
           },
           {
-            title: "Quantity",
-            dataIndex: "quantity",
+            title: "Address",
+            dataIndex: "address",
+          },
+          {
+            title: "date",
+            dataIndex: "date",
+          },
+          {
+            title: "Status Id",
+            dataIndex: "statusId",
           },
           {
             title: "Action",

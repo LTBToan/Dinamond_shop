@@ -7,7 +7,6 @@ import {
   updateProduct,
   deleteProduct,
 } from "../../../dataControllers/productController";
-import { truncateString } from "../../../assistants/Generators";
 import AddModal from "./Modal";
 import axios from "axios";
 // const options = [
@@ -43,6 +42,7 @@ import axios from "axios";
 
 function Products() {
   const [loading, setLoading] = useState(false);
+  const [load, setLoad] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [dataSource, setDataSource] = useState([]);
   const [testRecord, setTestRecord] = useState();
@@ -78,9 +78,7 @@ function Products() {
       setLoading(false);
     };
     fetchData();
-    const intervalId = setInterval(fetchData, 3000);
-    return () => clearInterval(intervalId);
-  }, []);
+  }, [load]);
 
   const onUpdateProduct = async (record) => {
     setIsEditing(true);
@@ -99,6 +97,7 @@ function Products() {
       okType: "danger",
       onOk: () => {
         deleteProduct(record);
+        setLoad(!load);
       },
     });
   };
@@ -129,6 +128,7 @@ function Products() {
   const updateProduct1 = async (id, data) => {
     try {
       axios.put(`http://localhost:8080/api/products/update/${id}`, data);
+      setLoad(!load);
     } catch (error) {
       console.log.error(error);
     }
@@ -145,52 +145,44 @@ function Products() {
           enterButton
           style={{ width: "500px" }}
         />
-        <AddModal>New Product</AddModal>
+        <AddModal setLoad={setLoad} load={load}>
+          New Product
+        </AddModal>
       </div>
       <Table
         style={{ width: "1250px" }}
         loading={loading}
         columns={[
           {
-            title: "Picture",
-            key: "image_url",
-            dataIndex: "image_url",
-            render: (link) => {
-              return <Image src={link} width={45} />;
-            },
+            title: "Category Id",
+            key: "categoryId",
+            dataIndex: "categoryId",
           },
           {
-            title: "Name",
-            key: "name",
-            dataIndex: "name",
+            title: "Product Id",
+            key: "productId",
+            dataIndex: "productId",
           },
           {
-            title: "Price",
-            key: "price",
-            dataIndex: "price",
-            render: (value) => <span>${value}</span>,
+            title: "Product Name",
+            key: "productName",
+            dataIndex: "productName",
+            // render: (value) => <span>${value}</span>,
           },
           {
-            title: "Category",
-            key: "category",
-            dataIndex: "category_name",
+            title: "Product Size",
+            key: "productSize",
+            dataIndex: "productSize",
           },
           {
-            title: "Status",
-            key: "status",
-            dataIndex: "status",
-            render: (status) => (
-              <span
-                style={{
-                  backgroundColor: status ? "green" : "red",
-                  padding: "4px 8px",
-                  borderRadius: "4px",
-                  color: "white",
-                }}
-              >
-                {status ? "Available" : "Unavailable"}
-              </span>
-            ),
+            title: "Product Price",
+            key: "productPrice",
+            dataIndex: "productPrice",
+          },
+          {
+            title: "Quantity",
+            key: "quantity",
+            dataIndex: "quantity",
           },
           {
             title: "Action",
