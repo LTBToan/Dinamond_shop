@@ -5,6 +5,7 @@ import {
   getOrderDetails,
   getOrdersById,
 } from "../../../dataControllers/index";
+import { createInventory } from "../../../dataControllers/inventoryController";
 import axios from "axios";
 import {
   CheckOutlined,
@@ -131,7 +132,7 @@ function Orders() {
           },
           {
             title: "Action",
-            dataIndex: "orderId",
+            // dataIndex: "orderId",
             render: (record) => (
               <>
                 <div>
@@ -164,12 +165,13 @@ function Orders() {
                     />
                     <CheckOutlined
                       onClick={() => {
-                        updateOrder(record);
+                        updateOrder(record.orderId);
+                        createInventory(record);
                       }}
                     />
                     <CloseOutlined
                       onClick={() => {
-                        updateOrder1(record);
+                        updateOrder1(record.orderId);
                       }}
                       style={{ color: "red" }}
                     />

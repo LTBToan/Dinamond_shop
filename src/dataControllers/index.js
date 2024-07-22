@@ -20,7 +20,9 @@ export const getRevenue = () => {
 };
 
 export const getProduct = () => {
-  return fetch("http://localhost:8080/products").then((res) => res.json());
+  return fetch("http://localhost:8080/api/products/all").then((res) =>
+    res.json()
+  );
 };
 
 export const deleteProduct = (id) => {
@@ -36,9 +38,15 @@ export const editProduct = (id) => {
 };
 
 export const getUser = () => {
-  return fetch("http://localhost:3344/users").then((res) => res.json());
+  return fetch("http://localhost:8080/api/users/all").then((res) => res.json());
 };
 
 export const getComments = () => {
   return fetch("https://dummyjson.com/comments").then((res) => res.json());
+};
+
+export const getFeedback = () => {
+  return fetch("http://localhost:8080/api/feedbacks/all").then((res) =>
+    res.json()
+  );
 };

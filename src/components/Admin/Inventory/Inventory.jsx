@@ -3,41 +3,10 @@ import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import { useEffect, useState } from "react";
 import {
   getInventoryItem,
-  createBooking,
-  updateInventoryItem,
+  deleteInventory,
 } from "../../../dataControllers/inventoryController";
 // import AddModal from "./Modal";
 
-const options = [
-  {
-    value: "Table",
-    label: "Table",
-  },
-  {
-    value: "Sofa",
-    label: "Sofa",
-  },
-  {
-    value: "Bed",
-    label: "Bed",
-  },
-  {
-    value: "Chair",
-    label: "Chair",
-  },
-  {
-    value: "Lighting",
-    label: "Lighting",
-  },
-  {
-    value: "Shelf",
-    label: "Shelf",
-  },
-  {
-    value: "Outdoor",
-    label: "Outdoor",
-  },
-];
 
 function Inventory() {
   const [loading, setLoading] = useState(false);
@@ -45,6 +14,7 @@ function Inventory() {
   const [dataSource, setDataSource] = useState([]);
   const [testRecord, setTestRecord] = useState();
   const [searchInput, setSearchInput] = useState();
+  const [load, setLoad] = useState(false);
   const [editFormData, setEditFormData] = useState({
     quantity: 0,
     status: 1,
@@ -56,25 +26,25 @@ function Inventory() {
       setDataSource(res);
       setLoading(false);
     });
-  }, []);
+  }, [load]);
 
-  const onUpdateProduct = (record) => {
-    setIsEditing(true);
-    // let data = { ...editFormData, id: record };
-    // setEditFormData(data);
-    setTestRecord(record);
-  };
+  // const onUpdateProduct = (record) => {
+  //   setIsEditing(true);
+  //   // let data = { ...editFormData, id: record };
+  //   // setEditFormData(data);
+  //   setTestRecord(record);
+  // };
 
   console.log("DATA: ", editFormData);
 
   const onDeleteProduct = (record) => {
-    console.log(record);
     Modal.confirm({
       title: "Are you sure, you want to delete this product?",
       okText: "Confirm",
       okType: "danger",
       onOk: () => {
-        deleteProduct(record);
+        deleteInventory(record);
+        setLoad(!load);
       },
     });
   };
@@ -169,7 +139,7 @@ function Inventory() {
             title: "Action",
             key: "action",
             align: "center",
-            dataIndex: "product_id",
+            dataIndex: "deliveryId",
             render: (record) => {
               return (
                 <div
@@ -188,6 +158,7 @@ function Inventory() {
                   <DeleteOutlined
                     onClick={() => {
                       onDeleteProduct(record);
+                      console.log("Delete: ", record);
                     }}
                     style={{ color: "red" }}
                   />

@@ -133,7 +133,9 @@ function Products() {
       console.log.error(error);
     }
   };
-
+  const handleAddProduct = () => {
+    setLoad(!load); // Toggle the load state
+  };
   return (
     <Space size={20} direction="vertical">
       {/* <Typography.Title level={4}>Product</Typography.Title> */}

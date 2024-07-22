@@ -11,6 +11,7 @@ import {
   getUser,
   getOrders,
   getRevenue,
+  getFeedback,
 } from "../../../dataControllers/index";
 import {
   Chart as ChartJS,
@@ -36,6 +37,7 @@ function Dashboard() {
   const [orders, setOrders] = useState(0);
   const [products, setProducts] = useState(0);
   const [users, setUsers] = useState(0);
+  const [feedback, setfeedback] = useState(0);
   useEffect(() => {
     getOrders().then((res) => {
       setOrders(res?.length);
@@ -45,6 +47,9 @@ function Dashboard() {
     });
     getUser().then((res) => {
       setUsers(res?.length);
+    });
+    getFeedback().then((res) => {
+      setfeedback(res?.length);
     });
   }, []);
   return (
@@ -81,8 +86,8 @@ function Dashboard() {
         />
         <DashboardCard
           icon={<BookOutlined style={{ fontSize: "20px" }} />}
-          title={"Booking"}
-          // value={bookings}
+          title={"Feedback"}
+          value={feedback}
           gradientColors={["#2196F3", "#00C9FF"]}
         />
       </Space>
@@ -120,11 +125,13 @@ function RecentOrders() {
   const [dataSource, setDataSource] = useState([]);
   const [loading, setLoading] = useState(false);
   useEffect(() => {
-    setLoading(true);
-    getOrders().then((res) => {
-      setDataSource(res.products.splice(0, 3));
+    const fetchData = async () => {
+      setLoading(true);
+      const newData = await getOrders();
+      setDataSource(newData);
       setLoading(false);
-    });
+    };
+    fetchData();
   }, []);
   return (
     <>
@@ -133,16 +140,16 @@ function RecentOrders() {
         style={{ width: "630px" }}
         columns={[
           {
-            title: "Title",
-            dataIndex: "title",
+            title: "Order Id",
+            dataIndex: "orderId",
           },
           {
-            title: "Quantity",
-            dataIndex: "quantity",
+            title: "Account Id",
+            dataIndex: "accountId",
           },
           {
             title: "Price",
-            dataIndex: "discountedPrice",
+            dataIndex: "totalPrice",
           },
         ]}
         loading={loading}

@@ -23,38 +23,38 @@ const formItemLayout = {
   },
 };
 
-const options = [
-  {
-    value: "Table",
-    label: "Table",
-  },
-  {
-    value: "Sofa",
-    label: "Sofa",
-  },
-  {
-    value: "Bed",
-    label: "Bed",
-  },
-  {
-    value: "Chair",
-    label: "Chair",
-  },
-  {
-    value: "Lighting",
-    label: "Lighting",
-  },
-  {
-    value: "Shelf",
-    label: "Shelf",
-  },
-  {
-    value: "Outdoor",
-    label: "Outdoor",
-  },
-];
+// const options = [
+//   {
+//     value: "Table",
+//     label: "Table",
+//   },
+//   {
+//     value: "Sofa",
+//     label: "Sofa",
+//   },
+//   {
+//     value: "Bed",
+//     label: "Bed",
+//   },
+//   {
+//     value: "Chair",
+//     label: "Chair",
+//   },
+//   {
+//     value: "Lighting",
+//     label: "Lighting",
+//   },
+//   {
+//     value: "Shelf",
+//     label: "Shelf",
+//   },
+//   {
+//     value: "Outdoor",
+//     label: "Outdoor",
+//   },
+// ];
 
-const AddModal = ({ setLoad, load }) => {
+const AddModal = ({ load, setLoad }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
   const [formData, setFormData] = useState({
@@ -74,6 +74,7 @@ const AddModal = ({ setLoad, load }) => {
 
   const showModal = () => {
     setIsModalOpen(true);
+
     setFormData({
       ...formData,
       product_id: generateId(30, ""),
@@ -124,10 +125,10 @@ const AddModal = ({ setLoad, load }) => {
     setFormData({ ...formData, status: checked ? true : false });
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     setIsModalOpen(false);
     event.preventDefault();
-    addProduct(formData);
+    await addProduct(formData);
     setLoad(!load);
     setFormData({
       ...formData,
@@ -171,14 +172,14 @@ const AddModal = ({ setLoad, load }) => {
             maxWidth: 600,
           }}
         >
-          <Form.Item label="Product Id">
+          {/* <Form.Item>
             <Input
               type="text"
               name="productId"
               value={formData?.productId}
               onChange={handleChange}
             />
-          </Form.Item>
+          </Form.Item> */}
           {/* <Form.Item label="Category">
             <Select
               value={formData?.category_name}

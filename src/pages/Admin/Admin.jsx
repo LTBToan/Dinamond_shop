@@ -17,6 +17,7 @@ import Dashboard from "../../components/Admin/Dashboard/Dashboard";
 import Products from "../../components/Admin/Product/Products";
 import Orders from "../../components/Admin/Orders/Orders";
 import Inventory from "../../components/Admin/Inventory/Inventory";
+import Feedback from "../../components/Admin/Feedback/Feedback";
 import { Link } from "react-router-dom";
 
 const { Header, Sider, Content } = Layout;
@@ -58,7 +59,7 @@ const Admin = () => {
     {
       key: "5",
       icon: <InboxOutlined />,
-      label: "Inventory",
+      label: "Delivery",
       onClick: () => setActiveComponent("Inventory"),
     },
     {
