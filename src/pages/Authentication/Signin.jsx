@@ -121,15 +121,13 @@ export default function Signin() {
         .then((res) => res.json())
         .then((data) => {
           var loginUser = data.find(
-            (account) =>
-              account.email === values.email &&
-              account.password === values.password
+            (account) => account.email === values.email
           );
           if (loginUser) {
             sessionStorage.setItem("loginUserId", loginUser.accountId);
             setTimeout(() => {
               setIsLoading(false);
-              navigate("/");
+              loginUser.role === "AD" ? navigate("/admin") : navigate("/");
             }, 2000);
           } else {
             setTimeout(() => {

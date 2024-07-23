@@ -7,6 +7,8 @@ import {
   SolutionOutlined,
   HomeOutlined,
   InboxOutlined,
+  LogoutOutlined,
+  ExceptionOutlined,
 } from "@ant-design/icons";
 import { Layout, Menu, theme, Breadcrumb, Image } from "antd";
 import eFurniLogo from "../../assets/logos/diamondlogo.png";
@@ -15,17 +17,20 @@ import Dashboard from "../../components/Admin/Dashboard/Dashboard";
 import Products from "../../components/Admin/Product/Products";
 import Orders from "../../components/Admin/Orders/Orders";
 import Inventory from "../../components/Admin/Inventory/Inventory";
+import Feedback from "../../components/Admin/Feedback/Feedback";
 import { Link } from "react-router-dom";
 
 const { Header, Sider, Content } = Layout;
 
 const Admin = () => {
   const [activeComponent, setActiveComponent] = useState("Dashboard");
-
+  const [currentUser, setCurrentUser] = useState(null);
   const {
     token: { colorBgContainer },
   } = theme.useToken();
-
+  const navigate = (toUrl) => {
+    window.location.href = toUrl;
+  };
   const menuItems = [
     {
       key: "1",
@@ -54,11 +59,21 @@ const Admin = () => {
     {
       key: "5",
       icon: <InboxOutlined />,
-      label: "Inventory",
+      label: "Delivery",
       onClick: () => setActiveComponent("Inventory"),
     },
+    {
+      key: "7",
+      icon: <ExceptionOutlined />,
+      label: "Feedback",
+      onClick: () => setActiveComponent("Feedback"),
+    },
   ];
-
+  const logout = () => {
+    sessionStorage.removeItem("loginUserId");
+    setCurrentUser(null);
+    navigate("/signin");
+  };
   return (
     <Layout className={styles.admin}>
       <Sider style={{ background: "white" }}>
@@ -94,6 +109,13 @@ const Admin = () => {
           }}
         >
           <h2 style={{ marginLeft: "620px" }}>Admin</h2>
+          <button
+            style={{ marginRight: "20px" }}
+            className="iconButton"
+            onClick={logout}
+          >
+            <LogoutOutlined style={{ fontSize: "150%" }} />
+          </button>
         </Header>
         <Content
           style={{
@@ -130,6 +152,7 @@ const Admin = () => {
           {activeComponent === "Orders" && <Orders />}
           {activeComponent === "Products" && <Products />}
           {activeComponent === "Inventory" && <Inventory />}
+          {activeComponent === "Feedback" && <Feedback />}
         </Content>
       </Layout>
     </Layout>

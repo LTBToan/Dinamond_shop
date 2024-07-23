@@ -1,49 +1,67 @@
 import { Avatar, Space, Table, Input, Modal, Select, Switch } from "antd";
 import {
+  DeleteOutlined,
   EditOutlined,
-  InfoCircleOutlined,
-  WarningFilled,
+  // InfoCircleOutlined,
+  // PlusCircleOutlined,
+  // WarningFilled,
 } from "@ant-design/icons";
 import { useEffect, useState } from "react";
 import {
   getUser,
   getUserById,
-  updateUser,
-  banUser,
+  // updateUser,
+  deleteUser,
+  addUser,
 } from "../../../dataControllers/userController";
-
+import axios from "axios";
+import AddModal from "./Modals";
 const options = [
   {
     value: "US",
     label: "User",
   },
   {
-    value: "staff",
-    label: "Staff",
+    value: "DS",
+    label: "Dealer sale",
   },
   {
-    value: "admin",
+    value: "AD",
     label: "Admin",
+  },
+  {
+    value: "MN",
+    label: "Manager",
+  },
+  {
+    value: "SS",
+    label: "Sale store",
   },
 ];
 
 function Users() {
   const [loading, setLoading] = useState(false);
+  const [load, setLoad] = useState(false);
   const [dataSource, setDataSource] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
   const [testRecord, setTestRecord] = useState(null);
-  const [selectedRequest, setSelectedRequest] = useState(null);
+  // const [selectedRequest, setSelectedRequest] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
   const [searchInput, setSearchInput] = useState();
-  const [banData, setBanData] = useState({
-    status: 0,
-  });
+  // const [banData, setBanData] = useState({
+  //   status: 0,
+  // });
 
   const [editFormData, setEditFormData] = useState({
-    fullName: "",
+    accountId: "",
+    name: "",
+    fullname: "",
     email: "",
     role_id: "",
-    status: 0,
+    address: "",
+    phonenumber: "",
+    password: "",
+    role: "",
   });
 
   useEffect(() => {
@@ -54,40 +72,42 @@ function Users() {
       setLoading(false);
     };
     fetchData();
-    // const intervalId = setInterval(fetchData, 1000);
-    // return () => clearInterval(intervalId);
-  }, []);
+  }, [load]);
 
-  // const onDeleteUser = (record) => {
-  //   console.log(record);
-  //   Modal.confirm({
-  //     title: "Are you sure, you want to delete this user?",
-  //     okText: "Yes",
-  //     okType: "danger",
-  //     onOk: () => {
-  //       setLoading(true);
-  //       deleteUser(record).then(() => setLoading(false));
-  //     },
-  //   });
-  // };
-
-  const onBanUser = (record) => {
-    setTestRecord(record);
+  const onDeleteUser = (record) => {
+    console.log(record);
     Modal.confirm({
-      title: "BAN THIS ACCOUNT?",
-      okText: "Ban",
+      title: "Are you sure, you want to delete this user?",
+      okText: "Yes",
       okType: "danger",
       onOk: () => {
-        banUser(record, banData);
+        deleteUser(record);
+        setLoad(!load);
       },
+      refetchInterval: 5000,
     });
   };
 
-  const onEditUser = (record) => {
+  // const onBanUser = (record) => {
+  //   setTestRecord(record);
+  //   Modal.confirm({
+  //     title: "BAN THIS ACCOUNT?",
+  //     okText: "Ban",
+  //     okType: "danger",
+  //     onOk: () => {
+  //       banUser(record, banData);
+  //     },
+  //   });
+  // };
+  const onEditUser = async (record) => {
     setIsEditing(true);
-    // let data = { ...editFormData };
-    // setEditFormData(data);
+    // let data = { ...setEditFormData };
+    // console.log(record);
+    const userDetails = await getUserById(record); // Nếu bạn cần lấy dữ liệu từ server
+    // console.log(userDetails);
+    setEditFormData(userDetails);
     setTestRecord(record);
+    setLoad(!load);
   };
 
   const resetEditing = () => {
@@ -95,14 +115,14 @@ function Users() {
     setEditFormData(null);
   };
 
-  const handleCardClick = (request) => {
-    getUserById(request).then((res) => {
-      console.log("ID ", res);
-      setSelectedRequest(res);
-      console.log("DA: ", selectedRequest);
-    });
-    setModalVisible(true);
-  };
+  // const handleCardClick = (request) => {
+  //   addUser(request).then((res) => {
+  //     console.log("ID ", res);
+  //     setSelectedRequest(res);
+  //     console.log("DA: ", selectedRequest);
+  //   });
+  //   setModalVisible(true);
+  // };
 
   const closeModal = () => {
     setModalVisible(false);
@@ -123,63 +143,69 @@ function Users() {
     });
   };
 
-  const handleSwitchChange = (checked) => {
-    setEditFormData({ ...editFormData, status: checked ? 1 : 0 });
-  };
+  // const handleSwitchChange = (checked) => {
+  //   setEditFormData({ ...editFormData, status: checked ? 1 : 0 });
+  // };
 
+  const updateUser1 = async (id, data) => {
+    try {
+      await axios.put(`http://localhost:8080/api/users/${id}`, data);
+      setLoad(!load);
+    } catch (error) {
+      console.log.error(error);
+    }
+  };
   return (
     <Space size={20} direction="vertical">
       {/* <Typography.Title level={4}>Users</Typography.Title> */}
-      <Input.Search
-        placeholder="Search by name..."
-        value={searchInput}
-        onChange={(e) => handleSearch(e.target.value)}
-        enterButton
-        style={{ width: "500px", marginTop: "10px" }}
-      />
+      <div>
+        <Input.Search
+          placeholder="Search by name..."
+          value={searchInput}
+          onChange={(e) => handleSearch(e.target.value)}
+          enterButton
+          style={{ width: "500px" }}
+        />
+        <AddModal setLoad={setLoad} load={load}>
+          New User
+        </AddModal>
+      </div>
       <Table
         style={{ width: "1250px" }}
         loading={loading}
         columns={[
           {
-            title: "Avatar",
-            dataIndex: "avatar",
-            render: (link) => {
-              return <Avatar src={link} size={45} />;
-            },
-          },
-          {
             title: "Name",
-            dataIndex: "fullName",
+            dataIndex: "username",
           },
           {
-            title: "Role",
-            dataIndex: "role_id",
+            title: "Fullname",
+            dataIndex: "fullname",
           },
           {
             title: "Email",
             dataIndex: "email",
           },
           {
-            title: "Status",
-            dataIndex: "status",
-            render: (status) => (
-              <span
-                style={{
-                  backgroundColor: status ? "green" : "red",
-                  padding: "4px 8px",
-                  borderRadius: "4px",
-                  color: "white",
-                }}
-              >
-                {status ? "Online" : "Banned"}
-              </span>
-            ),
+            title: "Address",
+            dataIndex: "address",
+          },
+          {
+            title: "Phone",
+            dataIndex: "phonenumber",
+          },
+          {
+            title: "Password",
+            dataIndex: "password",
+          },
+          {
+            title: "Role",
+            dataIndex: "role",
           },
           {
             title: "Action",
             align: "center",
-            dataIndex: "user_id",
+            dataIndex: "accountId",
             render: (record) => {
               return (
                 <div
@@ -189,20 +215,21 @@ function Users() {
                     fontSize: "20px",
                   }}
                 >
-                  <InfoCircleOutlined
+                  {/* <PlusCircleOutlined
                     onClick={() => {
                       handleCardClick(record);
                     }}
-                  />
+                  /> */}
                   <EditOutlined
                     onClick={() => {
                       onEditUser(record);
+                      // handleCardClick(record);
                     }}
                   />
-                  <WarningFilled
+                  <DeleteOutlined
                     onClick={() => {
-                      // onDeleteUser(record);
-                      onBanUser(record);
+                      onDeleteUser(record);
+                      // onBanUser(record);
                     }}
                     style={{ color: "red" }}
                   />
@@ -225,17 +252,26 @@ function Users() {
           resetEditing();
         }}
         onOk={() => {
-          updateUser(testRecord, editFormData);
+          updateUser1(testRecord, editFormData);
           resetEditing();
         }}
       >
         <div style={{ lineHeight: "2.5" }}>
           Name:{" "}
           <Input
-            value={editFormData?.fullName}
+            value={editFormData?.username}
             onChange={(e) => {
               setEditFormData((pre) => {
-                return { ...pre, fullName: e.target.value };
+                return { ...pre, username: e.target.value };
+              });
+            }}
+          />
+          Full Name:{" "}
+          <Input
+            value={editFormData?.fullname}
+            onChange={(e) => {
+              setEditFormData((pre) => {
+                return { ...pre, fullname: e.target.value };
               });
             }}
           />
@@ -248,9 +284,36 @@ function Users() {
               });
             }}
           />
+          Address:{" "}
+          <Input
+            value={editFormData?.address}
+            onChange={(e) => {
+              setEditFormData((pre) => {
+                return { ...pre, address: e.target.value };
+              });
+            }}
+          />
+          Phone:{" "}
+          <Input
+            value={editFormData?.phonenumber}
+            onChange={(e) => {
+              setEditFormData((pre) => {
+                return { ...pre, phonenumber: e.target.value };
+              });
+            }}
+          />
+          Password:{" "}
+          <Input
+            value={editFormData?.password}
+            onChange={(e) => {
+              setEditFormData((pre) => {
+                return { ...pre, password: e.target.value };
+              });
+            }}
+          />
           Role:{" "}
           <Select
-            value={editFormData?.role_id}
+            value={editFormData?.role}
             options={options}
             style={{ width: 100, margin: "20px 20px 0px 0px" }}
             onChange={(value) => {
@@ -259,21 +322,30 @@ function Users() {
               });
             }}
           />
-          Status:{" "}
-          <Switch value={editFormData?.status} onChange={handleSwitchChange} />
         </div>
       </Modal>
 
       <Modal
-        title="User Information"
+        title="Create New User"
         open={modalVisible}
         onCancel={closeModal}
-        footer={null}
+        okText="Confirm"
         width={1000}
         centered
+        // title="Edit User"
+        // open={isEditing}
+        // centered
+        // okText="Confirm"
+        // onCancel={() => {
+        //   resetEditing();
+        // }}
+        onOk={() => {
+          addUser(testRecord, editFormData);
+          resetEditing();
+        }}
       >
-        {selectedRequest && (
-          <Table
+        {/* {selectedRequest && (
+          <Modal
             dataSource={selectedRequest}
             columns={[
               {
@@ -301,15 +373,78 @@ function Users() {
                 dataIndex: "create_at",
                 key: "date",
               },
-              {
-                title: "Status",
-                dataIndex: "status",
-                render: (status) => (status ? "Online" : "Banned"),
-              },
             ]}
             pagination={false}
           />
         )}
+      </Modal> */}
+        <div style={{ lineHeight: "2.5" }}>
+          Name:{" "}
+          <Input
+            value={editFormData?.username}
+            onChange={(e) => {
+              setEditFormData((pre) => {
+                return { ...pre, username: e.target.value };
+              });
+            }}
+          />
+          Full Name:{" "}
+          <Input
+            value={editFormData?.fullname}
+            onChange={(e) => {
+              setEditFormData((pre) => {
+                return { ...pre, fullname: e.target.value };
+              });
+            }}
+          />
+          Email:{" "}
+          <Input
+            value={editFormData?.email}
+            onChange={(e) => {
+              setEditFormData((pre) => {
+                return { ...pre, email: e.target.value };
+              });
+            }}
+          />
+          Address:{" "}
+          <Input
+            value={editFormData?.address}
+            onChange={(e) => {
+              setEditFormData((pre) => {
+                return { ...pre, address: e.target.value };
+              });
+            }}
+          />
+          Phone:{" "}
+          <Input
+            value={editFormData?.phonenumber}
+            onChange={(e) => {
+              setEditFormData((pre) => {
+                return { ...pre, phonenumber: e.target.value };
+              });
+            }}
+          />
+          Password:{" "}
+          <Input
+            value={editFormData?.password}
+            onChange={(e) => {
+              setEditFormData((pre) => {
+                return { ...pre, password: e.target.value };
+              });
+            }}
+          />
+          Role:{" "}
+          <Select
+            value={editFormData?.role}
+            options={options}
+            style={{ width: 100, margin: "20px 20px 0px 0px" }}
+            onChange={(value) => {
+              setEditFormData((pre) => {
+                return { ...pre, role_id: value };
+              });
+            }}
+          />
+        </div>
       </Modal>
     </Space>
   );

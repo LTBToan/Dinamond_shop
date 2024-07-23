@@ -3,54 +3,63 @@ import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import { useEffect, useState } from "react";
 import {
   getProduct,
+  getProductById,
   updateProduct,
   deleteProduct,
 } from "../../../dataControllers/productController";
-import { truncateString } from "../../../assistants/Generators";
 import AddModal from "./Modal";
-
-const options = [
-  {
-    value: "Table",
-    label: "Table",
-  },
-  {
-    value: "Sofa",
-    label: "Sofa",
-  },
-  {
-    value: "Bed",
-    label: "Bed",
-  },
-  {
-    value: "Chair",
-    label: "Chair",
-  },
-  {
-    value: "Lighting",
-    label: "Lighting",
-  },
-  {
-    value: "Shelf",
-    label: "Shelf",
-  },
-  {
-    value: "Outdoor",
-    label: "Outdoor",
-  },
-];
+import axios from "axios";
+// const options = [
+//   {
+//     value: "Table",
+//     label: "Table",
+//   },
+//   {
+//     value: "Sofa",
+//     label: "Sofa",
+//   },
+//   {
+//     value: "Bed",
+//     label: "Bed",
+//   },
+//   {
+//     value: "Chair",
+//     label: "Chair",
+//   },
+//   {
+//     value: "Lighting",
+//     label: "Lighting",
+//   },
+//   {
+//     value: "Shelf",
+//     label: "Shelf",
+//   },
+//   {
+//     value: "Outdoor",
+//     label: "Outdoor",
+//   },
+// ];
 
 function Products() {
   const [loading, setLoading] = useState(false);
+  const [load, setLoad] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [dataSource, setDataSource] = useState([]);
   const [testRecord, setTestRecord] = useState();
   const [searchInput, setSearchInput] = useState();
   const [editFormData, setEditFormData] = useState({
-    name: "",
-    price: "",
-    status: 1,
-    category_name: "",
+    categoryId: "",
+    diamondId: "",
+    shellId: "",
+    accountId: "",
+    materialId: "",
+    description: "",
+    productId: "",
+    productName: "",
+    productSize: "",
+    imageLink: "",
+    productPrice: "",
+    quantity: "",
   });
 
   // useEffect(() => {
@@ -69,14 +78,15 @@ function Products() {
       setLoading(false);
     };
     fetchData();
-    // const intervalId = setInterval(fetchData, 1000);
-    // return () => clearInterval(intervalId);
-  }, []);
+  }, [load]);
 
-  const onUpdateProduct = (record) => {
+  const onUpdateProduct = async (record) => {
     setIsEditing(true);
     // let data = { ...editFormData, id: record };
-    // setEditFormData(data);
+    console.log(record);
+    const productNew = await getProductById(record);
+    console.log(productNew);
+    setEditFormData(productNew);
     setTestRecord(record);
   };
 
@@ -87,6 +97,7 @@ function Products() {
       okType: "danger",
       onOk: () => {
         deleteProduct(record);
+        setLoad(!load);
       },
     });
   };
@@ -114,7 +125,17 @@ function Products() {
       }
     });
   };
-
+  const updateProduct1 = async (id, data) => {
+    try {
+      axios.put(`http://localhost:8080/api/products/update/${id}`, data);
+      setLoad(!load);
+    } catch (error) {
+      console.log.error(error);
+    }
+  };
+  const handleAddProduct = () => {
+    setLoad(!load); // Toggle the load state
+  };
   return (
     <Space size={20} direction="vertical">
       {/* <Typography.Title level={4}>Product</Typography.Title> */}
@@ -126,49 +147,50 @@ function Products() {
           enterButton
           style={{ width: "500px" }}
         />
-        <AddModal>Add Product</AddModal>
+        <AddModal setLoad={setLoad} load={load}>
+          New Product
+        </AddModal>
       </div>
       <Table
         style={{ width: "1250px" }}
         loading={loading}
         columns={[
           {
-            title: "Picture",
-            key: "image_url",
-            dataIndex: "imageLink",
-            render: (link) => {
-              return <Image src={link} width={45} />;
-            },
-          },
-          {
-            title: "Name",
-            key: "name",
-            dataIndex: "productName",
-            render: (name) => {
-              return <span>{truncateString(name, 20)}</span>;
-            },
-          },
-          {
-            title: "Price",
-            key: "price",
-            dataIndex: "productPrice",
-            render: (value) => <span>{value.toLocaleString()}₫‌</span>,
-          },
-          {
-            title: "Category",
-            key: "category",
+            title: "Category Id",
+            key: "categoryId",
             dataIndex: "categoryId",
           },
           {
+            title: "Product Id",
+            key: "productId",
+            dataIndex: "productId",
+          },
+          {
+            title: "Product Name",
+            key: "productName",
+            dataIndex: "productName",
+            // render: (value) => <span>${value}</span>,
+          },
+          {
+            title: "Product Size",
+            key: "productSize",
+            dataIndex: "productSize",
+          },
+          {
+            title: "Product Price",
+            key: "productPrice",
+            dataIndex: "productPrice",
+          },
+          {
             title: "Quantity",
-            key: "status",
+            key: "quantity",
             dataIndex: "quantity",
           },
           {
             title: "Action",
             key: "action",
             align: "center",
-            dataIndex: "product_id",
+            dataIndex: "productId",
             render: (record) => {
               return (
                 <div
@@ -207,46 +229,107 @@ function Products() {
           resetEditing();
         }}
         onOk={() => {
-          updateProduct(testRecord, editFormData);
+          updateProduct1(testRecord, editFormData);
           resetEditing();
         }}
       >
         <div style={{ lineHeight: "2.5" }}>
-          Name:{" "}
+          Category Id:{" "}
           <Input
-            value={editFormData?.name}
+            value={editFormData?.categoryId}
             onChange={(e) => {
               setEditFormData((pre) => {
-                return { ...pre, name: e.target.value };
+                return { ...pre, categoryId: e.target.value };
               });
             }}
           />
-          Price:{" "}
+          Diamond Id:{" "}
           <Input
-            value={editFormData?.price}
+            value={editFormData?.diamondId}
+            onChange={(e) => {
+              setEditFormData((pre) => {
+                return { ...pre, diamondId: e.target.value };
+              });
+            }}
+          />
+          Shell Id:{" "}
+          <Input
+            value={editFormData?.shellId}
+            onChange={(e) => {
+              setEditFormData((pre) => {
+                return { ...pre, shellId: e.target.value };
+              });
+            }}
+          />
+          Account Id:{" "}
+          <Input
+            value={editFormData?.accountId}
+            onChange={(e) => {
+              setEditFormData((pre) => {
+                return { ...pre, accountId: e.target.value };
+              });
+            }}
+          />
+          Material Id:{" "}
+          <Input
+            value={editFormData?.materialId}
+            onChange={(e) => {
+              setEditFormData((pre) => {
+                return { ...pre, materialId: e.target.value };
+              });
+            }}
+          />
+          Description:{" "}
+          <Input
+            value={editFormData?.description}
             onChange={(e) => {
               setEditFormData((pre) => {
                 return { ...pre, price: e.target.value };
               });
             }}
           />
-          Category:{" "}
-          <Select
-            value={editFormData?.category_name}
-            options={options}
-            style={{ width: 200, margin: "20px 20px 0px 0px" }}
+          Product Id:{" "}
+          <Input
+            value={editFormData?.productId}
             onChange={(e) => {
               setEditFormData((pre) => {
-                return { ...pre, category_name: e };
+                return { ...pre, productId: e.target.value };
               });
             }}
           />
-          Status:{" "}
-          <Switch
-            value={editFormData?.status}
+          Product Name:{" "}
+          <Input
+            value={editFormData?.productName}
             onChange={(e) => {
               setEditFormData((pre) => {
-                return { ...pre, status: e ? 1 : 0 };
+                return { ...pre, productName: e.target.value };
+              });
+            }}
+          />
+          Image:{" "}
+          <Input
+            value={editFormData?.imageLink}
+            onChange={(e) => {
+              setEditFormData((pre) => {
+                return { ...pre, imageLink: e.target.value };
+              });
+            }}
+          />
+          Product Price:{" "}
+          <Input
+            value={editFormData?.productPrice}
+            onChange={(e) => {
+              setEditFormData((pre) => {
+                return { ...pre, productPrice: e.target.value };
+              });
+            }}
+          />
+          Quantity:{" "}
+          <Input
+            value={editFormData?.quantity}
+            onChange={(e) => {
+              setEditFormData((pre) => {
+                return { ...pre, quantity: e.target.value };
               });
             }}
           />
