@@ -120,6 +120,7 @@ const ProductList = () => {
       setLayoutChange(true);
       setTimeout(() => {
         setLayout(newLayout);
+        setItemsPerPage(newLayout === "grid" ? 16 : 6);
       }, 500);
     }
   };

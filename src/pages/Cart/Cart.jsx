@@ -28,25 +28,27 @@ export default function Cart() {
     setTotalAmount,
   } = useContext(CartContext);
 
-  const handleCheckout = async () => {
-    try {
-      const res = await axios.post(
-        "http://localhost:8080/api/payment/create_payment",
-        {
-          items: cartItems,
-          orderInfo: generateUniqueId("O", 6),
-          bankCode: "VNBANK",
-          orderType: "other",
-        }
-      );
-      const responseData = res.data.url;
-      window.location.href = responseData;
-    } catch (error) {
-      console.log("Error: ", error);
-    }
-  };
+  // const handleCheckout = async () => {
+  //   try {
+  //     const res = await axios.post(
+  //       "http://localhost:8080/api/payment/create_payment",
+  //       {
+  //         items: cartItems,
+  //         orderInfo: generateUniqueId("O", 6),
+  //         bankCode: "VNBANK",
+  //         orderType: "other",
+  //       }
+  //     );
+  //     const responseData = res.data.url;
+  //     window.location.href = responseData;
+  //   } catch (error) {
+  //     console.log("Error: ", error);
+  //   }
+  // };
 
-  console.log("Item:", cartItems);
+  const handleCheckout = () => {
+    window.location.href = "/checkout";
+  };
 
   return (
     <>

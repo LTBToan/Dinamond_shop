@@ -14,11 +14,14 @@ import CategorizedProductList from "./pages/Product/CategorizedProductList";
 import Cart from "./pages/Cart/Cart";
 import ContactPage from "./pages/Contact/ContactPage";
 import Profile from "./pages/TestProfile/ProfilePage";
+import CheckoutPage from "./pages/Checkout/Checkout";
 import PayStatus from "./pages/Payment/PaymentSuccess";
 import NotAuthorized from "./pages/NotFoundPage/NotAuthorization";
 import { ChakraProvider } from "@chakra-ui/react";
 import ProtectedRoutes from "./pages/NotFoundPage/ProtectedRoute";
 import NotFound from "./pages/NotFoundPage/NotFound404";
+
+import CustomPDF from "./components/CustomPDF";
 
 function App() {
   const user = sessionStorage.getItem("loginUserId");
@@ -44,12 +47,15 @@ function App() {
         <Route path="/cart" element={<Cart />} />
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/products/:id" element={<Product />} />
+        <Route path="/checkout" element={<CheckoutPage />} />
         <Route path="/payment-status" element={<PayStatus />} />
         <Route path="/not-authorized" element={<NotAuthorized />} />
 
         <Route path="/admin" element={<ProtectedRoutes roleRequired="AD" />}>
           <Route path="/admin" element={<AdminPage />} />
         </Route>
+
+        <Route path="/test" element={<CustomPDF />} />
       </Routes>
     </ChakraProvider>
   );

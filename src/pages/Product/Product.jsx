@@ -13,15 +13,6 @@ import {
   Circle,
   Alert,
   AlertIcon,
-  Tabs,
-  TabList,
-  TabPanels,
-  Tab,
-  TabPanel,
-  FormControl,
-  FormLabel,
-  Textarea,
-  TabIndicator,
 } from "@chakra-ui/react";
 import { MinusIcon, AddIcon } from "@chakra-ui/icons";
 import { useParams } from "react-router-dom";
@@ -29,15 +20,13 @@ import axios from "axios";
 import Navbar from "../../components/Navbar/Navbar";
 import RelatedProducts from "../../components/Related Products/RelatedProducts";
 import Footer from "../../components/Home/Footer";
-import SizeGuide from "./SizeGuide";
 import { useCart } from "../../context/CartContext";
 import { useFormik } from "formik";
 import { generateUniqueId } from "../../assistants/Generators";
 
 import payment_option_img from "../../assets/img/product/payment-option.png";
-import { message } from "antd";
-
-const data = ["Hello"];
+import { message, Rate } from "antd";
+import Feedback from "../../components/Feedback/Feedback";
 
 export default function Product() {
   const { addToCart } = useCart();
@@ -54,10 +43,12 @@ export default function Product() {
     status: 0,
   });
   const [shellProduct, setShellProduct] = useState([]);
+  const [feedback, setFeedback] = useState([]);
   const [selectedSize, setSelectedSize] = useState(null);
   const [errorMessage, setErrorMessage] = useState("");
 
   const { id } = useParams();
+  const currentUserId = sessionStorage.getItem("loginUserId");
 
   const fetchProductInfo = async () => {
     setIsLoading(true);
@@ -88,9 +79,33 @@ export default function Product() {
     }
   };
 
+  const fetchFeedbackProduct = async () => {
+    setIsLoading(true);
+    try {
+      const res = await axios.get(
+        `http://localhost:8080/api/feedbacks/get/${currentProduct.productId}`
+      );
+      setFeedback(res.data);
+    } catch (err) {
+      console.error(err.message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   useEffect(() => {
     fetchProductInfo();
   }, [id]);
+
+  useEffect(() => {
+    if (currentProduct.productId) {
+      fetchFeedbackProduct();
+    }
+  }, [currentProduct.productId]);
+
+  const averageRating = feedback.length
+    ? feedback.reduce((acc, c) => acc + c.rating, 0) / feedback.length
+    : 0;
 
   useEffect(() => {
     if (currentProduct.shellId) {
@@ -116,6 +131,15 @@ export default function Product() {
   };
 
   const handleAddToCart = () => {
+    if (!currentUserId) {
+      message.error({
+        key: "Log in",
+        content: "Please log in first",
+        duration: 5,
+      });
+      return;
+    }
+
     if (!selectedSize) {
       setErrorMessage("Please select a size.");
       return;
@@ -270,9 +294,23 @@ export default function Product() {
               <Text lineHeight={1.2} fontSize="30px" fontWeight="400">
                 {currentProduct.productName}
               </Text>
-              <Badge px="2" my={2} bgColor="#d4af37" color="whitesmoke">
-                in stock
-              </Badge>
+              <Box display="flex" alignItems="baseline">
+                <Badge px="2" my={2} bgColor="yellow.50" color="#d4af37">
+                  in stock
+                </Badge>
+
+                <Text color="yellow.400" mx={5}>
+                  <Rate
+                    allowHalf
+                    defaultValue={averageRating}
+                    disabled
+                    style={{ fontSize: "16px" }}
+                  />
+                </Text>
+                <Text>
+                  {averageRating.toFixed(1)} ({feedback.length} reviews)
+                </Text>
+              </Box>
               <Text fontSize="24px" color="yellow.500" fontWeight="600">
                 {(
                   currentProduct.productPrice +
@@ -402,75 +440,7 @@ export default function Product() {
               <Image src={payment_option_img} alt="payment_option_img" />
             </Box>
           </Flex>
-          <Box px={150} py={50}>
-            <Tabs variant="enclosed" colorScheme="yellow">
-              <TabList justifyContent="center">
-                <Tab
-                  mx={5}
-                  border="none"
-                  fontSize="20px"
-                  color="gray.500"
-                  _hover={{ color: "black" }}
-                  _selected={{ color: "black" }}
-                >
-                  Description
-                </Tab>
-                <Tab
-                  mx={5}
-                  border="none"
-                  fontSize="20px"
-                  color="gray.500"
-                  _hover={{ color: "black" }}
-                  _selected={{ color: "black" }}
-                >
-                  Measure Size
-                </Tab>
-                <Tab
-                  mx={5}
-                  border="none"
-                  fontSize="20px"
-                  color="gray.500"
-                  _hover={{ color: "black" }}
-                  _selected={{ color: "black" }}
-                >
-                  Reviews
-                </Tab>
-              </TabList>
-              <TabIndicator mt="-1.5px" height="2px" bg="yellow.500" />
-              <TabPanels>
-                <TabPanel py="30px">
-                  <Text fontSize="18px">{currentProduct.description}</Text>
-                </TabPanel>
-                <TabPanel py="30px">
-                  <SizeGuide categoryId={currentProduct.categoryId} />
-                </TabPanel>
-                <TabPanel>
-                  <Flex gap={6} py="30px">
-                    <Box w="50%">
-                      <Text fontSize="24px" fontWeight="500">
-                        Rating & Review
-                      </Text>
-                      <Box>
-                        {!data ? <Text>No reviews yet.</Text> : <>{data}</>}
-                      </Box>
-                    </Box>
-                    <Box w="50%">
-                      <Text fontSize="24px" fontWeight="500">
-                        Review this product
-                      </Text>
-                      <FormControl id="review">
-                        <FormLabel>Your review</FormLabel>
-                        <Textarea placeholder="Write your review here..." />
-                      </FormControl>
-                      <Button mt={2} colorScheme="yellow">
-                        Submit
-                      </Button>
-                    </Box>
-                  </Flex>
-                </TabPanel>
-              </TabPanels>
-            </Tabs>
-          </Box>
+          <Feedback currentProduct={currentProduct} />
           <Divider my="10" borderColor="gray.500" />
           <RelatedProducts categoryId={currentProduct.categoryId} />
         </>
