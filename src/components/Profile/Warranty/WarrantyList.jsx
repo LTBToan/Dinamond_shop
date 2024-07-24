@@ -60,7 +60,7 @@ export default function WarrantyListItem({ warrantList }) {
           </Td>
           <Td>
             <Flex direction="column" align="center">
-              <Text>{moment(item.expireDate).format("DD/MM/YYYY")}</Text>
+              <Text>{moment(item.warrantyUntil).format("DD/MM/YYYY")}</Text>
             </Flex>
           </Td>
           <Td>

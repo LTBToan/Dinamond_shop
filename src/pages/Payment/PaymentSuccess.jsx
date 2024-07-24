@@ -155,16 +155,16 @@ const PayStatus = () => {
           );
         }
       } else if (currentProductId) {
-        // await axios
-        //   .post("http://localhost:8080/api/warranties", {
-        //     warrantyId: generateUniqueId("W", 5),
-        //     accountId: currentUserId,
-        //     productId: currentProductId,
-        //     purchaseDate: purchaseDate,
-        //     warrantyUntil: warrantyUntil,
-        //   })
-        //   .then((res) => console.log("Warranty created: ", res.data))
-        //   .catch((err) => console.log(err));
+        await axios
+          .post("http://localhost:8080/api/warranties", {
+            warrantyId: generateUniqueId("W", 5),
+            accountId: currentUserId,
+            productId: currentProductId,
+            purchaseDate: purchaseDate,
+            warrantyUntil: warrantyUntil,
+          })
+          .then((res) => console.log("Warranty created: ", res.data))
+          .catch((err) => console.log(err));
 
         const newOrder = await axios.post("http://localhost:8080/api/orders", {
           orderId: orderId,

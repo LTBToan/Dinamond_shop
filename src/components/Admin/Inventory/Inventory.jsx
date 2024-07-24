@@ -1,12 +1,16 @@
 import { Space, Table, Image, Modal, Input, Switch, Select } from "antd";
-import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
+import {
+  EditOutlined,
+  DeleteOutlined,
+  CheckOutlined,
+  CloseOutlined,
+} from "@ant-design/icons";
 import { useEffect, useState } from "react";
 import {
   getInventoryItem,
   deleteInventory,
 } from "../../../dataControllers/inventoryController";
-// import AddModal from "./Modal";
-
+import axios from "axios";
 
 function Inventory() {
   const [loading, setLoading] = useState(false);
@@ -27,15 +31,6 @@ function Inventory() {
       setLoading(false);
     });
   }, [load]);
-
-  // const onUpdateProduct = (record) => {
-  //   setIsEditing(true);
-  //   // let data = { ...editFormData, id: record };
-  //   // setEditFormData(data);
-  //   setTestRecord(record);
-  // };
-
-  console.log("DATA: ", editFormData);
 
   const onDeleteProduct = (record) => {
     Modal.confirm({
@@ -73,9 +68,34 @@ function Inventory() {
     });
   };
 
+  const updateDelivery = async (id) => {
+    try {
+      // await axios.patch(`http://localhost:8080/api/deliveries/update/${id}`, {
+      //   statusId: 2,
+      // });
+      await axios.patch(`http://localhost:8080/api/orders/update/${id}`, {
+        statusId: 2,
+      });
+      setLoad(!load);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const updateDelivery1 = async (id) => {
+    try {
+      await axios.patch(`http://localhost:8080/api/orders/update/${id}`, {
+        statusId: 3,
+      });
+      setLoad(!load);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <Space size={20} direction="vertical">
-      {/* <Typography.Title level={4}>Inventory</Typography.Title> */}
+      {/* <Typography.Title level={4}>Delivery Order</Typography.Title> */}
       <div>
         <Input.Search
           placeholder="Search by name, category..."
@@ -122,24 +142,24 @@ function Inventory() {
             title: "Status",
             key: "statusId",
             dataIndex: "statusId",
-            // render: (status) => (
-            //   <span
-            //     style={{
-            //       backgroundColor: status ? "green" : "red",
-            //       padding: "4px 8px",
-            //       borderRadius: "4px",
-            //       color: "white",
-            //     }}
-            //   >
-            //     {status ? "Available" : "Unavailable"}
-            //   </span>
-            // ),
+            render: (status) => (
+              <span
+                style={{
+                  backgroundColor: status === 0 ? "gray" : "green",
+                  padding: "4px 8px",
+                  borderRadius: "4px",
+                  color: "white",
+                }}
+              >
+                {status === 0 ? "In Delivery" : "Delivered"}
+              </span>
+            ),
           },
           {
             title: "Action",
             key: "action",
             align: "center",
-            dataIndex: "deliveryId",
+            dataIndex: "orderId",
             render: (record) => {
               return (
                 <div
@@ -149,12 +169,18 @@ function Inventory() {
                     fontSize: "20px",
                   }}
                 >
-                  {/* <EditOutlined
+                  <CheckOutlined
                     onClick={() => {
-                      onUpdateProduct(record);
+                      updateDelivery(record);
+                      // createInventory(record);
                     }}
-                    style={{ color: "blue" }}
-                  /> */}
+                  />
+                  <CloseOutlined
+                    onClick={() => {
+                      updateDelivery1(record);
+                    }}
+                    style={{ color: "red" }}
+                  />
                   <DeleteOutlined
                     onClick={() => {
                       onDeleteProduct(record);
