@@ -1,10 +1,6 @@
-import { Input, Modal, Space, Table, Typography } from "antd";
+import { Modal, Space, Table, Typography } from "antd";
 import { useEffect, useState } from "react";
-import {
-  getOrders,
-  getOrderDetails,
-  getOrdersById,
-} from "../../../dataControllers/index";
+import { getOrders, getOrderDetails } from "../../../dataControllers/index";
 import { createInventory } from "../../../dataControllers/inventoryController";
 import axios from "axios";
 import {
@@ -12,6 +8,7 @@ import {
   CloseOutlined,
   InfoCircleOutlined,
 } from "@ant-design/icons";
+import moment from "moment";
 
 function Orders() {
   const [loading, setLoading] = useState(false);
@@ -20,25 +17,7 @@ function Orders() {
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [orderDetails, setOrderDetails] = useState([]);
-  const [isEditing, setIsEditing] = useState(false);
-  const [testRecord, setTestRecord] = useState();
-  const [editFormData, setEditFormData] = useState({
-    orderId: "",
-    accountId: "",
-    totalPrice: "",
-    address: "",
-    date: "",
-    statusId: "",
-    products: "",
-  });
 
-  // useEffect(() => {
-  //   setLoading(true);
-  //   getOrders().then((res) => {
-  //     setDataSource(res);
-  //     setLoading(false);
-  //   });
-  // }, []);
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
@@ -60,38 +39,21 @@ function Orders() {
   const closeModal = () => {
     setModalVisible(false);
   };
-  // const handleUpdateClick = async (record) => {
-  //   setIsEditing(true);
-  //   // let data = { ...editFormData, id: record };
-  //   console.log(record);
-  //   const productNew = await getOrdersById(record);
-  //   console.log(productNew);
-  //   setEditFormData(productNew);
-  //   setTestRecord(record);
-  // };
-  // const resetEditing = () => {
-  //   setIsEditing(false);
-  //   setEditFormData(null);
-  // };
   const updateOrder = async (id, data) => {
     try {
-      const updatedData = { ...data, statusId: 1 };
-      await axios.put(
-        `http://localhost:8080/api/orders/update/${id}`,
-        updatedData
-      );
+      await axios.patch(`http://localhost:8080/api/orders/update/${id}`, {
+        statusId: 1,
+      });
       setLoad(!load);
     } catch (error) {
-      console.log.error(error);
+      console.log(error);
     }
   };
   const updateOrder1 = async (id, data) => {
     try {
-      const updatedData = { ...data, statusId: 3 };
-      await axios.put(
-        `http://localhost:8080/api/orders/update/${id}`,
-        updatedData
-      );
+      await axios.patch(`http://localhost:8080/api/orders/update/${id}`, {
+        statusId: 3,
+      });
       setLoad(!load);
     } catch (error) {
       console.log.error(error);
@@ -111,71 +73,53 @@ function Orders() {
           {
             title: "Account Id",
             dataIndex: "accountId",
-            // render: (value) => <span>${value}</span>,
           },
           {
             title: "Total Price",
             dataIndex: "totalPrice",
-            // render: (value) => <span>${value}</span>,
+            render: (value) => <span>{value.toLocaleString()}₫‌</span>,
           },
           {
             title: "Address",
             dataIndex: "address",
           },
           {
-            title: "date",
+            title: "Date",
             dataIndex: "date",
+            render: (date) => <span>{moment(date).format("DD/MM/YYYY")}</span>,
           },
           {
-            title: "Status Id",
+            title: "Status",
             dataIndex: "statusId",
           },
           {
             title: "Action",
-            // dataIndex: "orderId",
             render: (record) => (
               <>
-                <div>
-                  {/* <a
-                    onClick={() => handleOrderClick(record)}
-                    style={{
-                      color: "white",
-                      backgroundColor: "rgb(38, 122, 245)",
-                      padding: "10px 10px",
-                      borderRadius: "5px",
-                      textDecoration: "none",
-                      display: "inline-block",
-                      cursor: "pointer",
-                      marginRight: "10px",
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-evenly",
+                    fontSize: "20px",
+                  }}
+                >
+                  <InfoCircleOutlined
+                    onClick={() => {
+                      handleOrderClick(record);
                     }}
-                  >
-                    View Details
-                  </a> */}
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "space-evenly",
-                      fontSize: "20px",
+                  />
+                  <CheckOutlined
+                    onClick={() => {
+                      updateOrder(record.orderId);
+                      createInventory(record);
                     }}
-                  >
-                    <InfoCircleOutlined
-                      onClick={() => {
-                        handleOrderClick(record);
-                      }}
-                    />
-                    <CheckOutlined
-                      onClick={() => {
-                        updateOrder(record.orderId);
-                        createInventory(record);
-                      }}
-                    />
-                    <CloseOutlined
-                      onClick={() => {
-                        updateOrder1(record.orderId);
-                      }}
-                      style={{ color: "red" }}
-                    />
-                  </div>
+                  />
+                  <CloseOutlined
+                    onClick={() => {
+                      updateOrder1(record.orderId);
+                    }}
+                    style={{ color: "red" }}
+                  />
                 </div>
               </>
             ),
@@ -205,38 +149,6 @@ function Orders() {
           pagination={false}
         />
       </Modal>
-      {/* <Modal
-        title="Update Status"
-        open={isEditing}
-        okText="Confirm"
-        onCancel={() => {
-          resetEditing();
-        }}
-        onOk={() => {
-          updateOrder(testRecord, editFormData);
-          resetEditing();
-        }}
-      >
-        <div style={{ lineHeight: "2.5" }}>
-          <Input
-            value={editFormData?.orderId}
-            onChange={(e) => {
-              setEditFormData((pre) => {
-                return { ...pre, orderId: e.target.value };
-              });
-            }}
-          />
-
-          <Input
-            value={editFormData?.statusId}
-            onChange={(e) => {
-              setEditFormData((pre) => {
-                return { ...pre, statusId: e.target.value };
-              });
-            }}
-          />
-        </div>
-      </Modal> */}
     </Space>
   );
 }

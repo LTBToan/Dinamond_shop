@@ -101,10 +101,18 @@ function Checkout() {
 
   const handleCheckout = async () => {
     try {
-      await axios.put(`http://localhost:8080/api/users/${currentUserId}`, {
-        address: addressData,
-        phonenumber: phone,
-      });
+      await axios.patch(
+        `http://localhost:8080/api/users/patch/${currentUserId}`,
+        {
+          address: addressData
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, "")
+            .replace(/đ/g, "d")
+            .replace(/Đ/g, "D"),
+          // phonenumber: phone,
+        }
+      );
+
       const res = await axios.post(
         "http://localhost:8080/api/payment/create_payment",
         {
@@ -138,10 +146,6 @@ function Checkout() {
             <Text fontSize="2xl" fontWeight="bold" color="yellow.600">
               Billing Details
             </Text>
-            <FormControl id="first-name" isRequired>
-              <FormLabel>First Name</FormLabel>
-              <Input placeholder="First Name" />
-            </FormControl>
             <FormControl id="province" isRequired>
               <FormLabel>Province:</FormLabel>
               <Stack spacing={3}>

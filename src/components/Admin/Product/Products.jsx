@@ -1,44 +1,13 @@
-import { Space, Table, Image, Modal, Input, Switch, Select } from "antd";
+import { Space, Table, Modal, Input } from "antd";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import { useEffect, useState } from "react";
 import {
   getProduct,
   getProductById,
-  updateProduct,
   deleteProduct,
 } from "../../../dataControllers/productController";
 import AddModal from "./Modal";
 import axios from "axios";
-// const options = [
-//   {
-//     value: "Table",
-//     label: "Table",
-//   },
-//   {
-//     value: "Sofa",
-//     label: "Sofa",
-//   },
-//   {
-//     value: "Bed",
-//     label: "Bed",
-//   },
-//   {
-//     value: "Chair",
-//     label: "Chair",
-//   },
-//   {
-//     value: "Lighting",
-//     label: "Lighting",
-//   },
-//   {
-//     value: "Shelf",
-//     label: "Shelf",
-//   },
-//   {
-//     value: "Outdoor",
-//     label: "Outdoor",
-//   },
-// ];
 
 function Products() {
   const [loading, setLoading] = useState(false);
@@ -62,14 +31,6 @@ function Products() {
     quantity: "",
   });
 
-  // useEffect(() => {
-  //   setLoading(true);
-  //   getProduct().then((res) => {
-  //     setDataSource(res);
-  //     setLoading(false);
-  //   });
-  // }, []);
-
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
@@ -82,10 +43,7 @@ function Products() {
 
   const onUpdateProduct = async (record) => {
     setIsEditing(true);
-    // let data = { ...editFormData, id: record };
-    console.log(record);
     const productNew = await getProductById(record);
-    console.log(productNew);
     setEditFormData(productNew);
     setTestRecord(record);
   };
@@ -133,12 +91,8 @@ function Products() {
       console.log.error(error);
     }
   };
-  const handleAddProduct = () => {
-    setLoad(!load); // Toggle the load state
-  };
   return (
     <Space size={20} direction="vertical">
-      {/* <Typography.Title level={4}>Product</Typography.Title> */}
       <div>
         <Input.Search
           placeholder="Search by name, category..."
@@ -169,7 +123,6 @@ function Products() {
             title: "Product Name",
             key: "productName",
             dataIndex: "productName",
-            // render: (value) => <span>${value}</span>,
           },
           {
             title: "Product Size",
@@ -180,6 +133,7 @@ function Products() {
             title: "Product Price",
             key: "productPrice",
             dataIndex: "productPrice",
+            render: (value) => <span>{value.toLocaleString()}₫‌</span>,
           },
           {
             title: "Quantity",
@@ -218,7 +172,7 @@ function Products() {
         ]}
         dataSource={dataSource}
         pagination={{
-          pageSize: 5,
+          pageSize: 7,
         }}
       ></Table>
       <Modal

@@ -13,7 +13,7 @@ import Product from "./pages/Product/Product";
 import CategorizedProductList from "./pages/Product/CategorizedProductList";
 import Cart from "./pages/Cart/Cart";
 import ContactPage from "./pages/Contact/ContactPage";
-import Profile from "./pages/TestProfile/ProfilePage";
+import Profile from "./pages/Profile/ProfilePage";
 import CheckoutPage from "./pages/Checkout/Checkout";
 import PayStatus from "./pages/Payment/PaymentSuccess";
 import NotAuthorized from "./pages/NotFoundPage/NotAuthorization";

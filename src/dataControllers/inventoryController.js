@@ -1,25 +1,15 @@
+import { generateUniqueId } from "../assistants/Generators";
+
 export const getInventoryItem = () => {
   return fetch(`http://localhost:8080/api/deliveries/all`).then((res) =>
     res.json()
   );
 };
 
-const generateNewDeliveryId = (deliveries) => {
-  
-  const lastProduct = deliveries.at(-1);
-  const lastProductIdNumber = parseInt(
-    lastProduct.deliveryId.replace("D", ""),
-    10
-  );
-  const newProductIdNumber = lastProductIdNumber + 1;
-  const newProductId = `D${newProductIdNumber.toString().padStart(3, "0")}`;
-
-  return newProductId;
-};
 export const createInventory = (data) => {
   return getInventoryItem().then((deliveries) => {
     console.log(`Creating inventory item: `, deliveries);
-    const newProductId = generateNewDeliveryId(deliveries);
+    const newProductId = generateUniqueId("D", 4);
     console.log(`Creating inventory item12: `, newProductId);
     // const Address = copyAddressId(deliveries);
     const newProductData = {

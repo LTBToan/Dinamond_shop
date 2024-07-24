@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Td, Image, Text } from "@chakra-ui/react";
 
-export default function OrderItem({ orderId, productId, quantity }) {
+export default function OrderItem({ warrantyId, productId }) {
   const [product, setProduct] = useState({});
 
   const fetchProductData = async () => {
@@ -20,7 +20,7 @@ export default function OrderItem({ orderId, productId, quantity }) {
 
   return (
     <>
-      <Td>{orderId}</Td>
+      <Td>{warrantyId}</Td>
       <Td display="flex" alignItems="center" justifyContent="space-evenly">
         <Image
           src={product.imageLink}
@@ -32,10 +32,6 @@ export default function OrderItem({ orderId, productId, quantity }) {
         <Text align="center" fontWeight="bold">
           {product.productName}
         </Text>
-      </Td>
-      <Td>{quantity}</Td>
-      <Td fontWeight="bold">
-        {(quantity * product.productPrice).toLocaleString()}₫‌
       </Td>
     </>
   );

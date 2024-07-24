@@ -14,12 +14,14 @@ import Navbar from "../../components/Navbar/Navbar";
 import Footer from "../../components/Home/Footer";
 import axios from "axios";
 import { CartContext } from "../../context/CartContext";
+import { generateUniqueId } from "../../assistants/Generators";
 
 const PayStatus = () => {
-  const { cartItems, setCartItems } = useContext(CartContext);
+  const { cartItems, setCartItems, totalAmount } = useContext(CartContext);
   const currentUserId = sessionStorage.getItem("loginUserId");
   const currentProductId = sessionStorage.getItem("productId");
   const [productData, setProductData] = useState();
+  const [currentUser, setCurrentUser] = useState({});
 
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
@@ -57,6 +59,20 @@ const PayStatus = () => {
   };
 
   useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        await axios
+          .get(`http://localhost:8080/api/users/${currentUserId}`)
+          .then((res) => setCurrentUser(res.data));
+      } catch (error) {
+        console.log("Error get user: ", error);
+      }
+    };
+
+    fetchUserData();
+  }, []);
+
+  useEffect(() => {
     const fetchProductData = async () => {
       try {
         if (currentProductId) {
@@ -76,6 +92,10 @@ const PayStatus = () => {
 
   useEffect(() => {
     const fetchOrderData = async () => {
+      const purchaseDate = new Date();
+      const warrantyUntil = new Date(purchaseDate);
+      warrantyUntil.setFullYear(purchaseDate.getFullYear() + 1);
+
       if (
         transactionStatus === "00" &&
         responseCode === "00" &&
@@ -88,9 +108,8 @@ const PayStatus = () => {
             {
               orderId: orderId,
               accountId: currentUserId,
-              totalPrice: 0,
-              address: "",
-              // date: new Date().toISOString(),
+              totalPrice: totalAmount,
+              address: currentUser.address,
               statusId: 0,
             }
           );
@@ -106,6 +125,18 @@ const PayStatus = () => {
           });
 
           await Promise.all(orderDetailsPromises);
+
+          const warrantyDetailsPromises = cartItems.map((item) => {
+            return axios.post("http://localhost:8080/api/warranties", {
+              warrantyId: generateUniqueId("W", 5),
+              accountId: currentUserId,
+              productId: item.productId,
+              purchaseDate: purchaseDate,
+              warrantyUntil: warrantyUntil,
+            });
+          });
+
+          await Promise.all(warrantyDetailsPromises);
 
           const deleteCartItemsPromises = cartItems.map((item) => {
             return axios
@@ -124,11 +155,22 @@ const PayStatus = () => {
           );
         }
       } else if (currentProductId) {
+        // await axios
+        //   .post("http://localhost:8080/api/warranties", {
+        //     warrantyId: generateUniqueId("W", 5),
+        //     accountId: currentUserId,
+        //     productId: currentProductId,
+        //     purchaseDate: purchaseDate,
+        //     warrantyUntil: warrantyUntil,
+        //   })
+        //   .then((res) => console.log("Warranty created: ", res.data))
+        //   .catch((err) => console.log(err));
+
         const newOrder = await axios.post("http://localhost:8080/api/orders", {
           orderId: orderId,
           accountId: currentUserId,
-          totalPrice: 0,
-          address: "",
+          totalPrice: totalAmount,
+          address: currentUser.address,
           statusId: 0,
         });
 

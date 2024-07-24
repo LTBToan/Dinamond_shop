@@ -26,6 +26,38 @@ export default function OrderItemList({ orderId, date, isDelivered }) {
 
   console.log("orderDetail: ", orderItemList);
 
+  console.log("STAT:", isDelivered);
+
+  const getStatusText = (status) => {
+    switch (status) {
+      case 0:
+        return "Pending";
+      case 1:
+        return "In delivery";
+      case 2:
+        return "Delivered";
+      case 3:
+        return "Cancelled";
+      default:
+        return "Unknown status";
+    }
+  };
+
+  const getStatusColor = (status) => {
+    switch (status) {
+      case 0:
+        return { text: "gray.500", bg: "gray.100" };
+      case 1:
+        return { text: "blue.500", bg: "blue.100" };
+      case 2:
+        return { text: "green.500", bg: "green.100" };
+      case 3:
+        return { text: "red.500", bg: "red.100" };
+      default:
+        return { text: "gray.500", bg: "gray.100" };
+    }
+  };
+
   return (
     <>
       {orderItemList.map((item, i) => (
@@ -37,8 +69,7 @@ export default function OrderItemList({ orderId, date, isDelivered }) {
           />
           <Td>
             <Flex direction="column" align="center">
-              {/* <Text fontWeight="bold">{moment(date).fromNow()}</Text> */}
-              <Text>{moment(date).format("HH:MM DD/MM/YYYY")}</Text>
+              <Text>{moment(date).format("DD/MM/YYYY")}</Text>
             </Flex>
           </Td>
           <Td>
@@ -47,10 +78,10 @@ export default function OrderItemList({ orderId, date, isDelivered }) {
               p={2}
               borderRadius="lg"
               fontWeight="bold"
-              color={isDelivered === 1 ? "green.500" : "gray.500"}
-              bgColor={isDelivered === 1 ? "green.100" : "gray.100"}
+              color={getStatusColor(isDelivered).text}
+              bgColor={getStatusColor(isDelivered).bg}
             >
-              {isDelivered === 3 ? "Pending" : "In delivery"}
+              {getStatusText(isDelivered)}
             </Text>
           </Td>
         </Tr>

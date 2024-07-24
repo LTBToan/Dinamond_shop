@@ -4,6 +4,7 @@ import ProfileUI from "../../components/Profile/ProfileInfo/ProfileInfo";
 import OrderList from "../Order/OrderList";
 import Navbar from "../../components/Navbar/Navbar";
 import Footer from "../../components/Home/Footer";
+import Warranty from "../../components/Profile/Warranty/Warranty";
 import PrivacySetting from "../../components/Profile/PrivacySettings/PrivacySetting";
 import axios from "axios";
 import { Navigate } from "react-router-dom";
@@ -14,7 +15,7 @@ const Sidebar = ({ selectedItem, onSelect, user }) => {
     "Address",
     "Change Password",
     "Order History",
-    "Voucher",
+    "Warranty",
     "Privacy Settings",
   ];
 
@@ -94,8 +95,8 @@ const ProfilePage = () => {
         return <OrderList />;
       case "Change Password":
         return "Change Password";
-      case "Voucher":
-        return "Voucher";
+      case "Warranty":
+        return <Warranty />;
       case "Privacy Settings":
         return <PrivacySetting />;
       case "Administration":
