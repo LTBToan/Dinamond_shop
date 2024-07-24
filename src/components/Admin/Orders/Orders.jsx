@@ -1,4 +1,4 @@
-import { Modal, Space, Table, Typography } from "antd";
+import { Modal, Space, Table, Typography, Tag } from "antd";
 import { useEffect, useState } from "react";
 import { getOrders, getOrderDetails } from "../../../dataControllers/index";
 import { createInventory } from "../../../dataControllers/inventoryController";
@@ -27,6 +27,7 @@ function Orders() {
     };
     fetchData();
   }, [load]);
+
   const handleOrderClick = (record) => {
     setSelectedOrder(record);
     console.log(record);
@@ -36,9 +37,11 @@ function Orders() {
       setModalVisible(true);
     });
   };
+
   const closeModal = () => {
     setModalVisible(false);
   };
+
   const updateOrder = async (id, data) => {
     try {
       await axios.patch(`http://localhost:8080/api/orders/update/${id}`, {
@@ -49,6 +52,7 @@ function Orders() {
       console.log(error);
     }
   };
+
   const updateOrder1 = async (id, data) => {
     try {
       await axios.patch(`http://localhost:8080/api/orders/update/${id}`, {
@@ -59,6 +63,7 @@ function Orders() {
       console.log.error(error);
     }
   };
+
   return (
     <Space size={20} direction="vertical">
       <Typography.Title level={4}>Orders</Typography.Title>
@@ -91,37 +96,59 @@ function Orders() {
           {
             title: "Status",
             dataIndex: "statusId",
+            render: (statusId) => {
+              let color = "";
+              let text = "";
+
+              switch (statusId) {
+                case 0:
+                  color = "orange";
+                  text = "Pending";
+                  break;
+                case 1:
+                  color = "green";
+                  text = "Accepted";
+                  break;
+                case 3:
+                  color = "red";
+                  text = "Declined";
+                  break;
+                default:
+                  color = "blue";
+                  text = "Unknown";
+              }
+
+              return <Tag color={color}>{text}</Tag>;
+            },
           },
           {
             title: "Action",
             render: (record) => (
-              <>
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "space-evenly",
-                    fontSize: "20px",
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-evenly",
+                  fontSize: "20px",
+                }}
+              >
+                <InfoCircleOutlined
+                  onClick={() => {
+                    handleOrderClick(record);
                   }}
-                >
-                  <InfoCircleOutlined
-                    onClick={() => {
-                      handleOrderClick(record);
-                    }}
-                  />
-                  <CheckOutlined
-                    onClick={() => {
-                      updateOrder(record.orderId);
-                      createInventory(record);
-                    }}
-                  />
-                  <CloseOutlined
-                    onClick={() => {
-                      updateOrder1(record.orderId);
-                    }}
-                    style={{ color: "red" }}
-                  />
-                </div>
-              </>
+                />
+                <CheckOutlined
+                  onClick={() => {
+                    updateOrder(record.orderId);
+                    createInventory(record);
+                  }}
+                />
+                <CloseOutlined
+                  onClick={() => {
+                    updateOrder1(record.orderId);
+                  }}
+                  style={{ color: "red" }}
+                />
+              </div>
             ),
           },
         ]}
@@ -152,4 +179,5 @@ function Orders() {
     </Space>
   );
 }
+
 export default Orders;
